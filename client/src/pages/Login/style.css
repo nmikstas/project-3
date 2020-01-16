@@ -1,0 +1,28 @@
+.log-in
+{
+    text-align: left;
+    margin: 2rem 0;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 3px solid rgba(30, 47, 126, 1);
+}
+
+.info-message
+{
+    height: 50px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.member-div
+{
+    display: inline-block;
+   
+}
+
+.float-right-div
+{
+    float: right;
+}

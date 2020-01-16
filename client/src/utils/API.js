@@ -2,6 +2,12 @@ import axios from "axios";
 
 export default
 {
+    //Create a user
+    createUser: userData =>
+    {
+        return axios.post("/api/users/signup/", userData);
+    },
+
     //Gets all books.
     getBooks: () =>
     {

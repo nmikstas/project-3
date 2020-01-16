@@ -8,33 +8,15 @@ export default
         return axios.post("/api/users/signup/", userData);
     },
 
-    //Gets all books.
-    getBooks: () =>
+    //Login a user.
+    loginUser: userData =>
     {
-        return axios.get("/api/books/");
+        return axios.post("/api/users/login/", userData);
     },
 
-    // Gets the book with the given information link
-    getBook: title =>
+    //Verify a user is logged in.
+    verify: () =>
     {
-        return axios.get("/api/books/" + title);
-    },
-
-    //Deletes the book with the given id.
-    deleteBook: id =>
-    {
-        return axios.delete("/api/books/" + id);
-    },
-
-    // Saves a book to the database.
-    saveBook: bookData =>
-    {
-        return axios.post("/api/books/", bookData);
-    },
-
-    //Search Google books API.
-    searchBooks: param =>
-    {
-      return axios.get("/api/search/" + param);
+        return axios.post("/api/users/verify/", null);
     }
 };

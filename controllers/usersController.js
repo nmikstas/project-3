@@ -1,22 +1,25 @@
 const db = require("../models");
-
-const passport = require("../config/passport");
 const bcrypt = require("bcryptjs");
-
-//Requiring our custom middleware for checking if a user is logged in
-const isAuthenticated = require("../config/middleware/isAuthenticated");
-
 
 // Defining methods for the usersController
 module.exports =
 {
-    create: function(req, res)
+    //Create a new user.
+    create: (req, res) =>
     {
+        //Hash and salt the password.
         let password = req.body.password;
         password = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 
+        //Try to create the new user in the database.
         db.User.create({username: req.body.username, password: password})
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
-    }
+    },
+
+    //Login a user.
+    login: (req, res) => {res.json(req.user);},
+
+    //Verify if a user is logged in.
+    verify: (req, res) => {res.json(req.user);}
 };

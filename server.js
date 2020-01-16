@@ -17,11 +17,13 @@ if (process.env.NODE_ENV === "production")
 }
 
 // We need to use sessions to keep track of our user's login status
-app.use(session({
-  secret: "ntntsupersecret",
-  resave: true,
-  saveUninitialized: true
+app.use(session(
+{
+    secret: "ntntsupersecret",
+    resave: true,
+    saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 

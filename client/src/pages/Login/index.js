@@ -17,7 +17,23 @@ class Login extends React.Component
 
     componentDidMount = () =>
     {
+        //Check if the user is logged in or not.
+        API.verify()
+        .then((res) =>
+        {
+            //If so, redirect to home!
+            if(!res.data.notLoggedIn)
+            {
+                window.location.href = "/home";
+            }
 
+            if(this.state.debug)console.log(res.data);
+        })
+        .catch(err =>
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
     }
 
     nameChange = (event) =>
@@ -49,6 +65,26 @@ class Login extends React.Component
             });
             return;
         }
+
+        //Try to create the new user.
+        API.loginUser({username: this.state.name, password: this.state.password})
+        .then((res) =>
+        {
+            //User has logged in successfully. Redirect to home!
+            window.location.href = "/home"; 
+        })
+        .catch(err =>
+        {
+            this.setState(
+            { 
+                errorTitle: "Login Failed!",
+                errorMessage: "Incorrect user name or password.",
+                isError: true,
+                name: "",
+                password: ""
+            });
+            return;
+        });
     }
 
     render = () =>
@@ -75,10 +111,10 @@ class Login extends React.Component
 
                         <form className="login">
                             <label>User Name:</label><br />
-                            <input type="text" id="username-input" name="username" onChange={this.nameChange} className="form-control" /><br />
+                            <input type="text" id="username-input" name="username" value={this.state.name} onChange={this.nameChange} className="form-control" /><br />
 
                             <label>Password:</label><br />
-                            <input type="password" id="password-input" name="password" onChange={this.passwordChange} className="form-control" /><br />
+                            <input type="password" id="password-input" name="password" value={this.state.password} onChange={this.passwordChange} className="form-control" /><br />
 
                             <button type="submit" className="btn btn-outline-secondary" onClick={this.submit}>Login</button>
 

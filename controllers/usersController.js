@@ -21,5 +21,13 @@ module.exports =
     login: (req, res) => {res.json(req.user);},
 
     //Verify if a user is logged in.
-    verify: (req, res) => {res.json(req.user);}
+    verify: (req, res) => {res.json(req.user);},
+
+    //Logout a user.
+    logout: (req, res) =>
+    {
+        console.log("Logging out user: " + req.user.username);
+        req.logout();
+        res.json(req.user);
+    }
 };

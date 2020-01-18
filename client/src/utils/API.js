@@ -18,5 +18,11 @@ export default
     verify: () =>
     {
         return axios.post("/api/users/verify/", null);
+    },
+
+    //Log the user out.
+    logout: () =>
+    {
+        return axios.get("/api/users/logout/");
     }
 };

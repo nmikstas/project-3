@@ -1,9 +1,6 @@
 const router = require("express").Router();
 const usersController = require("../../controllers/usersController");
-
 const passport = require("../../config/passport");
-
-//Requiring our custom middleware for checking if a user is logged in
 const isAuthenticated = require("../../config/middleware/isAuthenticated");
 
 //Matches with "/api/users/signup"
@@ -20,5 +17,9 @@ router.route("/login")
 //Matches with "/api/users/verify"
 router.route("/verify")
     .post(isAuthenticated, usersController.verify);
+
+//Matches with "/api/users/logout"
+router.route("/logout")
+    .get(isAuthenticated, usersController.logout);
 
 module.exports = router;

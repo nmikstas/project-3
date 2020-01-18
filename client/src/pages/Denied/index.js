@@ -1,10 +1,11 @@
 import React from "react";
+import "./style.css";
 
 function Denied()
 {
     return (
         <div>
-            <h2>Denied</h2>
+            <h1>Access Denied</h1>
         </div>
     );
 }

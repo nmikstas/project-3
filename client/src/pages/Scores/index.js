@@ -3,12 +3,11 @@ import "./style.css";
 import NavBar from "../../components/NavBar";
 import API from "../../utils/API";
 
-class Home extends React.Component
+class Scores extends React.Component
 {
     state =
     {
-       debug: true,
-       username: ""
+       debug: true
     }
 
     componentDidMount = () =>
@@ -23,8 +22,6 @@ class Home extends React.Component
                 window.location.href = "/denied";
             }
 
-            this.setState({ username: res.data.username });
-
             if(this.state.debug)console.log(res.data);
         })
         .catch(err =>
@@ -38,13 +35,11 @@ class Home extends React.Component
     {
         return (
             <div className="container-fluid">
-                <NavBar 
-                    username={this.state.username}
-                />
-                <h1>Home</h1>
+                <NavBar />
+                <h1>Scores</h1>
             </div>
         )
     }
 }
 
-export default Home;
+export default Scores;

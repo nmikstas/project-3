@@ -22,6 +22,8 @@ class Scores extends React.Component
                 window.location.href = "/denied";
             }
 
+            this.setState({ username: res.data.username });
+            
             if(this.state.debug)console.log(res.data);
         })
         .catch(err =>
@@ -35,7 +37,9 @@ class Scores extends React.Component
     {
         return (
             <div className="container-fluid">
-                <NavBar />
+                <NavBar 
+                    username={this.state.username}
+                />
                 <h1>Scores</h1>
             </div>
         )

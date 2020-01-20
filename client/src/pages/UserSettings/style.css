@@ -1,0 +1,42 @@
+.user-headers
+{
+    color: #ffffff;
+    font-size: 1.7rem;
+}
+
+.form-label
+{
+    color: #ffffff;
+    font-size: 1.3rem;
+}
+
+.col-div
+{
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+}
+
+.type-text
+{
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.ready-class
+{
+    color: #0000ff;
+}
+
+.used-class
+{
+    color: #ff0000;
+}
+
+.changed-class
+{
+    color: #00ff00;
+}

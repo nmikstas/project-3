@@ -22,6 +22,8 @@ class CreateForum extends React.Component
                 window.location.href = "/denied";
             }
 
+            this.setState({ username: res.data.username });
+
             if(this.state.debug)console.log(res.data);
         })
         .catch(err =>
@@ -35,7 +37,9 @@ class CreateForum extends React.Component
     {
         return (
             <div className="container-fluid">
-                <NavBar />
+                <NavBar 
+                    username={this.state.username}
+                />
                 <h1>Create Forum</h1>
             </div>
         )

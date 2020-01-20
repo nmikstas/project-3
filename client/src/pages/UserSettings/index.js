@@ -173,6 +173,11 @@ class UserSettings extends React.Component
     {
         clearInterval(this.state.updateTimer);
         clearInterval(this.state.configTimer);
+        window.removeEventListener("gamepadconnected", this.connect);
+        window.removeEventListener("gamepaddisconnected", this.disconnect);
+        document.removeEventListener('keyup', this.doKeyUp);
+        document.removeEventListener('keydown', this.doKeyDown);
+        window.removeEventListener('focus', this.changeFocus);
     }
 
     configClick = (event) =>
@@ -582,10 +587,24 @@ class UserSettings extends React.Component
     //Need to make sure inputs are not already being used.
     checkInput = (input, value, index, type) =>
     {
+        //Need to compensate for difference in keyboard input type.
+        let leftBtn = this.state.leftBtn;
+        let rightBtn = this.state.rightBtn;
+        let downBtn = this.state.downBtn;
+        let flipCWBtn = this.state.flipCWBtn;
+        let flipCCWBtn = this.state.flipCCWBtn;
+        let pauseBtn = this.state.pauseBtn;
+
         let isUsed = false;
         if(input !== UserSettings.IN_LEFT)
         {
-            if(value === this.state.leftBtn && index === this.state.leftIndex && type === this.state.leftType)
+            
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                leftBtn = parseInt(leftBtn);
+            }
+
+            if(value === leftBtn && index === this.state.leftIndex && type === this.state.leftType)
             {
                 isUsed = true;
             }
@@ -593,7 +612,12 @@ class UserSettings extends React.Component
 
         if(input !== UserSettings.IN_RIGHT)
         {
-            if(value === this.state.rightBtn && index === this.state.rightIndex && type === this.state.rightType)
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                rightBtn = parseInt(rightBtn);
+            }
+
+            if(value === rightBtn && index === this.state.rightIndex && type === this.state.rightType)
             {
                 isUsed = true;
             }
@@ -601,7 +625,12 @@ class UserSettings extends React.Component
 
         if(input !== UserSettings.IN_DOWN)
         {
-            if(value === this.state.downBtn && index === this.state.downIndex && type === this.state.downType)
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                downBtn = parseInt(downBtn);
+            }
+
+            if(value === downBtn && index === this.state.downIndex && type === this.state.downType)
             {
                 isUsed = true;
             }
@@ -609,7 +638,12 @@ class UserSettings extends React.Component
 
         if(input !== UserSettings.IN_ROTATE_CW)
         {
-            if(value === this.state.flipCWBtn && index === this.state.flipCWIndex && type === this.state.flipCWType)
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                flipCWBtn = parseInt(flipCWBtn);
+            }
+
+            if(value === flipCWBtn && index === this.state.flipCWIndex && type === this.state.flipCWType)
             {
                 isUsed = true;
             }
@@ -617,7 +651,12 @@ class UserSettings extends React.Component
 
         if(input !== UserSettings.IN_ROTATE_CCW)
         {
-            if(value === this.state.flipCCWBtn && index === this.state.flipCCWIndex && type === this.state.flipCCWType)
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                flipCCWBtn = parseInt(flipCCWBtn);
+            }
+
+            if(value === flipCCWBtn && index === this.state.flipCCWIndex && type === this.state.flipCCWType)
             {
                 isUsed = true;
             }
@@ -625,7 +664,12 @@ class UserSettings extends React.Component
 
         if(input !== UserSettings.IN_PAUSE)
         {
-            if(value === this.state.pauseBtn && index === this.state.pauseIndex && type === this.state.pauseType)
+            if(type === UserSettings.IT_KEYBOARD)
+            {
+                pauseBtn = parseInt(pauseBtn);
+            }
+
+            if(value === pauseBtn && index === this.state.pauseIndex && type === this.state.pauseType)
             {
                 isUsed = true;
             }

@@ -18,7 +18,10 @@ module.exports =
     },
 
     //Login a user.
-    login: (req, res) => {res.json(req.user);},
+    login: (req, res) =>
+    {
+        res.json(req.user);
+    },
 
     //Verify if a user is logged in.
     verify: (req, res) => {res.json(req.user);},
@@ -29,5 +32,17 @@ module.exports =
         console.log("Logging out user: " + req.user.username);
         req.logout();
         res.json(req.user);
+    },
+
+    //Change a user's password.
+    password: (req, res) =>
+    {
+        //Hash and salt the password.
+        let password = req.body.password;
+        password = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+
+        db.User.findOneAndUpdate({ username: req.body.username }, { password: password }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
     }
 };

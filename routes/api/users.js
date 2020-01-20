@@ -22,4 +22,7 @@ router.route("/verify")
 router.route("/logout")
     .get(isAuthenticated, usersController.logout);
 
+router.route("/password")
+    .post(isAuthenticated, usersController.password);
+
 module.exports = router;

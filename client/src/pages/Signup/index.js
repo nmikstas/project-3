@@ -129,6 +129,7 @@ class Signup extends React.Component
                         <div className="info-message">
                             <ErrorBox 
                                 title={this.state.errorTitle}
+                                type={"alert-danger"}
                                 message={this.state.errorMessage}
                                 showError={this.state.isError}
                                 dismissError={this.dismissError}

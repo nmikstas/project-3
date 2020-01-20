@@ -90,7 +90,7 @@ class Login extends React.Component
     render = () =>
     {
         return (
-            <div className="container-fluid">
+            <div>
                 <Header 
                     title="NOT TETRIS-NOT TWITCH"
                 />
@@ -103,6 +103,7 @@ class Login extends React.Component
                         <div className="info-message">
                             <ErrorBox 
                                 title={this.state.errorTitle}
+                                type={"alert-danger"}
                                 message={this.state.errorMessage}
                                 showError={this.state.isError}
                                 dismissError={this.dismissError}

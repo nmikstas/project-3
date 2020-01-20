@@ -19,6 +19,13 @@
     padding: 20px;
 }
 
+.info-message
+{
+    height: 50px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 .type-text
 {
     color: #ffffff;
@@ -26,17 +33,23 @@
     font-weight: bold;
 }
 
+.input-text
+{
+    margin-left: 10px;
+    color: #acacac;
+}
+
 .ready-class
 {
-    color: #0000ff;
+    color: #7f7fff;
 }
 
 .used-class
 {
-    color: #ff0000;
+    color: #ff7f7f;
 }
 
 .changed-class
 {
-    color: #00ff00;
+    color: #7fff7f;
 }

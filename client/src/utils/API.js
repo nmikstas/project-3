@@ -24,5 +24,11 @@ export default
     logout: () =>
     {
         return axios.get("/api/users/logout/");
+    },
+
+    //Change the user's password.
+    password: password =>
+    {
+        return axios.post("/api/users/password", password);
     }
 };

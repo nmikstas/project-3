@@ -23,7 +23,7 @@ class Leaderboard extends React.Component
             }
 
             this.setState({ username: res.data.username });
-
+            
             if(this.state.debug)console.log(res.data);
         })
         .catch(err =>
@@ -37,9 +37,7 @@ class Leaderboard extends React.Component
     {
         return (
             <div className="container-fluid">
-                <NavBar 
-                    username={this.state.username}
-                />
+                <NavBar />
                 <h1>Leaderboard</h1>
             </div>
         )

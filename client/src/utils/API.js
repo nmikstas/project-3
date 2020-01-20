@@ -30,5 +30,11 @@ export default
     password: password =>
     {
         return axios.post("/api/users/password", password);
+    },
+
+    //Save a User's game input.
+    input: input =>
+    {
+        return axios.post("/api/users/input", input);
     }
 };

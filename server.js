@@ -34,7 +34,7 @@ app.use(routes);
 mongoose.connect
 (
   process.env.MONGODB_URI || "mongodb://localhost/ntnt",
-  { useNewUrlParser: true,  useUnifiedTopology: true }
+  { useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false }
 );
 
 // Start the API server

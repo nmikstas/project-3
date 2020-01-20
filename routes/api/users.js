@@ -27,4 +27,8 @@ router.route("/password")
 router.route("/input")
     .post(isAuthenticated, usersController.input);
 
+//Matches with "/api/users/allusers"
+router.route("/allusers")
+    .get(isAuthenticated, usersController.allusers);
+
 module.exports = router;

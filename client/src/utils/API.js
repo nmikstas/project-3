@@ -36,5 +36,11 @@ export default
     input: input =>
     {
         return axios.post("/api/users/input", input);
+    },
+
+    //Get all users.
+    allusers: () =>
+    {
+        return axios.get("/api/users/allusers");
     }
 };

@@ -1219,7 +1219,7 @@ class UserSettings extends React.Component
                             </div>
 
                             <div className="text-right mr-4">
-                                <button className="btn btn-outline-secondary" onClick={this.saveClick}>Save Changes to Database</button>
+                                <button className="btn btn-outline-secondary" onClick={this.saveClick}>Save Changes</button>
                             </div>
                         </div>
                     </div>

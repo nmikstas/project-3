@@ -37,7 +37,9 @@ class Leaderboard extends React.Component
     {
         return (
             <div className="container-fluid">
-                <NavBar />
+                <NavBar
+                    username={this.state.username}
+                />
                 <h1>Leaderboard</h1>
             </div>
         )

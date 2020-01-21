@@ -4,8 +4,12 @@ const bcrypt = require("bcryptjs");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ntnt");
 
-const users = ["chris", "nick", "tyler", "elijah", "bob", "mark", "sue", "julie", "frank", "jeff",
-    "joeff", "mike", "thor", "rexor", "conan", "thulsa doom", "flippers", "max", "juan pelota", "phil mcgroin"];
+const users =
+[
+    "chris", "nick", "tyler", "elijah", "bob", "mark", "sue", "julie", "frank", "jeff",
+    "joeff", "mike", "thor", "rexor", "conan", "thulsa doom", "flippers", "max",
+    "juan pelota", "phil mcgroin"
+];
 
 const numGameRecords = 300;
 
@@ -44,7 +48,8 @@ for(let i = 0; i < numGameRecords; i++)
     do
     {
         player2 = users[Math.floor(Math.random() * users.length)];
-    } while(player2 === player1);
+    } 
+    while(player2 === player1);
 
     //Determine if this is a single player game or not.
     let singlePlayer = Math.round(Math.random()) ? true : false;
@@ -88,10 +93,10 @@ db.User.remove({})
 .then(() => db.User.collection.insertMany(userSeed))
 .then(data => console.log(data.result.n + " records inserted!"))
 .then(() =>
+
 db.Game.remove({}))
 .then(() => db.Game.collection.insertMany(gameSeed))
 .then(data => console.log(data.result.n + " records inserted!"))
-
 
 .then(() => process.exit(0))
 .catch(err =>

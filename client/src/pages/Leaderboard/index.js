@@ -12,13 +12,6 @@ class Leaderboard extends React.Component
 
     componentDidMount = () =>
     {
-        //Sample of how to use allusers get request.
-        API.allusers()
-        .then((res) =>
-        {
-            console.log(res.data);
-        });
-
         //Check if the user is logged in or not.
         API.verify()
         .then((res) =>

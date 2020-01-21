@@ -15,6 +15,7 @@ module.exports =
 
     },
 
+    //Update player 2 scores.
     update2: (req, res) =>
     {
 

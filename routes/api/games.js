@@ -6,13 +6,9 @@ const isAuthenticated = require("../../config/middleware/isAuthenticated");
 router.route("/create")
     .post(isAuthenticated, gamesController.create);
 
-//Matches with "/api/games/update1"
-router.route("/update1")
-    .put(isAuthenticated, gamesController.update1);
-
-//Matches with "/api/games/update2"
-router.route("/update2")
-    .put(isAuthenticated, gamesController.update2);
+//Matches with "/api/games/update"
+router.route("/update")
+    .put(isAuthenticated, gamesController.update);
 
 //Matches with "/api/games/single100"
 router.route("/single100")

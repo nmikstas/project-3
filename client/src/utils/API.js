@@ -54,16 +54,10 @@ export default
         return axios.post("/api/games/create", game);
     },
 
-    //Update player 1 scores.
-    update1: (player1) =>
+    //Update player scores.
+    update: (player) =>
     {
-        return axios.put("/api/games/update1", player1);
-    },
-
-    //Update player 2 scores.
-    update2: (player2) =>
-    {
-        return axios.put("/api/games/update2", player2);
+        return axios.put("/api/games/update", player);
     },
 
     //Get top 100 single player scores.

@@ -33,7 +33,13 @@ let userSchema = new Schema(
 
     highScore: { type: Number, default: 0 },
     level:     { type: Number, default: 0 },
-    lines:     { type: Number, default: 0 }
+    lines:     { type: Number, default: 0 },
+
+    forums: 
+    [{
+        type: Schema.Types.ObjectId,
+        ref: "Forum"
+    }]
 });
 
 const User = mongoose.model("User", userSchema);

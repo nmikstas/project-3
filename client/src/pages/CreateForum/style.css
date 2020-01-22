@@ -58,3 +58,8 @@
 {
     background-color: rgb(43, 1, 139);
 }
+
+#userList
+{
+    overflow: auto;
+}

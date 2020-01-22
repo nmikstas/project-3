@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import NavBar from "../../components/NavBar";
 import LevelCard from "../../components/LevelCard";
+import ImportUsers from "../../components/ImportUsers";
 import API from "../../utils/API";
 
 class CreateForum extends React.Component
@@ -24,6 +25,11 @@ class CreateForum extends React.Component
         forumName: "",
 
         flipClassName: "notSelected-img-container",
+
+        userListArr: [],
+
+        forumMembersArr: [],
+
     }
 
     componentDidMount = () =>
@@ -47,6 +53,14 @@ class CreateForum extends React.Component
             console.log(err);
             window.location.href = "/denied";
         });
+
+        API.allusers()
+        .then((res) =>
+        {
+            this.setState({ userListArr: res.data });
+            console.log(this.state.userListArr);
+        })
+        .catch(err => console.log(err));
     }
 
     selectLevel = (id) => 
@@ -99,6 +113,30 @@ class CreateForum extends React.Component
         console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
     }
 
+    addSpectator = (event) =>
+    {
+        event.preventDefault();
+        let username = event.target.dataset.user;
+        //let username = event.target.dataset.username;
+        console.log(username);
+    }
+
+    addModerator = (event) =>
+    {
+        event.preventDefault();
+        let username = event.target.dataset.user;
+        //let username = event.target.dataset.username;
+        console.log(username);
+    }
+
+    addVersus = (event) =>
+    {
+        event.preventDefault();
+        let username = event.target.dataset.user;
+        //let username = event.target.dataset.username;
+        console.log(username);
+    }
+
     render = () =>
     {
         if(!this.state.firstPageComplete)
@@ -145,10 +183,11 @@ class CreateForum extends React.Component
                                     ))}
                                 </div>
                                 <br />
-                                <button type="submit" className="btn btn-outline-info" onClick={this.nextButton}>Next</button>
+                                <button type="submit" className="btn btn-outline-secondary" onClick={this.nextButton}>Next</button>
                             </form>
                         </div>
                     </div>
+
                 </div>
             )
         }
@@ -165,7 +204,40 @@ class CreateForum extends React.Component
                         <div className="col-md-2"></div>
 
                         <div className="col-md-8 col-div">
-                        <button type="submit" className="btn btn-outline-info" onClick={this.backButton}>Back</button>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <form className="forumName">
+                                        <label htmlFor="forumName" className="form-label">Add Users:</label><br />
+                                        <div id="userList" className="border rounded bg-light" style={{height: 180}}>
+                                            {this.state.userListArr.map((users, i) => (
+                                            <ImportUsers 
+                                                username={this.state.userListArr[i].username}
+                                                id={this.state.userListArr[i].username}
+                                                key={this.state.userListArr[i].username}
+                                                addSpectator={this.addSpectator}
+                                                addModerator={this.addModerator}
+                                                addVersus={this.addModerator}
+                                            />
+                                            ))}
+                                        </div>
+                                        <br />
+                                        <button type="submit" className="btn btn-outline-info">Refresh Users</button>
+                                    </form>
+                                </div>
+                                <div className="col-md-6">
+                                    <form className="forumName">
+                                        <label htmlFor="forumName" className="form-label">Spectators:</label><br />
+                                        <div id="userList" className="border rounded bg-light" style={{height: 180}}></div>
+                                    </form>
+                                    <br />
+                                    <form className="forumName">
+                                        <label htmlFor="forumName" className="form-label">Versus Player:</label><br />
+                                        <div id="userList" className="border rounded bg-light" style={{height: 35}}></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <br />
+                            <button type="submit" className="btn btn-outline-secondary" onClick={this.backButton}>Back</button>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,56 @@
+.addSpectator
+{
+    
+    background-color: rgb(14, 2, 122);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.addSpectator:hover
+{
+    background-color: rgb(3, 80, 196);
+}
+
+.addModerator
+{
+    
+    background-color: rgb(5, 134, 1);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.addModerator:hover
+{
+    background-color: rgb(3, 212, 66);
+}
+
+.addVersus
+{
+    
+    background-color: rgb(69, 3, 112);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.addVersus:hover
+{
+    background-color: rgb(133, 2, 173);
+}

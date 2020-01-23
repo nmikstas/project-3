@@ -1,0 +1,37 @@
+.deleteSpectator
+{
+    
+    background-color: rgb(119, 1, 1);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.deleteSpectator:hover
+{
+    background-color: rgb(252, 4, 4);
+}
+
+.addModerator
+{
+    
+    background-color: rgb(5, 134, 1);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.addModerator:hover
+{
+    background-color: rgb(3, 212, 66);
+}

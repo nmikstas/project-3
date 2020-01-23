@@ -3,7 +3,11 @@ import "./style.css";
 import NavBar from "../../components/NavBar";
 import LevelCard from "../../components/LevelCard";
 import ImportUsers from "../../components/ImportUsers";
+import Spectators from "../../components/Spectators";
+import VersusPlayer from "../../components/VersusPlayer";
 import API from "../../utils/API";
+import SSpectator from "../../components/SSpectator";
+import MSpectator from "../../components/MSpectator";
 
 class CreateForum extends React.Component
 {
@@ -29,7 +33,7 @@ class CreateForum extends React.Component
         userListArr: [],
 
         forumMembersArr: [],
-
+        versusPlayer: "",
     }
 
     componentDidMount = () =>
@@ -58,7 +62,7 @@ class CreateForum extends React.Component
         .then((res) =>
         {
             this.setState({ userListArr: res.data });
-            console.log(this.state.userListArr);
+            //console.log(this.state.userListArr);
         })
         .catch(err => console.log(err));
     }
@@ -101,6 +105,11 @@ class CreateForum extends React.Component
         this.setState({ forumName: event.target.value });
     }
 
+    versusPlayerUpdate = (event) =>
+    {
+        this.setState({ versusPlayer: event.target.value });
+    }
+
     nextButton = () =>
     {
         this.setState({ firstPageComplete: true });
@@ -117,24 +126,110 @@ class CreateForum extends React.Component
     {
         event.preventDefault();
         let username = event.target.dataset.user;
-        //let username = event.target.dataset.username;
-        console.log(username);
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+
+        let userInfo = 
+        {
+            username: username,
+            isModerator: false,
+        }
+
+        //console.log(userInfo);
+
+        let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
+        {
+            return checkUserInfo.username === username;
+        })
+
+        if (checkUserInfoArr.length)
+        {
+            return;
+        }
+
+        tempForumMembersArr.push(userInfo);
+
+        this.setState({ forumMembersArr: tempForumMembersArr });
+        console.log(this.state.forumMembersArr);
     }
 
     addModerator = (event) =>
     {
         event.preventDefault();
         let username = event.target.dataset.user;
-        //let username = event.target.dataset.username;
-        console.log(username);
+
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+
+        let userInfo = 
+        {
+            username: username,
+            isModerator: true,
+        }
+
+        let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
+        {
+            return checkUserInfo.username === username;
+        })
+
+        if (checkUserInfoArr.length)
+        {
+            return;
+        }
+
+        tempForumMembersArr.push(userInfo);
+
+        this.setState({ forumMembersArr: tempForumMembersArr });
+        console.log(this.state.forumMembersArr);
     }
+
+    deleteVersus = (event) =>
+    {
+        event.preventDefault();
+        this.setState({ versusPlayer: "" })
+    } 
 
     addVersus = (event) =>
     {
         event.preventDefault();
         let username = event.target.dataset.user;
-        //let username = event.target.dataset.username;
-        console.log(username);
+
+        this.setState({ versusPlayer: event.target.dataset.user });
+        console.log(this.state.versusPlayer);
+    }
+
+    deleteSpectator = (event) =>
+    {
+        event.preventDefault();
+        let username = event.target.dataset.user;
+        //console.log(username);
+
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+        //console.log(tempForumMembersArr);
+
+        for (let i = 0; i < tempForumMembersArr.length; i++)
+        {
+            //Should always be found but check just to be safe.
+            if (tempForumMembersArr[i].username === username)
+            {
+                //console.log(tempForumMembersArr[i].username);
+                tempForumMembersArr.splice(i, 1);
+                //console.log(tempForumMembersArr);
+            }
+        }
+
+        this.setState({ forumMembersArr: tempForumMembersArr });
+        //console.log(this.state.forumMembersArr);
+    }
+
+    refreshUsers = (event) =>
+    {
+        event.preventDefault();
+        API.allusers()
+        .then((res) =>
+        {
+            this.setState({ userListArr: res.data });
+            console.log(this.state.userListArr);
+        })
+        .catch(err => console.log(err));
     }
 
     render = () =>
@@ -216,23 +311,43 @@ class CreateForum extends React.Component
                                                 key={this.state.userListArr[i].username}
                                                 addSpectator={this.addSpectator}
                                                 addModerator={this.addModerator}
-                                                addVersus={this.addModerator}
+                                                addVersus={this.addVersus}
                                             />
                                             ))}
                                         </div>
                                         <br />
-                                        <button type="submit" className="btn btn-outline-info">Refresh Users</button>
+                                        <button type="submit" onClick={this.refreshUsers} className="btn btn-outline-info">Refresh Users</button>
                                     </form>
                                 </div>
                                 <div className="col-md-6">
                                     <form className="forumName">
                                         <label htmlFor="forumName" className="form-label">Spectators:</label><br />
-                                        <div id="userList" className="border rounded bg-light" style={{height: 180}}></div>
+                                        <div id="spectatorList" className="border rounded bg-light" style={{height: 180}}>
+                                            {this.state.forumMembersArr.map((users, i) => (
+                                                users.isModerator ? (
+                                                    <MSpectator
+                                                        username={this.state.forumMembersArr[i].username}
+                                                        key={this.state.forumMembersArr[i].username}
+                                                        deleteSpectator={this.deleteSpectator}
+                                                    />
+                                                ) : (
+                                                    <SSpectator
+                                                        username={this.state.forumMembersArr[i].username}
+                                                        key={this.state.forumMembersArr[i].username}
+                                                        deleteSpectator={this.deleteSpectator}
+                                                    />
+                                                )
+                                            ))}
+                                        </div>
                                     </form>
                                     <br />
                                     <form className="forumName">
-                                        <label htmlFor="forumName" className="form-label">Versus Player:</label><br />
-                                        <div id="userList" className="border rounded bg-light" style={{height: 35}}></div>
+                                        <label className="form-label">Versus Player:</label><br />
+                                        <VersusPlayer
+                                            versusPlayer={this.state.versusPlayer}
+                                            versusPlayerUpdate={this.versusPlayerUpdate}
+                                        /><br />
+                                        <button type="submit" className="btn btn-outline-info" onClick={this.deleteVersus}>Remove User</button>
                                     </form>
                                 </div>
                             </div>

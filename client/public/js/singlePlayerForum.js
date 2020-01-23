@@ -6,6 +6,9 @@ let rngSeed;
 let gameId;
 let startLevel = 0;
 let selectedId = 0;
+let player;
+let score;
+let highScore;
 
 /**************************************** Resize Listener ****************************************/
 
@@ -21,10 +24,31 @@ $(document).ready(() =>
     $("#start-btn").on("click", () =>
     {
         rngSeed = Math.floor(Math.random() * 100000000);
-        ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
-        ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
-        $("#start-btn").addClass("invisible");
-        isStarted = true;
+
+        let game =
+        {
+            player1: player,
+            level1:  startLevel,
+            rngSeed: rngSeed
+        };
+
+        $.post("/api/games/create", game)
+        .then((data) =>
+        {
+            gameId = data._id;
+            ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
+            ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
+            $("#start-btn").addClass("invisible");
+
+            //Reset all the game variables for the database.
+            isStarted = true;
+            score = 0;
+        })
+        .fail(function(err)
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
     });
 
     $(".leave-forum").on("click", () =>
@@ -79,6 +103,61 @@ let renderHandler = (status) =>
     if(status.gameStatus === NTEngine.GS_OVER)
     {
         $("#start-btn").removeClass("invisible");
+    }
+
+    if(status.currentScore > score)
+    {
+        score = status.currentScore;
+
+        //Modify the game data.
+        $.ajax("/api/games/update",
+        {
+            type: "PUT",
+            data:
+            { 
+                id: gameId,
+                whichPlayer: 1,
+                level1: status.currentLevel,
+                score1: status.currentScore,
+                lines1: status.linesCleared
+            }
+        })
+        .then((data) =>
+        {
+            if(debug)console.log(data);
+        })
+        .fail(function(err)
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
+
+        if(status.currentScore > highScore)
+        {
+            highScore = status.currentScore;
+
+            //Modify the user data.
+            $.ajax("/api/users/update",
+            {
+                type: "PUT",
+                data:
+                { 
+                    username:  player,
+                    highScore: highScore,
+                    level:     status.currentLevel,
+                    lines:     status.linesCleared
+                }
+            })
+            .then((data) =>
+            {
+                if(debug)console.log(data);
+            })
+            .fail(function(err)
+            {
+                console.log(err);
+                window.location.href = "/denied";
+            });
+        }
     }
 }
 
@@ -172,6 +251,8 @@ $.post("/api/users/verify/")
         window.location.href = "/denied";
     }
 
+    player = data.username;
+    highScore = data.highScore;
     $(".user-title").text("Hello, " + data.username + "!");
     runForum(data);
     

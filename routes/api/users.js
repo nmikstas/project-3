@@ -7,6 +7,10 @@ const isAuthenticated = require("../../config/middleware/isAuthenticated");
 router.route("/signup")
     .post(usersController.create);
 
+//Matches with "/api/users/update"
+router.route("/update")
+    .put(isAuthenticated, usersController.update);
+
 //Matches with "/api/users/login"
 router.route("/login")
     .post(passport.authenticate("local"), usersController.login);

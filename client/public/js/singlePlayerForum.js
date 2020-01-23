@@ -1,21 +1,51 @@
+let debug = true;
 let ntEngine;
 let ntRenderer;
 let ntInput;
+let rngSeed;
+let gameId;
+let startLevel = 0;
+let selectedId = 0;
+
+/**************************************** Resize Listener ****************************************/
+
+window.addEventListener("resize", () => 
+{
+    $('#pieceCanvas').width($('#pieceCanvas').parent().width());
+});
 
 /*************************************** Button Listeners ****************************************/
 
-$(document).ready(function()
+$(document).ready(() =>
 {
-    $("#start-btn").on("click", function()
+    $("#start-btn").on("click", () =>
     {
-        ntEngine.ntRequest(NTEngine.GR_RESET, 0);
+        rngSeed = Math.floor(Math.random() * 100000000);
+        ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
+        ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
+        $("#start-btn").addClass("invisible");
         isStarted = true;
+    });
+
+    $(".leave-forum").on("click", () =>
+    {
+        window.location.href = "/home";
+    });
+
+    $(".img-container").on("click", function()
+    {
+        startLevel = $(this).attr("id");
+        $("#" + selectedId).removeClass("selected-img-container");
+        $("#" + selectedId).addClass("notSelected-img-container");
+        selectedId = $(this).attr("id");
+        $(this).removeClass("notSelected-img-container");
+        $(this).addClass("selected-img-container");
     });
 });
 
 /************************************** Disable Key Scrolling **************************************/
 
-window.addEventListener("keydown", function(e)
+window.addEventListener("keydown", (e) =>
 {
     // space and arrow keys
     if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1)
@@ -26,47 +56,29 @@ window.addEventListener("keydown", function(e)
 
 /************************************** Game Stats Callback **************************************/
 
-let showStats = (level, score, lines, gameStatus, request) =>
+let showStats = (level, score, lines) =>
 {
     //Append all the stats.
-    $("#h-score").text("Score: " + score);
-    $("#h-level").text("Level: " + level);
-    $("#h-lines").text("Lines: " + lines);
+    $("#r-score").text(score);
+    $("#r-level").text(level);
+    $("#r-lines").text(lines);
+}
 
-    //Show last request status.
-    switch(request)
+/***************************************** Game Handlers *****************************************/
+
+let inputHandler = (request, param) =>
+{
+    if(ntEngine.gameStatus === NTEngine.GS_OVER) return;
+    ntEngine.ntRequest(request, param);
+}
+
+let renderHandler = (status) =>
+{
+    ntRenderer.gfRender(status);
+    
+    if(status.gameStatus === NTEngine.GS_OVER)
     {
-        case NTEngine.LRS_NONE:
-            $("#h-request").text("Last Request: None");
-            break;
-
-        case NTEngine.LRS_ACCEPT:
-            $("#h-request").text("Last Request: Accepted");
-            break;
-
-        default:
-            $("#h-request").text("Last Request: Rejected");
-            break;
-    }
-
-    //Show game status
-    switch(gameStatus)
-    {
-        case NTEngine.GS_OVER:
-            $("#h-status").text("Game Status: Game Over");
-            break;
-
-        case NTEngine.GS_PLAY:
-            $("#h-status").text("Game Status: Playing");
-            break;
-
-        case NTEngine.GS_PAUSE:
-            $("#h-status").text("Game Status: Paused");
-            break;
-
-        default:
-            $("#h-status").text("Game Status: Animation Wait");
-            break;
+        $("#start-btn").removeClass("invisible");
     }
 }
 
@@ -78,7 +90,7 @@ let runForum = (data) =>
     ntRenderer = new NTRender(showStats);
 
     //Create a new game engine.
-    ntEngine = new NTEngine(255000255, ntRenderer.gfRender);
+    ntEngine = new NTEngine(123456789, renderHandler);
 
     //Used to hide play piece during animations.
     ntRenderer.getField = () => { return ntEngine.ntGetGameField(); }
@@ -86,7 +98,7 @@ let runForum = (data) =>
     //Input control module.
     ntInput = new NTInput
     (
-        ntEngine.ntRequest,
+        inputHandler,
         { 
             leftBtn:    data.leftBtn,
             leftIndex:  data.leftIndex,
@@ -146,6 +158,9 @@ let runForum = (data) =>
 }
 
 /******************************************* Top Level *******************************************/
+
+//Force page to reset if back or forward button is used.
+window.onunload = () => {};
 
 //Verify the user is logged in.
 $.post("/api/users/verify/")

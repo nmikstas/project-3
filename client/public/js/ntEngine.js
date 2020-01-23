@@ -526,7 +526,7 @@ class NTEngine
         this.gameStatus        = NTEngine.GS_PLAY;
         this.lastRequest       = NTEngine.GR_RESET;
         this.lastRequestStatus = NTEngine.LRS_ACCEPT;
-        this.currentLevel      = gameLevel;
+        this.currentLevel      = parseInt(gameLevel);
         this.currentScore      = 0;
         this.linesCleared      = 0;
         this.rowsToErase       = [];
@@ -646,15 +646,15 @@ class NTEngine
         }
         else if(this.rowsToErase.length === 2)
         {
-            this.currentScore += 100 * (this.currentLevel + 1);
+            this.currentScore += (100 * (this.currentLevel + 1));
         }
         else if(this.rowsToErase.length === 3)
         {
-            this.currentScore += 300 * (this.currentLevel + 1);
+            this.currentScore += (300 * (this.currentLevel + 1));
         }
         else if(this.rowsToErase.length === 4)
         {
-            this.currentScore += 1200 * (this.currentLevel + 1);
+            this.currentScore += (1200 * (this.currentLevel + 1));
         }
 
         this.linesCleared += this.rowsToErase.length;

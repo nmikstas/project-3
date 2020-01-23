@@ -1,9 +1,10 @@
 /******************************************* HTML Tags *******************************************/
+
 body, html
 {
     height: 100%;
     width: 100%;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.99)), url('../img/blocks2.png');
+    background-image: linear-gradient(to right, rgba(68, 68, 68, 0.7), rgba(0, 0, 0, 0.9)), url('../img/blocks2.png');
 }
 
 h1
@@ -63,6 +64,7 @@ pre
  }
 
 /******************************************** Header *********************************************/
+
 .header-class
 {
     font-family: Georgia, Times, serif;
@@ -75,6 +77,7 @@ pre
 }
 
 /******************************************** Footer *********************************************/
+
 footer
 {
     border-top: 1px solid #666666;
@@ -83,6 +86,7 @@ footer
 }
 
 /******************************************* Page Body *******************************************/
+
 #page-body
 {
     flex: 1 0 auto;
@@ -139,21 +143,112 @@ footer
 
 #renderCanvas
 {
-    height: calc(100vh - 175px);
+    height: calc(100vh - 130px);
     width:  calc(50vh);
     touch-action: none;
 }
 
 #pieceCanvas
 {
-    height: 125px;
-    width:  250px;
     touch-action: none;
 }
 
 #start-btn
 {
     width: 100%;
+}
+
+.score-div
+{
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.level-div
+{
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.level-div > h2
+{
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.right-align
+{
+    width: 100%;
+    text-align: right;
+}
+
+#h-status
+{
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+.invisible
+{
+    opacity: 0;
+}
+
+/****************************************** Level Cards ******************************************/
+
+.card
+{
+    display: inline-block;
+    background: #fff;
+    border-radius: 2px;
+    margin: .5rem;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 3px 6px #999, 0 3px 6px #999;
+    transition: transform .2s;
+}
+
+.card:hover
+{
+    transform: scale(1.2);
+    text-decoration: none;
+    cursor: pointer;
+    background: #fff;
+}
+  
+.card > .img-container
+{
+    display : flex;
+    align-items : center;
+    justify-content: center;
+    overflow: hidden;
+    height: 100%;
+}
+
+.img-container > h4
+{
+    font-weight: normal;
+}
+
+.img-container:hover
+{
+    background: rgb(8, 164, 241);
+}
+
+.selected-img-container
+{
+    background-color: rgb(8, 164, 241);
+}
+
+.notSelected-img-container
+{
+    background: rgb(43, 1, 139);
+    height: 100%;
 }
 
 /******************************************** Navbar *********************************************/
@@ -173,7 +268,7 @@ footer
 
 .navbar-site > h4
 {
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-family: sans-serif;
     color: #ffffff;
     padding-top: 5px;
@@ -181,8 +276,9 @@ footer
 
 .navbar__link
 {
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-family: sans-serif;
+    font-weight: bold;
     color: #ffffff;
     cursor: pointer;
     border-bottom: 3px solid transparent;
@@ -196,7 +292,7 @@ footer
   
 .nav-item
 {
-    padding: 0px 10px;
+    padding: 3px 10px 0px 10px;
     transition: transform .2s;
 }
   
@@ -205,10 +301,4 @@ footer
     transform: scale(1.1);
     text-decoration: none;
     cursor: pointer;
-}
-  
-.navbar__link--active
-{
-    border-bottom: 3px solid #6696fd;
-    transition: border-bottom .5s ease-in-out;
 }

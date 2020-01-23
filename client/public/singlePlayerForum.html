@@ -20,7 +20,6 @@
 <body class="d-flex flex-column" id="main-body">
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-site">
-           
         <h4 class="user-title">Hello, user!</h4>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,8 +28,9 @@
 
         <div class="navbar-collapse collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
-                
-                
+                <li class="nav-item navbar__link leave-forum">
+                    Leave Forum
+                </li>
             </ul>
         </div>
     </nav>
@@ -41,23 +41,78 @@
             <div class="col-md-6">
                 <canvas id="renderCanvas" touch-action="none"></canvas>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 pt-4">
                 <div class="row no-gutters">
                     <div class="col-md-6">
                         <h4>Next Piece:</h4>
                         <canvas id="pieceCanvas" touch-action="none"></canvas>
                     </div>
-                    <div class="col-md-6">
-                        <br>
-                        <h4 id="h-score">Score: -</h4>
-                        <h4 id="h-level">Level: -</h4>
-                        <h4 id="h-lines">Lines: -</h4>
+                    <div class="col-md-6 score-div">
+                        <div class="row ml-2 mb-3 mt-3">
+                            <div class="col-md-6">
+                                <h4 id="h-score">Score: </h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 id="r-score" class="right-align pr-3">-</h4>
+                            </div>
+                        </div>
+
+                        <div class="row ml-2 mb-3">
+                            <div class="col-md-6">
+                                <h4 id="h-lines">Lines: </h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 id="r-lines" class="right-align pr-3">-</h4>
+                            </div>
+                        </div>
+
+                        <div class="row ml-2 mb-3">
+                            <div class="col-md-6">
+                                <h4 id="h-level">Level: </h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 id="r-level" class="right-align pr-3">-</h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <h4 id="h-status">Game Status: -</h4>
-                <h4 id="h-request">Last Request: -</h4>
-                <button type="button" id="start-btn" class="btn btn-success mb-2">Start/Reset Game</button>
+                <div class="level-div pb-3 mt-3">
+                    <h2>Starting Level</h2>
+                    <div class="card"><div class="img-container text-white selected-img-container" id="0">0</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="1">1</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="2">2</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="3">3</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="4">4</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="5">5</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="6">6</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="7">7</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="8">8</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="9">9</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="10">10</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="11">11</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="12">12</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="13">13</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="14">14</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="15">15</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="16">16</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="17">17</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="18">18</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="19">19</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="20">20</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="21">21</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="22">22</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="23">23</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="24">24</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="25">25</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="26">26</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="27">27</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="28">28</div></div>
+                    <div class="card"><div class="img-container text-white notSelected-img-container" id="29">29</div></div>
+                </div>
+
+                <button type="button" id="start-btn" class="btn btn-outline-success mb-2 mt-3">Start/Reset Game</button>
+
             </div>
         </div>
     </div>

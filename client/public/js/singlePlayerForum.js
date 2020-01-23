@@ -1,4 +1,5 @@
 let debug = true;
+let init = false;
 let ntEngine;
 let ntRenderer;
 let ntInput;
@@ -15,56 +16,6 @@ let highScore;
 window.addEventListener("resize", () => 
 {
     $('#pieceCanvas').width($('#pieceCanvas').parent().width());
-});
-
-/*************************************** Button Listeners ****************************************/
-
-$(document).ready(() =>
-{
-    $("#start-btn").on("click", () =>
-    {
-        rngSeed = Math.floor(Math.random() * 100000000);
-
-        let game =
-        {
-            player1: player,
-            level1:  startLevel,
-            rngSeed: rngSeed
-        };
-
-        $.post("/api/games/create", game)
-        .then((data) =>
-        {
-            gameId = data._id;
-            ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
-            ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
-            $("#start-btn").addClass("invisible");
-
-            //Reset all the game variables for the database.
-            isStarted = true;
-            score = 0;
-        })
-        .fail(function(err)
-        {
-            console.log(err);
-            window.location.href = "/denied";
-        });
-    });
-
-    $(".leave-forum").on("click", () =>
-    {
-        window.location.href = "/home";
-    });
-
-    $(".img-container").on("click", function()
-    {
-        startLevel = $(this).attr("id");
-        $("#" + selectedId).removeClass("selected-img-container");
-        $("#" + selectedId).addClass("notSelected-img-container");
-        selectedId = $(this).attr("id");
-        $(this).removeClass("notSelected-img-container");
-        $(this).addClass("selected-img-container");
-    });
 });
 
 /************************************** Disable Key Scrolling **************************************/
@@ -100,10 +51,12 @@ let renderHandler = (status) =>
 {
     ntRenderer.gfRender(status);
     
-    if(status.gameStatus === NTEngine.GS_OVER)
+    if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#start-btn").removeClass("invisible");
     }
+
+    init = false;
 
     if(status.currentScore > score)
     {
@@ -160,6 +113,62 @@ let renderHandler = (status) =>
         }
     }
 }
+
+startGame = () =>
+{
+    rngSeed = Math.floor(Math.random() * 100000000);
+
+    let game =
+    {
+        player1: player,
+        level1:  startLevel,
+        rngSeed: rngSeed
+    };
+
+    $.post("/api/games/create", game)
+    .then((data) =>
+    {
+        gameId = data._id;
+        ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
+        ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
+
+        //Reset all the game variables for the database.
+        isStarted = true;
+        score = 0;
+    })
+    .fail(function(err)
+    {
+        console.log(err);
+        window.location.href = "/denied";
+    });
+}
+
+/*************************************** Button Listeners ****************************************/
+
+$(document).ready(() =>
+{
+    $("#start-btn").on("click", () =>
+    {
+        init = true;
+        $("#start-btn").addClass("invisible");
+        setTimeout(startGame, 1000);
+    });
+
+    $(".leave-forum").on("click", () =>
+    {
+        window.location.href = "/home";
+    });
+
+    $(".img-container").on("click", function()
+    {
+        startLevel = $(this).attr("id");
+        $("#" + selectedId).removeClass("selected-img-container");
+        $("#" + selectedId).addClass("notSelected-img-container");
+        selectedId = $(this).attr("id");
+        $(this).removeClass("notSelected-img-container");
+        $(this).addClass("selected-img-container");
+    });
+});
 
 /*********************************** Game Engine And Renderer ************************************/
 

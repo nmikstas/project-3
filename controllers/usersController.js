@@ -17,6 +17,13 @@ module.exports =
         .catch(err => res.status(422).json(err));
     },
 
+    update: (req, res) =>
+    {
+        db.User.findOneAndUpdate({ username: req.body.username }, req.body, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
+
     //Login a user.
     login: (req, res) =>
     {

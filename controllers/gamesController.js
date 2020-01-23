@@ -113,7 +113,18 @@ module.exports =
     //Update player scores.
     update: (req, res) =>
     {
-        db.Game.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true })
+        let gameUpdate = {};
+
+        if(req.body.whichPlayer === "1")
+        {
+            gameUpdate = {...req.body, date1: new Date(Date.now()) }
+        }
+        else if(req.body.whichPlayer === "2")
+        {
+            gameUpdate = {...req.body, date2: new Date(Date.now()) }
+        }
+        
+        db.Game.findOneAndUpdate({ _id: req.body.id }, gameUpdate, { new: true })
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
     },

@@ -1,4 +1,5 @@
 let debug = true;
+let init = false;
 let ntEngine;
 let ntRenderer;
 let ntInput;
@@ -6,41 +7,15 @@ let rngSeed;
 let gameId;
 let startLevel = 0;
 let selectedId = 0;
+let player;
+let score;
+let highScore;
 
 /**************************************** Resize Listener ****************************************/
 
 window.addEventListener("resize", () => 
 {
     $('#pieceCanvas').width($('#pieceCanvas').parent().width());
-});
-
-/*************************************** Button Listeners ****************************************/
-
-$(document).ready(() =>
-{
-    $("#start-btn").on("click", () =>
-    {
-        rngSeed = Math.floor(Math.random() * 100000000);
-        ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
-        ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
-        $("#start-btn").addClass("invisible");
-        isStarted = true;
-    });
-
-    $(".leave-forum").on("click", () =>
-    {
-        window.location.href = "/home";
-    });
-
-    $(".img-container").on("click", function()
-    {
-        startLevel = $(this).attr("id");
-        $("#" + selectedId).removeClass("selected-img-container");
-        $("#" + selectedId).addClass("notSelected-img-container");
-        selectedId = $(this).attr("id");
-        $(this).removeClass("notSelected-img-container");
-        $(this).addClass("selected-img-container");
-    });
 });
 
 /************************************** Disable Key Scrolling **************************************/
@@ -76,11 +51,124 @@ let renderHandler = (status) =>
 {
     ntRenderer.gfRender(status);
     
-    if(status.gameStatus === NTEngine.GS_OVER)
+    if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#start-btn").removeClass("invisible");
     }
+
+    init = false;
+
+    if(status.currentScore > score)
+    {
+        score = status.currentScore;
+
+        //Modify the game data.
+        $.ajax("/api/games/update",
+        {
+            type: "PUT",
+            data:
+            { 
+                id: gameId,
+                whichPlayer: 1,
+                level1: status.currentLevel,
+                score1: status.currentScore,
+                lines1: status.linesCleared
+            }
+        })
+        .then((data) =>
+        {
+            if(debug)console.log(data);
+        })
+        .fail(function(err)
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
+
+        if(status.currentScore > highScore)
+        {
+            highScore = status.currentScore;
+
+            //Modify the user data.
+            $.ajax("/api/users/update",
+            {
+                type: "PUT",
+                data:
+                { 
+                    username:  player,
+                    highScore: highScore,
+                    level:     status.currentLevel,
+                    lines:     status.linesCleared
+                }
+            })
+            .then((data) =>
+            {
+                if(debug)console.log(data);
+            })
+            .fail(function(err)
+            {
+                console.log(err);
+                window.location.href = "/denied";
+            });
+        }
+    }
 }
+
+startGame = () =>
+{
+    rngSeed = Math.floor(Math.random() * 100000000);
+
+    let game =
+    {
+        player1: player,
+        level1:  startLevel,
+        rngSeed: rngSeed
+    };
+
+    $.post("/api/games/create", game)
+    .then((data) =>
+    {
+        gameId = data._id;
+        ntEngine.ntRequest(NTEngine.GR_RESEED, rngSeed);
+        ntEngine.ntRequest(NTEngine.GR_RESET, startLevel);
+
+        //Reset all the game variables for the database.
+        isStarted = true;
+        score = 0;
+    })
+    .fail(function(err)
+    {
+        console.log(err);
+        window.location.href = "/denied";
+    });
+}
+
+/*************************************** Button Listeners ****************************************/
+
+$(document).ready(() =>
+{
+    $("#start-btn").on("click", () =>
+    {
+        init = true;
+        $("#start-btn").addClass("invisible");
+        setTimeout(startGame, 1000);
+    });
+
+    $(".leave-forum").on("click", () =>
+    {
+        window.location.href = "/home";
+    });
+
+    $(".img-container").on("click", function()
+    {
+        startLevel = $(this).attr("id");
+        $("#" + selectedId).removeClass("selected-img-container");
+        $("#" + selectedId).addClass("notSelected-img-container");
+        selectedId = $(this).attr("id");
+        $(this).removeClass("notSelected-img-container");
+        $(this).addClass("selected-img-container");
+    });
+});
 
 /*********************************** Game Engine And Renderer ************************************/
 
@@ -172,6 +260,8 @@ $.post("/api/users/verify/")
         window.location.href = "/denied";
     }
 
+    player = data.username;
+    highScore = data.highScore;
     $(".user-title").text("Hello, " + data.username + "!");
     runForum(data);
     

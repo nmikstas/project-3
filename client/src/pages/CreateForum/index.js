@@ -370,7 +370,7 @@ class CreateForum extends React.Component
                         <div className="col-md-2"></div>
 
                         <div className="col-md-8 col-div">
-                            <div className="row">
+                            <div className="border-bottom row">
                                 <TickerLabel1
                                     stuff={this.state.forum}
                                     ticker={this.state.forumName}

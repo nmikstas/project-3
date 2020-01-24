@@ -8,6 +8,8 @@ import VersusPlayer from "../../components/VersusPlayer";
 import API from "../../utils/API";
 import SSpectator from "../../components/SSpectator";
 import MSpectator from "../../components/MSpectator";
+import TickerLabel1 from "../../components/TickerLabel1";
+import TickerLabel2 from "../../components/TickerLabel2";
 
 class CreateForum extends React.Component
 {
@@ -21,12 +23,15 @@ class CreateForum extends React.Component
         flipArr: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
         flipArr2: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
 
+        forumName: "",
         startingLevel: 0,
         interferenceLevel: 0,
 
-        firstPageComplete: false,
+        forum: "Forum Name: ",
+        start: "Level: ",
+        interference: "Interference: ",
 
-        forumName: "",
+        firstPageComplete: false,
 
         flipClassName: "notSelected-img-container",
 
@@ -365,6 +370,20 @@ class CreateForum extends React.Component
                         <div className="col-md-2"></div>
 
                         <div className="col-md-8 col-div">
+                            <div className="row">
+                                <TickerLabel1
+                                    stuff={this.state.forum}
+                                    ticker={this.state.forumName}
+                                />
+                                <TickerLabel2
+                                    stuff={this.state.start}
+                                    ticker={this.state.startingLevel}
+                                />
+                                <TickerLabel2
+                                    stuff={this.state.interference}
+                                    ticker={this.state.interferenceLevel}
+                                />
+                            </div><br />
                             <div className="row">
                                 <div className="col-md-6">
                                     <form className="forumName">

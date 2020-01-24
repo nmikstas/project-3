@@ -58,3 +58,9 @@
 {
     color: #ffff7f;
 }
+
+.text-input
+{
+    background-color: rgba(2, 0, 7, 0) !important;
+    color: rgb(255, 255, 255) !important;
+}

@@ -1094,10 +1094,10 @@ class UserSettings extends React.Component
                         <form className="password">
                             <label htmlFor="password" className="form-label">New Password:</label><br />    
                             <input type="password" id="password-input" name="password"
-                                value={this.state.password} onChange={this.passwordChange} className="form-control" /><br />
+                                value={this.state.password} onChange={this.passwordChange} className="form-control text-input" /><br />
                             <label htmlFor="confirm" className="form-label">Confirm Password:</label><br />
                             <input type="password" id="password-confirm" name="confirm"
-                                value={this.state.confirm} onChange={this.confirmChange} className="form-control" /><br />
+                                value={this.state.confirm} onChange={this.confirmChange} className="form-control text-input" /><br />
                             <button type="submit" className="btn btn-outline-secondary" onClick={this.changePassword}>Change Password</button>
                         </form>
                     </div>

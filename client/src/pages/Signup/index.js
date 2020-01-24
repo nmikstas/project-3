@@ -138,13 +138,13 @@ class Signup extends React.Component
 
                         <form className="login">
                             <label>User Name:</label><br />
-                            <input type="text" id="username-input" name="username" value={this.state.name} onChange={this.nameChange} className="form-control" /><br />
+                            <input type="text" id="username-input" name="username" value={this.state.name} onChange={this.nameChange} className="form-control text-input" /><br />
 
                             <label>Password:</label><br />
-                            <input type="password" id="password-input" name="password" value={this.state.password} onChange={this.passwordChange} className="form-control" /><br />
+                            <input type="password" id="password-input" name="password" value={this.state.password} onChange={this.passwordChange} className="form-control text-input" /><br />
 
                             <label>Confirm Password:</label><br />
-                            <input type="password" id="password-confirm" name="password" value={this.state.confirm} onChange={this.confirmChange} className="form-control" /><br />
+                            <input type="password" id="password-confirm" name="password" value={this.state.confirm} onChange={this.confirmChange} className="form-control text-input" /><br />
 
                             <button type="submit" className="btn btn-outline-secondary" onClick={this.submit}>Signup</button>
 

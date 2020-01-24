@@ -1,0 +1,82 @@
+.single-col
+{
+    background-color: rgba(0, 0, 0, .6);
+    text-align: center;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10%;
+    margin: 0 10px;
+}
+
+.mult-col
+{
+    background-color: rgba(0, 0, 0, .6);
+    text-align: center;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 0 10px;
+}
+
+.forum-header
+{
+    color: #777777;
+    font-size: 2rem;
+}
+
+.single-div
+{
+    width: 100%;
+    box-shadow: 4px 4px 5px #dbd7e0;
+    border-radius: 10px;
+    border: 3px solid rgb(45, 42, 224);
+    transition: 0.3s;
+    position: relative;
+}
+
+.single-div:hover
+{
+    transform: scale(1.1);
+    z-index: 50;
+    box-shadow: 8px 8px 10px #dbd7e0;
+    cursor: pointer;
+}
+
+.forum-img
+{
+    width: 100%;
+}
+
+.score-div
+{
+    text-align: left;
+    border: 3px solid rgb(45, 42, 224);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.score-header
+{
+    color: #ffffff;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.score-text
+{
+    color: #7f7fff;
+}
+
+.data-text
+{
+    text-align: right;
+    right: 0;
+    color: #c0c0c0;
+    right: 0;
+}
+
+.score-row
+{
+    width: 100%;
+    font-size: 1rem;
+}

@@ -124,11 +124,12 @@ class Signup extends React.Component
                <div className="row">
                     <div className="col-md-3"></div>
                     <div className="log-in col-md-6">
-                        <h2>Sign Up</h2>
+                        <h2 className="main-text">Sign Up</h2>
 
                         <div className="info-message">
                             <ErrorBox 
                                 title={this.state.errorTitle}
+                                type={"alert-danger"}
                                 message={this.state.errorMessage}
                                 showError={this.state.isError}
                                 dismissError={this.dismissError}

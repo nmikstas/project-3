@@ -1,0 +1,54 @@
+.navbar-site
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, rgba(30, 47, 126, 0.3), rgba(109, 179, 242, .6)), url("./img/noisy_net.png");
+    border-bottom: 2px solid #777777;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.navbar-site > h4
+{
+    font-size: 1.2em;
+    font-family: sans-serif;
+    color: #ffffff;
+    padding-top: 5px;
+}
+
+.navbar__link
+{
+    font-size: 1.2em;
+    font-family: sans-serif;
+    color: #ffffff;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.navbar__link:hover
+{
+    color: #c5c5c5;
+    text-decoration: none;
+}
+  
+.nav-item
+{
+    padding: 0px 10px;
+    transition: transform .2s;
+}
+  
+.nav-item:hover
+{
+    transform: scale(1.1);
+    text-decoration: none;
+    cursor: pointer;
+}
+  
+.navbar__link--active
+{
+    border-bottom: 3px solid #6696fd;
+    transition: border-bottom .5s ease-in-out;
+}
+  

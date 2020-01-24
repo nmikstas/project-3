@@ -1,0 +1,60 @@
+.user-headers
+{
+    color: #ffffff;
+    font-size: 1.7rem;
+}
+
+.form-label
+{
+    color: #ffffff;
+    font-size: 1.3rem;
+}
+
+.col-div
+{
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+}
+
+.info-message
+{
+    height: 50px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.type-text
+{
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.input-text
+{
+    margin-left: 10px;
+    color: #acacac;
+}
+
+.ready-class
+{
+    color: #7f7fff;
+}
+
+.used-class
+{
+    color: #ff7f7f;
+}
+
+.changed-class
+{
+    color: #7fff7f;
+}
+
+.listen-class
+{
+    color: #ffff7f;
+}

@@ -5,34 +5,41 @@ let userSchema = new Schema(
 {  
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    //buttons used by the player. When they changes their settings then an update query needs to be ran to change these fields to the preset fields of their chosen game-controller.
-    //decimal128 was the only datatype in mongoose that allowed a decimal. Unless we installed and required mongoose-double
-    //down
-    downBtn: { type: decimal128, default: .14 },
-    downIndex: { type: number, default: 9 },
-    downType: { type: string, default: 'NTInput.IT_GAMEPAD_DPAD' },
-    //clockwise
-    cwBtn: { type: decimal128, default: 1 },
-    cwIndex: { type: number, default: 0 },
-    cwType: { type: string, default: 'NTInput.IT_GAMEPAD_DIGITAL' },
-    //couter clockwise
-    ccwBtn: { type: decimal128, default: 2 },
-    ccwIndex: { type: number, default: 0 },
-    ccwType: { type: string, default: 'NTInput.IT_GAMEPAD_DIGITAL' },
-    //pause
-    pauseBtn: { type: decimal128, default: 9 },
-    pauseIndex: { type: number, default: 0 },
-    pauseType: { type: string, default: 'NTInput.IT_GAMEPAD_DIGITAL' },
-    //left
-    leftBtn: { type: decimal128, default: .71 },
-    leftIndex: { type: number, default: 9 },
-    leftType: { type: string, default: 'NTInput.IT_GAMEPAD_DPAD' },
-    //right
-    rightBtn: { type: decimal128, default: -0.43 },
-    rightIndex: { type: number, default: 9 },
-    rightType: { type: string, default: 'NTInput.IT_GAMEPAD_DPAD' },
-    //timestamp
-    date: { type: Date, default: Date.now }
+    date:     { type: Date, default: Date.now },
+
+    downBtn:   { type: Number, default: 40 },
+    downIndex: { type: Number, default: 0 },
+    downType:  { type: Number, default: 0 },
+
+    leftBtn:   { type: Number, default: 37 },
+    leftIndex: { type: Number, default: 0 },
+    leftType:  { type: Number, default: 0 },
+
+    rightBtn:   { type: Number, default: 39 },
+    rightIndex: { type: Number, default: 0 },
+    rightType:  { type: Number, default: 0 },
+
+    flipCWBtn:   { type: Number, default: 76 },
+    flipCWIndex: { type: Number, default: 0 },
+    flipCWType:  { type: Number, default: 0 },
+
+    flipCCWBtn:   { type: Number, default: 75 },
+    flipCCWIndex: { type: Number, default: 0 },
+    flipCCWType:  { type: Number, default: 0 },
+
+    pauseBtn:   { type: Number, default: 80 },
+    pauseIndex: { type: Number, default: 0 },
+    pauseType:  { type: Number, default: 0 },
+
+    highScore: { type: Number, default: 0 },
+    level:     { type: Number, default: 0 },
+    lines:     { type: Number, default: 0 },
+
+    forums: 
+    [{
+        type: Schema.Types.ObjectId,
+        ref: "Forum"
+    }]
 });
 
 const User = mongoose.model("User", userSchema);

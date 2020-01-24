@@ -11,7 +11,7 @@ body
 #page-body
 {
     flex: 1 0 auto;
-    background-image: url("./img/noisy_net.png");
+    background-image: linear-gradient(to right, rgba(68, 68, 68, 0.7), rgba(0, 0, 0, 0.9)), url('./img/blocks2.png');
 }
 
 #root
@@ -22,8 +22,13 @@ body
 }
 
 .container-fluid
-{
+{   
     margin: 0;
     padding: 0;
+}
+
+.row
+{
+    margin: 0;
 }
 

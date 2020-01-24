@@ -14,6 +14,7 @@ class NTRender
         this.cameraOffset  = 0;
         this.lastLevel     = -1;
         this.enableInputCallback = null;
+        this.getField;
 
         //Animation variables.
         this.rowsToErase   = [];
@@ -255,7 +256,7 @@ class NTRender
         this.lastStatus = this.gameStatus;
 
         //During animations, hide the piece at the top of the play field.
-        (this.gameStatus === NTEngine.GS_WAIT_BLK || this.gameStatus === NTEngine.GS_WAIT) ? field = getField() : field = status.gameField;
+        (this.gameStatus === NTEngine.GS_WAIT_BLK || this.gameStatus === NTEngine.GS_WAIT) ? field = this.getField() : field = status.gameField;
 
         //Need to make a deep copy of the array.
         for(let i = 0; i < this.renderFieldArr.length; i++)
@@ -314,7 +315,7 @@ class NTRender
     /********************************** Main Babylon Functions ***********************************/
 
     //This function renders the game field.
-    gfCreateScene = () =>
+    gfCreateScene = (engine, canvas) =>
     {
         //Create the scene space
         let scene = new BABYLON.Scene(engine);
@@ -611,7 +612,7 @@ class NTRender
     };
 
     //This function renders the next piece.
-    npCreateScene = () =>
+    npCreateScene = (npEngine) =>
     {
         //Create the scene space
         let scene = new BABYLON.Scene(npEngine);

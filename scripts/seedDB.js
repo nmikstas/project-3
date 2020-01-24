@@ -1,178 +1,106 @@
 const mongoose = require("mongoose");
 const db = require("../models");
+const bcrypt = require("bcryptjs");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ntnt");
 
-//Generate data for the test database here.
-
-const userSeed = [
-    {
-        username: 'AlexeyPajitnov',
-        password: 'June6,1984' 
-    },
-    {
-        username: 'player',
-        password: 'password'
-    },
-    {
-        username: 'tetris',
-        password: 'game'
-    },
-    {
-        username: 'tetrisGod',
-        password: 'lineClear'
-    },
-    {
-        username: 'I-win',
-        password: 'always'
-    },
-    {
-        username: 'null', 
-        password: 'blank'
-    },
-    {
-        username: 'LetsPlay',
-        password: 'okay'
-    },
-    {
-        username: 'tetrominoes',
-        password: 'polyomino'
-    },
-    {
-        username: 'VadimGerasimov',
-        password: '16yearOldIntern'
-    },
-    {
-        username: 'boss',
-        password: 'game'
-    }
+const users =
+[
+    "chris", "nick", "tyler", "elijah", "bob", "mark", "sue", "julie", "frank", "jeff",
+    "joeff", "mike", "thor", "rexor", "conan", "thulsa doom", "flippers", "max",
+    "juan pelota", "phil mcgroin"
 ];
 
-const controllerSeed = [
+const numGameRecords = 300;
+
+/******************************************* User Data *******************************************/
+
+const userSeed = [];
+
+//Create the userSeed array.
+for(let i = 0; i < users.length; i++)
+{
+    let user =
     {
-        downBtn:   .14,
-        downIndex: 9,
-        downType:  NTInput.IT_GAMEPAD_DPAD,
-
-        cwBtn:     1,
-        cwIndex:   0,
-        cwType:    NTInput.IT_GAMEPAD_DIGITAL,
-
-        ccwBtn:     2,
-        ccwIndex:   0,
-        ccwType:    NTInput.IT_GAMEPAD_DIGITAL,
-
-        pauseBtn:   9,
-        pauseIndex: 0,
-        pauseType:  NTInput.IT_GAMEPAD_DIGITAL,
-
-        leftBtn:    .71,
-        leftIndex:  9,
-        leftType:   NTInput.IT_GAMEPAD_DPAD,
-
-        rightBtn:   -.43,
-        rightIndex: 9,
-        rightType:  NTInput.IT_GAMEPAD_DPAD,
+        username: users[i],
+        password: bcrypt.hashSync(users[i], bcrypt.genSaltSync(10), null),
+        date: new Date(Date.now()),
+        downBtn: 40, downIndex: 0, downType: 0, leftBtn: 37, leftIndex: 0,
+        leftType: 0, rightBtn: 39, rightIndex: 0, rightType: 0, flipCWBtn: 76, 
+        flipCWIndex: 0, flipCWType:  0, flipCCWBtn: 75,  flipCCWIndex: 0,
+        flipCCWType: 0, pauseBtn: 80, pauseIndex: 0, pauseType: 0,
+        highScore: 0, level: 0, lines: 0
     }
-];
 
-const xboxoneSeed = [
+    userSeed.push(user);
+}
+
+/******************************************* Game Data *******************************************/
+
+const gameSeed = [];
+
+//Create the gameSeed array.
+for(let i = 0; i < numGameRecords; i++)
+{
+    //Get player1 and player2 names.  Make sure they are unique.
+    let player2;
+    let player1 = users[Math.floor(Math.random() * users.length)];
+    do
     {
-        downBtn:   13,
-        downIndex: 9,
-        downType:  NTInput.IT_GAMEPAD_DIGITAL,
+        player2 = users[Math.floor(Math.random() * users.length)];
+    } 
+    while(player2 === player1);
 
-        cwBtn:     1,
-        cwIndex:   0,
-        cwType:    NTInput.IT_GAMEPAD_DIGITAL,
+    //Determine if this is a single player game or not.
+    let singlePlayer = Math.round(Math.random()) ? true : false;
+    
+    //Get the player levels.
+    let level1 = Math.floor(Math.random() * 30);
+    let level2 = Math.floor(Math.random() * 30);
 
-        ccwBtn:     0,
-        ccwIndex:   0,
-        ccwType:    NTInput.IT_GAMEPAD_DIGITAL,
+    //Get the player lines.
+    let lines1 = Math.floor(Math.random() * level1 * 10);
+    let lines2 = Math.floor(Math.random() * level2 * 10);
 
-        pauseBtn:   9,
-        pauseIndex: 0,
-        pauseType:  NTInput.IT_GAMEPAD_DIGITAL,
+    //Get the player scores.
+    let score1 = Math.floor(Math.random() * lines1 * (250 * (level1 + 1)));
+    let score2 = Math.floor(Math.random() * lines2 * (250 * (level2 + 1)));
+    score1 -= (score1 % 10);
+    score2 -= (score2 % 10);
 
-        leftBtn:    14,
-        leftIndex:  9,
-        leftType:   NTInput.IT_GAMEPAD_DIGITAL,
-
-        rightBtn:   15,
-        rightIndex: 9,
-        rightType:  NTInput.IT_GAMEPAD_DIGITAL,
+    let game =
+    {
+        player1: player1,
+        score1:  score1,
+        level1:  level1,
+        lines1:  lines1,
+        date1:   new Date(Date.now() - (Math.floor(Math.random() * 1000000000))),
+        player2: singlePlayer ? "" : player2,
+        score2:  singlePlayer ? 0 : score2,
+        level2:  singlePlayer ? 0 : level2,
+        lines2:  singlePlayer ? 0 : lines2,
+        date2:   new Date(Date.now() - (Math.floor(Math.random() * 1000000000))),
+        singlePlayer: singlePlayer,
+        rngSeed: Math.floor(Math.random() * 1000000000)
     }
-];
 
-const gameDataSeed = [
-    {
-        formName: 'AlexeyPajitnov vs VadimGerasimov',
-        player1: 'AlexeyPajitnov',
-        player2: 'VadimGerasimov',
-        player1score: 100000,
-        player2score: 80000,
-        date: '1984-06-06 10:56:32'
-    },
-    {
-        formName: 'Game 1',
-        player1: 'player',
-        player1score: 2,
-        date: '2020-01-06 10:56:32'
-    },
-    {
-        formName: 'Game 2',
-        player1: 'player',
-        player1score: 10,
-        date: '2020-01-06 11:03:32'
-    },
-    {
-        formName: 'Game 3',
-        player1: 'boss',
-        player1score: 100,
-        date: '2020-01-06 11:10:32'
-    },
-    {
-        formName: 'tetris vs player',
-        player1: 'tetris',
-        player2: 'player',
-        player1score: 250,
-        player2score: 200,
-        date: '2020-01-07 09:30:00'
-    },
-    {
-        formName: 'Game 4',
-        player1: 'tetris',
-        player1score: 900,
-        date: '2020-01-08 10:30:00'
-    },
-    {
-        formName: 'Game 5',
-        player1: 'tetris',
-        player1score: 800,
-        date: '2020-01-08 10:45:00'
-    },
-    {
-        formName: 'Game 6',
-        player1: 'player',
-        player1score: 230,
-        date: '2020-01-08 11:10:00'
-    }
-];
+    gameSeed.push(game);
+}
 
-//I dont know how to seed chat history because of the objectID. These are selected at random.
+/************************************** Database Functions ***************************************/
 
-db.project3
-  .remove({})
-  .then(() => db.project3.collection.insertMany(userSeed))
-  .then(() => db.project3.collection.insertMany(controllerSeed))
-  .then(() => db.project3.collection.insertMany(xboxoneSeed))
-  .then(() => db.project3.collection.insertMany(gameDataSeed))
-  .then(data => {
-    console.log(data.result.n + " records inserted!");
-    process.exit(0);
-  })
-  .catch(err => {
+db.User.remove({})
+.then(() => db.User.collection.insertMany(userSeed))
+.then(data => console.log(data.result.n + " records inserted!"))
+.then(() =>
+
+db.Game.remove({}))
+.then(() => db.Game.collection.insertMany(gameSeed))
+.then(data => console.log(data.result.n + " records inserted!"))
+
+.then(() => process.exit(0))
+.catch(err =>
+{
     console.error(err);
     process.exit(1);
-  });
-
+});

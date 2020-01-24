@@ -1,6 +1,6 @@
 .deleteSpectator
 {
-    
+    width: 25px;
     background-color: rgb(119, 1, 1);
     border: none;
     color: white;
@@ -15,4 +15,10 @@
 .deleteSpectator:hover
 {
     background-color: rgb(252, 4, 4);
+}
+
+.versusPlayer
+{
+    background-color: rgba(2, 0, 7, 0) !important;
+    color: white;
 }

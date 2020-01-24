@@ -6,8 +6,8 @@ const MSpectator = (props) =>
     return (
         <div>
             <button data-user={props.username} onClick={props.deleteSpectator} className="deleteSpectator ml-1">X</button>
-            <button data-user={props.username} className="addModerator mx-1">M</button>
-            <span>{props.username}</span>
+            <button data-index={props.index} onClick={props.changeToSpectator} className="addModerator mx-1">M</button>
+            <span className="text-white">{props.username}</span>
         </div>
     );
 }

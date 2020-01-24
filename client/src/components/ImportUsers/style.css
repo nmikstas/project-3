@@ -1,6 +1,6 @@
 .addSpectator
 {
-    
+    width: 25px;
     background-color: rgb(14, 2, 122);
     border: none;
     color: white;
@@ -19,7 +19,7 @@
 
 .addModerator
 {
-    
+    width: 25px;
     background-color: rgb(5, 134, 1);
     border: none;
     color: white;
@@ -38,7 +38,7 @@
 
 .addVersus
 {
-    
+    width: 25px;
     background-color: rgb(69, 3, 112);
     border: none;
     color: white;

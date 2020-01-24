@@ -1,6 +1,6 @@
 .deleteSpectator
 {
-    
+    width: 25px;
     background-color: rgb(119, 1, 1);
     border: none;
     color: white;
@@ -19,7 +19,7 @@
 
 .addModerator
 {
-    
+    width: 25px;
     background-color: rgb(5, 134, 1);
     border: none;
     color: white;

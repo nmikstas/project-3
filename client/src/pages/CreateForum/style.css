@@ -62,9 +62,19 @@
 #userList
 {
     overflow: auto;
+    background-color: rgba(2, 0, 7, 0);
+    scrollbar-arrow-color: dark !important;
 }
+
 
 #spectatorList
 {
     overflow: auto;
+    background-color: rgba(2, 0, 7, 0);
+}
+
+#forumName-input
+{
+    background-color: rgba(2, 0, 7, 0) !important;
+    color: white;
 }

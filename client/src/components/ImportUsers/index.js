@@ -8,7 +8,7 @@ const ImportUsers = (props) =>
             <button data-user={props.username} onClick={props.addSpectator} className="addSpectator ml-1">S</button>
             <button data-user={props.username} onClick={props.addModerator} className="addModerator mx-1">M</button>
             <button data-user={props.username} onClick={props.addVersus} className="addVersus mr-1">V</button>
-            <span>{props.username}</span>
+            <span className="text-white">{props.username}</span>
         </div>
     );
 }

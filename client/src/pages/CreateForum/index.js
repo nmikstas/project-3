@@ -8,6 +8,8 @@ import VersusPlayer from "../../components/VersusPlayer";
 import API from "../../utils/API";
 import SSpectator from "../../components/SSpectator";
 import MSpectator from "../../components/MSpectator";
+import TickerLabel1 from "../../components/TickerLabel1";
+import TickerLabel2 from "../../components/TickerLabel2";
 
 class CreateForum extends React.Component
 {
@@ -21,12 +23,15 @@ class CreateForum extends React.Component
         flipArr: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
         flipArr2: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
 
+        forumName: "",
         startingLevel: 0,
         interferenceLevel: 0,
 
-        firstPageComplete: false,
+        forum: "Forum Name: ",
+        start: "Level: ",
+        interference: "Interference: ",
 
-        forumName: "",
+        firstPageComplete: false,
 
         flipClassName: "notSelected-img-container",
 
@@ -67,7 +72,7 @@ class CreateForum extends React.Component
         .catch(err => console.log(err));
     }
 
-    selectLevel = (id) => 
+    selectLevel = (id) =>
     {
         //console.log(id);
 
@@ -82,7 +87,7 @@ class CreateForum extends React.Component
         )
     }
 
-    selectInterference = (id) => 
+    selectInterference = (id) =>
     {
         //console.log(id);
 
@@ -128,28 +133,31 @@ class CreateForum extends React.Component
         let username = event.target.dataset.user;
         let tempForumMembersArr = [...this.state.forumMembersArr];
 
-        let userInfo = 
+        if (username !== this.state.versusPlayer)
         {
-            username: username,
-            isModerator: false,
+            let userInfo =
+            {
+                username: username,
+                isModerator: false,
+            }
+    
+            //console.log(userInfo);
+    
+            let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
+            {
+                return checkUserInfo.username === username;
+            })
+    
+            if (checkUserInfoArr.length)
+            {
+                return;
+            }
+    
+            tempForumMembersArr.push(userInfo);
+    
+            this.setState({ forumMembersArr: tempForumMembersArr });
+            //console.log(this.state.forumMembersArr);
         }
-
-        //console.log(userInfo);
-
-        let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
-        {
-            return checkUserInfo.username === username;
-        })
-
-        if (checkUserInfoArr.length)
-        {
-            return;
-        }
-
-        tempForumMembersArr.push(userInfo);
-
-        this.setState({ forumMembersArr: tempForumMembersArr });
-        console.log(this.state.forumMembersArr);
     }
 
     addModerator = (event) =>
@@ -159,12 +167,44 @@ class CreateForum extends React.Component
 
         let tempForumMembersArr = [...this.state.forumMembersArr];
 
-        let userInfo = 
+        if (username !== this.state.versusPlayer)
         {
-            username: username,
-            isModerator: true,
+            let userInfo =
+            {
+                username: username,
+                isModerator: true,
+            }
+    
+            let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
+            {
+                return checkUserInfo.username === username;
+            })
+    
+            if (checkUserInfoArr.length)
+            {
+                return;
+            }
+    
+            tempForumMembersArr.push(userInfo);
+    
+            this.setState({ forumMembersArr: tempForumMembersArr });
+            //console.log(this.state.forumMembersArr);
         }
+    }
 
+    deleteVersus = (event) =>
+    {
+        event.preventDefault();
+        this.setState({ versusPlayer: "" })
+    }
+
+    addVersus = (event) =>
+    {
+        event.preventDefault();
+        let username = event.target.dataset.user;
+
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+        
         let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
         {
             return checkUserInfo.username === username;
@@ -175,25 +215,8 @@ class CreateForum extends React.Component
             return;
         }
 
-        tempForumMembersArr.push(userInfo);
-
-        this.setState({ forumMembersArr: tempForumMembersArr });
-        console.log(this.state.forumMembersArr);
-    }
-
-    deleteVersus = (event) =>
-    {
-        event.preventDefault();
-        this.setState({ versusPlayer: "" })
-    } 
-
-    addVersus = (event) =>
-    {
-        event.preventDefault();
-        let username = event.target.dataset.user;
-
         this.setState({ versusPlayer: event.target.dataset.user });
-        console.log(this.state.versusPlayer);
+        //console.log(this.state.versusPlayer);
     }
 
     deleteSpectator = (event) =>
@@ -220,6 +243,54 @@ class CreateForum extends React.Component
         //console.log(this.state.forumMembersArr);
     }
 
+    changeToSpectator = (event) =>
+    {
+        event.preventDefault();
+
+        let index = event.target.dataset.index;
+        //console.log(index);
+
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+        console.log("Before Update: ", tempForumMembersArr[index]);
+
+        let arrayIndex = tempForumMembersArr[index];
+        console.log("Before Update: " + arrayIndex.username);
+        console.log("Before Update: " + arrayIndex.isModerator);
+
+
+        if (index >= 0)
+        {
+            tempForumMembersArr[index].isModerator = false;
+            console.log("After Update: ", tempForumMembersArr[index]);
+
+            this.setState({ forumMembersArr: tempForumMembersArr });
+        }
+    }
+
+    changeToModerator = (event) =>
+    {
+        event.preventDefault();
+
+        let index = event.target.dataset.index;
+        //console.log(index);
+
+        let tempForumMembersArr = [...this.state.forumMembersArr];
+        console.log("Before Update: ", tempForumMembersArr[index]);
+
+        let arrayIndex = tempForumMembersArr[index];
+        console.log("Before Update: " + arrayIndex.username);
+        console.log("Before Update: " + arrayIndex.isModerator);
+
+
+        if (index >= 0)
+        {
+            tempForumMembersArr[index].isModerator = true;
+            console.log("After Update: ", tempForumMembersArr[index]);
+
+            this.setState({ forumMembersArr: tempForumMembersArr });
+        }
+    }
+
     refreshUsers = (event) =>
     {
         event.preventDefault();
@@ -239,7 +310,7 @@ class CreateForum extends React.Component
             //Render first page.
             return (
                 <div className="container-fluid">
-                    <NavBar 
+                    <NavBar
                         username={this.state.username}
                     />
                     <h1>Create Forum</h1>
@@ -248,11 +319,11 @@ class CreateForum extends React.Component
 
                         <div className="col-md-8 col-div">
                             <form className="forumName">
-                                <label htmlFor="forumName" className="form-label">Forum Name:</label><br />    
+                                <label htmlFor="forumName" className="form-label">Forum Name:</label><br />
                                 <input type="forumName" id="forumName-input" name="forumName"
                                     value={this.state.forumName} onChange={this.forumNameUpdate} className="form-control" />
                                 <br />
-                                <label htmlFor="startingLevel" className="form-label">Select Starting Level:</label><br />    
+                                <label htmlFor="startingLevel" className="form-label">Starting Level:</label><br />
                                 <div>
                                     {this.state.levelArr.map((levels, i) => (
                                         <LevelCard
@@ -265,7 +336,7 @@ class CreateForum extends React.Component
                                     ))}
                                 </div>
                                 <br />
-                                <label htmlFor="interferenceLevel" className="form-label">Select Interference Level:</label><br />    
+                                <label htmlFor="interferenceLevel" className="form-label">Interference Level:</label><br />
                                 <div>
                                     {this.state.interferenceArr.map((levels, i) => (
                                         <LevelCard
@@ -291,7 +362,7 @@ class CreateForum extends React.Component
             return (
                 //Second page here.
                 <div className="container-fluid">
-                    <NavBar 
+                    <NavBar
                         username={this.state.username}
                     />
                     <h1>Create Forum</h1>
@@ -300,12 +371,26 @@ class CreateForum extends React.Component
 
                         <div className="col-md-8 col-div">
                             <div className="row">
+                                <TickerLabel1
+                                    stuff={this.state.forum}
+                                    ticker={this.state.forumName}
+                                />
+                                <TickerLabel2
+                                    stuff={this.state.start}
+                                    ticker={this.state.startingLevel}
+                                />
+                                <TickerLabel2
+                                    stuff={this.state.interference}
+                                    ticker={this.state.interferenceLevel}
+                                />
+                            </div><br />
+                            <div className="row">
                                 <div className="col-md-6">
                                     <form className="forumName">
                                         <label htmlFor="forumName" className="form-label">Add Users:</label><br />
-                                        <div id="userList" className="border rounded bg-light" style={{height: 180}}>
+                                        <div id="userList" className="border rounded" style={{height: 180}}>
                                             {this.state.userListArr.map((users, i) => (
-                                            <ImportUsers 
+                                            <ImportUsers
                                                 username={this.state.userListArr[i].username}
                                                 id={this.state.userListArr[i].username}
                                                 key={this.state.userListArr[i].username}
@@ -322,19 +407,23 @@ class CreateForum extends React.Component
                                 <div className="col-md-6">
                                     <form className="forumName">
                                         <label htmlFor="forumName" className="form-label">Spectators:</label><br />
-                                        <div id="spectatorList" className="border rounded bg-light" style={{height: 180}}>
+                                        <div id="spectatorList" className="border rounded" style={{height: 180}}>
                                             {this.state.forumMembersArr.map((users, i) => (
                                                 users.isModerator ? (
                                                     <MSpectator
                                                         username={this.state.forumMembersArr[i].username}
                                                         key={this.state.forumMembersArr[i].username}
+                                                        index={i}
                                                         deleteSpectator={this.deleteSpectator}
+                                                        changeToSpectator={this.changeToSpectator}
                                                     />
                                                 ) : (
                                                     <SSpectator
                                                         username={this.state.forumMembersArr[i].username}
                                                         key={this.state.forumMembersArr[i].username}
+                                                        index={i}
                                                         deleteSpectator={this.deleteSpectator}
+                                                        changeToModerator={this.changeToModerator}
                                                     />
                                                 )
                                             ))}
@@ -358,7 +447,7 @@ class CreateForum extends React.Component
                 </div>
             )
 
-        }  
+        }
     }
 }
 

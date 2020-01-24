@@ -5,7 +5,7 @@ const VersusPlayer = (props) =>
 {
     return (
         <div>
-            <input className="form-control" value={props.versusPlayer} readOnly onChange={props.versusPlayerUpdate}/>
+            <input className="versusPlayer form-control" value={props.versusPlayer} readOnly onChange={props.versusPlayerUpdate}/>
         </div>
     );
 }

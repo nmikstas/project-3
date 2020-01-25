@@ -42,6 +42,13 @@ let userSchema = new Schema(
         required: true
     }],
 
+    playerForums:
+    [{
+        type: Schema.Types.ObjectId,
+        ref: "Forum",
+        required: true
+    }],
+
     otherForums: 
     [{
         type: Schema.Types.ObjectId,

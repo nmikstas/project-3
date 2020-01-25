@@ -12,11 +12,8 @@ let forumSchema = new Schema(
 
     spectators:
     [{
-        spectator: 
-        { 
-            username:    { type: String, required: true },
-            isModerator: { type: Boolean, required: true }
-        },
+        username:    { type: String, required: true },
+        isModerator: { type: Boolean, required: true }
     }],
 
     comments:

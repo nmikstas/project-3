@@ -2,14 +2,38 @@ const mongoose = require("mongoose");
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ntnt");
+//Configutation variables. Change these to make the database bigger or smaller.
+const numGameRecords   = 300;
+const numForums        = 100;
+const maxForumComments = 100;
+
+mongoose.connect
+(
+    process.env.MONGODB_URI || "mongodb://localhost/ntnt",
+    { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+    }
+);
 
 const users =
 [
     "chris", "nick", "tyler", "elijah", "bob", "mark", "sue", "julie", "frank", "jeff",
-    "joeff", "mike", "thor", "rexor", "conan", "thulsa doom", "flippers", "max",
+    "jeoff", "mike", "thor", "rexor", "conan", "thulsa doom", "flippers", "max",
     "juan pelota", "phil mcgroin"
 ];
+
+//Working variables.
+const maxSpectators  = users.length - 2;
+let commentIndex     = 0;
+let allComments      = [];
+let allCommentsIndex = 0;
+let allForums        = [];
+let allForumsIndex   = 0;
+let allUsers         = [];
+let allUsersIndex    = 0;
 
 //1000 most common words in the english language.
 const words =
@@ -96,9 +120,7 @@ const words =
 	"log", "meant", "quotient", "teeth", "shell", "neck"
 ]
 
-const numGameRecords   = 300;
-const numForums        = 100;
-const maxForumComments = 100;
+let endSeed = () => process.exit(0);
 
 /******************************************* User Data *******************************************/
 
@@ -120,6 +142,69 @@ for(let i = 0; i < users.length; i++)
     }
 
     userSeed.push(user);
+}
+
+//Add forums to users.
+let addForumsToUsers = () =>
+{
+    if(allUsersIndex < allUsers.length)
+    {
+        let owned     = [];
+        let player2   = [];
+        let spectator = [];
+
+        for(let i = 0; i < allForums.length; i++)
+        {
+            if(allForums[i].owner === allUsers[allUsersIndex].username)
+            {
+                owned.push(allForums[i]._id);
+            }
+        }
+
+        for(let i = 0; i < allForums.length; i++)
+        {
+            if(allForums[i].player2 === allUsers[allUsersIndex].username)
+            {
+                player2.push(allForums[i]._id);
+            }
+        }
+
+        for(let i = 0; i < allForums.length; i++)
+        {
+            for(let j = 0; j < allForums[i].spectators.length; j++)
+            {
+                if(allForums[i].spectators[j].username === allUsers[allUsersIndex].username)
+                {
+                    spectator.push(allForums[i]._id);
+                }
+            }
+        }
+        
+        console.log("**************************************");
+        console.log("User: " + allUsers[allUsersIndex].username);
+        console.log("Owned forums:");
+        console.log(owned);
+        console.log("Player forums:");
+        console.log(player2);
+        console.log("Spectator forums:");
+        console.log(spectator);
+
+        db.User.findOneAndUpdate({ username:  allUsers[allUsersIndex].username},
+            { $push: { ownedForums: owned } }, { new: true })
+        .then(() => db.User.findOneAndUpdate({ username:  allUsers[allUsersIndex].username},
+            { $push: { playerForums: player2 } }, { new: true }))
+        .then(() => db.User.findOneAndUpdate({ username:  allUsers[allUsersIndex].username},
+            { $push: { otherForums: spectator } }, { new: true }))
+        .then(() =>
+        {
+            allUsersIndex++;
+            addForumsToUsers();
+        })
+    }
+    else
+    {
+        endSeed();
+    }
 }
 
 /******************************************* Game Data *******************************************/
@@ -169,39 +254,237 @@ for(let i = 0; i < numGameRecords; i++)
         date2:   new Date(Date.now() - (Math.floor(Math.random() * 1000000000))),
         singlePlayer: singlePlayer,
         rngSeed: Math.floor(Math.random() * 1000000000)
-    }
+    };
 
     gameSeed.push(game);
 }
 
-/************************************** Forums And Comments **************************************/
+/****************************************** Forum Data *******************************************/
 
-const forumSeed = [];
+let forumSeed = [];
 
 //Create the forumSeed array.
 for(let i = 0; i < numForums; i++)
 {
-    //Build the comments for this forum.
-    const comments = [];
+    let forumOwner = users[Math.floor(Math.random() * users.length)];
+    let forumName = "";
+    let player2 = "";
+    let startLevel = Math.floor(Math.random() * 20);
+    let interference = Math.floor(Math.random() * 11) / 10;
+    let forumDate = new Date(Date.now());
+    let spectators = [];
+    let spectatorArr = [];
 
+    //Create a forum name of up to 4 random words.
+    let numWords = Math.floor(Math.random() * 4);
+    for(let j = 0; j < numWords; j++)
+    {
+        forumName += words[Math.floor(Math.random() * words.length)] + " ";
+    }
+
+    //Determnine if there is a player 2.
+    let isPlayer2 = Math.floor(Math.random() * 20);
+    if(isPlayer2 < 19)
+    {
+        do //Assign player 2.
+        {
+            player2 = users[Math.floor(Math.random() * users.length)];
+        }
+        while(player2 === forumOwner);
+    }
+
+    //Create an array of spectators.
+    let numSpectators = Math.floor(Math.random() * maxSpectators + 1);
+    for(let j = 0; j < numSpectators; j++)
+    {
+        let spectator;
+        let isModerator = false;
+
+        do //Assign spectators.
+        {
+            spectator = users[Math.floor(Math.random() * users.length)];
+        }
+        while((spectator === forumOwner) || (spectator === player2) || spectatorArr.includes(spectator));
+
+        //Determine if the spectator is a moderator or not -- 20% change.
+        let moderatorNum = Math.floor(Math.random() * 5);
+        if(moderatorNum > 3)
+        {
+            isModerator = true;
+        }
+
+        spectatorArr.push(spectator);
+        spectators.push({ username: spectator, isModerator: isModerator });
+    }
+
+    let forum =
+    {
+        owner:        forumOwner,
+        forumName:    forumName,
+        startLevel:   startLevel,
+        interference: interference,
+        player2:      player2,
+        date:         forumDate,
+        spectators:   spectators
+    };
+
+    forumSeed.push(forum);
+}
+
+//Add comment ids to the forums.
+let addCommentsToForums = () =>
+{
+    if(allCommentsIndex < allComments.length)
+    {
+        db.Forum.findOneAndUpdate({ _id: allComments[allCommentsIndex].forumId },
+            { $push: { comments: allComments[allCommentsIndex]._id } }, { new: true })
+        .then(() =>
+        {
+            allCommentsIndex++;
+            addCommentsToForums();
+        })
+    }
+    else
+    {
+        db.Forum.find({})
+        .then((data) =>
+        {
+            allForums = [...data];
+            
+        })
+        .then(() => db.User.find({}))
+        .then((data) =>
+        {
+            allUsers = [...data];
+            addForumsToUsers();
+        })
+    }
+}
     
+/***************************************** Comment Data ******************************************/
 
+let commentsSeed = [];
+
+//Create an array of comments for each forum.
+for(let i = 0; i < forumSeed.length; i++)
+{
+    //Build the comments for this forum.
+    let comments = [];
+
+    //Generate the number of comments for this forum.
+    let numComments = Math.floor(Math.random() * maxForumComments);
+    for(let j = 0; j < numComments; j++)
+    {
+        let comment = "";
+
+        //Max 20 words per comment.
+        let numWords = Math.floor(Math.random() * 19 + 1);
+
+        //Create a comment with random words.
+        for(let k = 0; k < numWords; k++)
+        {
+            comment += words[Math.floor(Math.random() * words.length)] + " ";
+        }
+        
+        let commentObj = 
+        {
+            username: users[Math.floor(Math.random() * users.length)],
+            comment:  comment,
+            date:     new Date(Date.now()),
+            forumId:  0
+        }
+        comments.push(commentObj);
+    }
+    commentsSeed.push(comments);
+}
+
+let addCommentsToDB = () =>
+{
+    db.Comment.collection.insertMany(commentsSeed[commentIndex])
+    .then(() => 
+    {
+        //Move to next forum with comments.
+        do
+        {
+            commentIndex++;
+        }
+        while(commentsSeed[commentIndex] && !commentsSeed[commentIndex].length);
+    
+        if(commentIndex < commentsSeed.length)
+        {
+                addCommentsToDB();
+        }
+        else
+        {
+            //Tell the user how many comments were added to the database.
+            let totalComments = 0;
+            for(let i = 0; i < commentsSeed.length; i++)
+            {
+                totalComments += commentsSeed[i].length;
+            }
+            console.log(totalComments + " comment records inserted!");
+
+            //Get all the comments.
+            db.Comment.find({})
+            .then((data) => 
+            {
+                allComments = [...data];
+            })
+            .then(() => addCommentsToForums());
+        }
+    })
+    .catch(err =>
+    {
+        console.error(err);
+        process.exit(1);
+    });
 }
 
 /************************************** Database Functions ***************************************/
 
 db.User.remove({})
 .then(() => db.User.collection.insertMany(userSeed))
-.then(data => console.log(data.result.n + " records inserted!"))
+.then(data => console.log(data.result.n + " user records inserted!"))
 .then(() =>
 
 db.Game.remove({}))
 .then(() => db.Game.collection.insertMany(gameSeed))
-.then(data => console.log(data.result.n + " records inserted!"))
+.then(data => console.log(data.result.n + " game records inserted!"))
+.then(() =>
 
-.then(() => process.exit(0))
-.catch(err =>
+db.Forum.remove({}))
+.then(() => db.Forum.collection.insertMany(forumSeed))
+.then((data) => 
 {
-    console.error(err);
-    process.exit(1);
-});
+    console.log(data.result.n + " forum records inserted!");
+    let forumIds = Object.values(data.insertedIds);
+
+    //Add forum IDs to the comments.
+    for(let i = 0; i < commentsSeed.length; i++)
+    {
+        for(let j = 0; j < commentsSeed[i].length; j++)
+        {
+            commentsSeed[i][j].forumId = forumIds[i];
+        }
+    }
+})
+.then(() =>
+
+db.Comment.remove({}))
+.then(() => 
+{
+    //Skip past any leading forums with no comments.
+    while(commentsSeed[commentIndex] && !commentsSeed[commentIndex].length)
+    {
+        commentIndex++;
+    }
+
+    if(commentIndex < commentsSeed.length)
+    {
+        addCommentsToDB();
+    }
+    else
+    {
+        endSeed();
+    }
+})

@@ -264,7 +264,6 @@ $.post("/api/users/verify/")
     highScore = data.highScore;
     $(".user-title").text("Hello, " + data.username + "!");
     runForum(data);
-    
 })
 .fail(function(err)
 {

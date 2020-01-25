@@ -15,8 +15,6 @@ class CreateForum extends React.Component
 {
     state =
     {
-        username: "",
-
         levelArr: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
         interferenceArr: ["0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6", "0-7", "0-8", "0-9", "0-10"],
 
@@ -36,6 +34,7 @@ class CreateForum extends React.Component
         userListArr: [],
 
         //Information that will be passed into database.
+        username: "",
         forumName: "",
         startingLevel: 0,
         interferenceLevel: 0,
@@ -76,7 +75,24 @@ class CreateForum extends React.Component
 
     submitButton = () =>
     {
+        let forumObject =
+        {
+            owner:        this.state.username,
+            forumName:    this.state.forumName,
+            startLevel:   this.state.startingLevel,
+            interference: this.state.interferenceLevel,
+            player2:      this.state.versusPlayer,
+            spectators:   this.state.forumMembersArr
+        }
+        //console.log(forumObject);
 
+        API.createForum(forumObject)
+        .then((res) =>
+        {
+            //console.log(res.data);
+            window.location.href = "/home";
+        })
+        .catch(err => console.log(err));
     }
 
     selectLevel = (id) =>
@@ -125,13 +141,13 @@ class CreateForum extends React.Component
     nextButton = () =>
     {
         this.setState({ firstPageComplete: true });
-        console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
+        //console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
     }
 
     backButton = () =>
     {
         this.setState({ firstPageComplete: false });
-        console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
+        //console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
     }
 
     addSpectator = (event) =>
@@ -282,17 +298,17 @@ class CreateForum extends React.Component
         //console.log(index);
 
         let tempForumMembersArr = [...this.state.forumMembersArr];
-        console.log("Before Update: ", tempForumMembersArr[index]);
+        //console.log("Before Update: ", tempForumMembersArr[index]);
 
         let arrayIndex = tempForumMembersArr[index];
-        console.log("Before Update: " + arrayIndex.username);
-        console.log("Before Update: " + arrayIndex.isModerator);
+        //console.log("Before Update: " + arrayIndex.username);
+        //console.log("Before Update: " + arrayIndex.isModerator);
 
 
         if (index >= 0)
         {
             tempForumMembersArr[index].isModerator = true;
-            console.log("After Update: ", tempForumMembersArr[index]);
+            //console.log("After Update: ", tempForumMembersArr[index]);
 
             this.setState({ forumMembersArr: tempForumMembersArr });
         }

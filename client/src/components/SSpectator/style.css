@@ -1,6 +1,7 @@
 .deleteSpectator
 {
     width: 25px;
+    height: 25px;
     background-color: rgb(119, 1, 1);
     border: none;
     color: white;
@@ -20,6 +21,7 @@
 .addSpectator
 {
     width: 25px;
+    height: 25px;
     background-color: rgb(14, 2, 122);
     width: 25px;
     border: none;

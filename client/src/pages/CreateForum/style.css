@@ -78,3 +78,7 @@
     background-color: rgba(2, 0, 7, 0) !important;
     color: white;
 }
+
+.submitButton  {
+    float: right;
+  }

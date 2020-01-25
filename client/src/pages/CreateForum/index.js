@@ -3,18 +3,20 @@ import "./style.css";
 import NavBar from "../../components/NavBar";
 import LevelCard from "../../components/LevelCard";
 import ImportUsers from "../../components/ImportUsers";
-import Spectators from "../../components/Spectators";
 import VersusPlayer from "../../components/VersusPlayer";
 import API from "../../utils/API";
 import SSpectator from "../../components/SSpectator";
 import MSpectator from "../../components/MSpectator";
 import TickerLabel1 from "../../components/TickerLabel1";
 import TickerLabel2 from "../../components/TickerLabel2";
+import ButtonKey from "../../components/ButtonKey";
 
 class CreateForum extends React.Component
 {
     state =
     {
+        username: "",
+
         levelArr: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
         interferenceArr: ["0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6", "0-7", "0-8", "0-9", "0-10"],
 
@@ -22,10 +24,6 @@ class CreateForum extends React.Component
 
         flipArr: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
         flipArr2: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
-
-        forumName: "",
-        startingLevel: 0,
-        interferenceLevel: 0,
 
         forum: "Forum Name: ",
         start: "Level: ",
@@ -37,6 +35,10 @@ class CreateForum extends React.Component
 
         userListArr: [],
 
+        //Information that will be passed into database.
+        forumName: "",
+        startingLevel: 0,
+        interferenceLevel: 0,
         forumMembersArr: [],
         versusPlayer: "",
     }
@@ -70,6 +72,11 @@ class CreateForum extends React.Component
             //console.log(this.state.userListArr);
         })
         .catch(err => console.log(err));
+    }
+
+    submitButton = () =>
+    {
+
     }
 
     selectLevel = (id) =>
@@ -384,20 +391,27 @@ class CreateForum extends React.Component
                                     ticker={this.state.interferenceLevel}
                                 />
                             </div><br />
+                            <div className="border-bottom row">
+                                <ButtonKey/>
+                            </div><br />
                             <div className="row">
                                 <div className="col-md-6">
                                     <form className="forumName">
                                         <label htmlFor="forumName" className="form-label">Add Users:</label><br />
                                         <div id="userList" className="border rounded" style={{height: 180}}>
                                             {this.state.userListArr.map((users, i) => (
-                                            <ImportUsers
-                                                username={this.state.userListArr[i].username}
-                                                id={this.state.userListArr[i].username}
-                                                key={this.state.userListArr[i].username}
-                                                addSpectator={this.addSpectator}
-                                                addModerator={this.addModerator}
-                                                addVersus={this.addVersus}
-                                            />
+                                                users.username === this.state.username ? (
+                                                    null
+                                                ) : (
+                                                    <ImportUsers
+                                                        username={this.state.userListArr[i].username}
+                                                        id={this.state.userListArr[i].username}
+                                                        key={this.state.userListArr[i].username}
+                                                        addSpectator={this.addSpectator}
+                                                        addModerator={this.addModerator}
+                                                        addVersus={this.addVersus}
+                                                    />
+                                                )
                                             ))}
                                         </div>
                                         <br />
@@ -441,7 +455,10 @@ class CreateForum extends React.Component
                                 </div>
                             </div>
                             <br />
-                            <button type="submit" className="btn btn-outline-secondary" onClick={this.backButton}>Back</button>
+                            <div>
+                                <button type="submit" className="btn btn-outline-secondary" onClick={this.backButton}>Back</button>
+                                <button type="submit" className="submitButton btn btn-outline-success" onClick={this.submitButton}>Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>

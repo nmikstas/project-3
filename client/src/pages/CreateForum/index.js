@@ -25,10 +25,6 @@ class CreateForum extends React.Component
         flipArr: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
         flipArr2: ["selected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container", "notSelected-img-container"],
 
-        forumName: "",
-        startingLevel: 0,
-        interferenceLevel: 0,
-
         forum: "Forum Name: ",
         start: "Level: ",
         interference: "Interference: ",
@@ -39,6 +35,10 @@ class CreateForum extends React.Component
 
         userListArr: [],
 
+        //Information that will be passed into database.
+        forumName: "",
+        startingLevel: 0,
+        interferenceLevel: 0,
         forumMembersArr: [],
         versusPlayer: "",
     }
@@ -72,6 +72,11 @@ class CreateForum extends React.Component
             //console.log(this.state.userListArr);
         })
         .catch(err => console.log(err));
+    }
+
+    submitButton = () =>
+    {
+
     }
 
     selectLevel = (id) =>
@@ -127,11 +132,6 @@ class CreateForum extends React.Component
     {
         this.setState({ firstPageComplete: false });
         console.log("Forum Name: " + this.state.forumName + "\n" + "Starting Level: " + this.state.startingLevel + "\n" + "Interference Level: " + this.state.interferenceLevel);
-    }
-
-    submitButton = () =>
-    {
-
     }
 
     addSpectator = (event) =>

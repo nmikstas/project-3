@@ -95,10 +95,10 @@ class Login extends React.Component
                     title="NOT TETRIS-NOT TWITCH"
                 />
 
+                <h1>Log In</h1>
                 <div className="row">
                     <div className="col-md-3"></div>
                     <div className="log-in col-md-6">
-                        <h2 className="main-text">Log In</h2>
 
                         <div className="info-message">
                             <ErrorBox 

@@ -120,12 +120,12 @@ class Signup extends React.Component
                 <Header 
                     title="NOT TETRIS-NOT TWITCH"
                 />
-               
+
+               <h1>Sign Up</h1>
                <div className="row">
                     <div className="col-md-3"></div>
                     <div className="log-in col-md-6">
-                        <h2 className="main-text">Sign Up</h2>
-
+                        
                         <div className="info-message">
                             <ErrorBox 
                                 title={this.state.errorTitle}

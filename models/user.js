@@ -35,10 +35,18 @@ let userSchema = new Schema(
     level:     { type: Number, default: 0 },
     lines:     { type: Number, default: 0 },
 
-    forums: 
+    ownedForums: 
     [{
         type: Schema.Types.ObjectId,
-        ref: "Forum"
+        ref: "Forum",
+        required: true
+    }],
+
+    otherForums: 
+    [{
+        type: Schema.Types.ObjectId,
+        ref: "Forum",
+        required: true
     }]
 });
 

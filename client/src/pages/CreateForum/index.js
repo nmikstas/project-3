@@ -3,7 +3,6 @@ import "./style.css";
 import NavBar from "../../components/NavBar";
 import LevelCard from "../../components/LevelCard";
 import ImportUsers from "../../components/ImportUsers";
-import Spectators from "../../components/Spectators";
 import VersusPlayer from "../../components/VersusPlayer";
 import API from "../../utils/API";
 import SSpectator from "../../components/SSpectator";

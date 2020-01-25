@@ -57,3 +57,28 @@
 {
     background-color: rgb(133, 2, 173);
 }
+
+.deleteSpectator
+{
+    width: 25px;
+    height: 25px;
+    background-color: rgb(119, 1, 1);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .9rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.deleteSpectator:hover
+{
+    background-color: rgb(252, 4, 4);
+}
+
+.button-text
+{
+    color: #acacac;
+}

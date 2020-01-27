@@ -112,5 +112,26 @@ module.exports =
         db.User.findOneAndUpdate({ username: req.body.username }, { targetForum: req.body.forumId }, { new: true })
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
+    },
+
+    deletespectator: (req, res) =>
+    {
+        db.User.findOneAndUpdate({ username: req.body.username }, { $pullAll: { otherForums: [req.body.forumId] } }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
+
+    deleteowned: (req, res) =>
+    {
+        db.User.findOneAndUpdate({ username: req.body.username }, { $pullAll: { ownedForums: [req.body.forumId] } }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
+
+    deleteplayer: (req, res) =>
+    {
+        db.User.findOneAndUpdate({ username: req.body.username }, { $pullAll: { playerForums: [req.body.forumId] } }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
     }
 };

@@ -33,4 +33,13 @@ router.route("/allusers").get(isAuthenticated, usersController.allusers);
 //Matches with "/api/users/setforum"
 router.route("/setforum").post(isAuthenticated, usersController.setforum);
 
+//Matches with "/api/users/deletespectator"
+router.route("/deletespectator").post(isAuthenticated, usersController.deletespectator);
+
+//Matches with "/api/users/deleteowned"
+router.route("/deleteowned").post(isAuthenticated, usersController.deleteowned);
+
+//Matches with "/api/users/deleteplayer"
+router.route("/deleteplayer").post(isAuthenticated, usersController.deleteplayer);
+
 module.exports = router;

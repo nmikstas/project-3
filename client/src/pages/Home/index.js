@@ -38,20 +38,71 @@ class Home extends React.Component
 
     deleteOwned = (forumId) =>
     {
-        console.log("Owned");
-        console.log(forumId);
+        API.deleteOwned({ username: this.state.username, forumId: forumId })
+        .then(res =>
+        {
+            let ownedForums = [];
+
+            for(let i = 0; i < this.state.ownedForums.length; i++)
+            {
+                if(this.state.ownedForums[i]._id !== forumId)
+                {
+                    ownedForums.push(this.state.ownedForums[i]);
+                }
+            }
+
+            this.setState(
+            {
+                ownedForums: ownedForums
+            });
+        })
+        .catch(err => { console.log(err) });
     }
 
     deletePlayer = (forumId) =>
     {
-        console.log("Player");
-        console.log(forumId);
+        API.deletePlayer2({ username: this.state.username, forumId: forumId })
+        .then(res =>
+        {
+            let playerForums = [];
+
+            for(let i = 0; i < this.state.playerForums.length; i++)
+            {
+                if(this.state.playerForums[i]._id !== forumId)
+                {
+                    playerForums.push(this.state.playerForums[i]);
+                }
+            }
+
+            this.setState(
+            {
+                playerForums: playerForums
+            });
+        })
+        .catch(err => { console.log(err) });
     }
 
     deleteSpectator = (forumId) =>
     {
-        console.log("Spectator");
-        console.log(forumId);
+        API.deleteSpectator({ username: this.state.username, forumId: forumId })
+        .then(res =>
+        {
+            let otherForums = [];
+
+            for(let i = 0; i < this.state.otherForums.length; i++)
+            {
+                if(this.state.otherForums[i]._id !== forumId)
+                {
+                    otherForums.push(this.state.otherForums[i]);
+                }
+            }
+
+            this.setState(
+            {
+                otherForums: otherForums
+            });
+        })
+        .catch(err => { console.log(err) });
     }
 
     //Get user's forum data.
@@ -60,9 +111,9 @@ class Home extends React.Component
         const res = await API.getUser(this.state.username);
         this.setState(
         {
-            ownedForums:  res.data.ownedForums  ? res.data.ownedForums  : [],
-            playerForums: res.data.playerForums ? res.data.playerForums : [],
-            otherForums:  res.data.otherForums  ? res.data.otherForums  : []
+            ownedForums:  res.data.ownedForums  ? res.data.ownedForums.reverse()  : [],
+            playerForums: res.data.playerForums ? res.data.playerForums.reverse() : [],
+            otherForums:  res.data.otherForums  ? res.data.otherForums.reverse()  : []
         });
     }
 
@@ -191,7 +242,7 @@ class Home extends React.Component
                             <div className="row ">
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Owner</div>
-                                    {this.state.ownedForums.reverse().map((forum, i) =>
+                                    {this.state.ownedForums.map((forum, i) =>
                                     (
                                         <ForumDiv
                                             key={i}
@@ -208,7 +259,7 @@ class Home extends React.Component
                                 </div>
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Player 2</div>
-                                    {this.state.playerForums.reverse().map((forum, i) =>
+                                    {this.state.playerForums.map((forum, i) =>
                                     (
                                         <ForumDiv
                                             key={i}
@@ -225,7 +276,7 @@ class Home extends React.Component
                                 </div>
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Spectator</div>
-                                    {this.state.otherForums.reverse().map((forum, i) =>
+                                    {this.state.otherForums.map((forum, i) =>
                                     {
                                         let isModerator = false;
                                         for(let i = 0; i < forum.spectators.length; i++)

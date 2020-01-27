@@ -30,7 +30,6 @@ function ForumDiv(props)
                     <button className="btn btn-outline-primary m-1" onClick={() => props.delete(props.forumId)}>Delete</button>
                 </div>
             </div>
-            
         </div>
     );
 }

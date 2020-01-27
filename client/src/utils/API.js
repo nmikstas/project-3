@@ -58,6 +58,24 @@ export default
         return axios.post("/api/users/setforum", forumData);
     },
 
+    //Remove multiplayer forum from user.
+    deleteSpectator: (forumData) =>
+    {
+        return axios.post("/api/users/deletespectator", forumData);
+    },
+
+    //Remove multiplayer forum from user.
+    deleteOwned: (forumData) =>
+    {
+        return axios.post("/api/users/deleteowned", forumData);
+    },
+
+    //Remove multiplayer forum from user.
+    deletePlayer2: (forumData) =>
+    {
+        return axios.post("/api/users/deleteplayer", forumData);
+    },
+
     /******************************************* Games *******************************************/
 
     //Create a new game.

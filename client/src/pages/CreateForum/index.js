@@ -90,6 +90,7 @@ class CreateForum extends React.Component
         .then((res) =>
         {
             //console.log(res.data);
+            alert("Success! Forum has been created.");
             window.location.href = "/home";
         })
         .catch(err => console.log(err));

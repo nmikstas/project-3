@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Multiplayer Forum</title>
+    <title>NTNT</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--Reset Styling-->
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <!--Personal Styling-->
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
-<body>
-    <h1>Multiplayer Forum</h1>
+    
+<body class="d-flex flex-column" id="main-body">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-site">
+        <h4 class="user-title">Hello, user!</h4>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarText">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item navbar__link leave-forum">
+                    Leave Forum
+                </li>
+            </ul>
+        </div>
+    </nav>
+        
+    <!--Main content body-->
+    <div id="page-body" class="container pt-1 pl-1">
+        
+
+
+
+
+        
+        
+    </div>
+        
+    <!--Footer-->
+    <footer id="sticky-footer" class="pt-4 pb-1">
+        <div class="container text-center">
+            <small>Group Project 3 &copy;Nick Mikstas, Chris Mikstas, Elijah Lanza, Tyler Casperson</small>
+        </div>
+    </footer>
+        
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        
+    <!--Bootstrap-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!--Babylon-->
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <script src="https://preview.babylonjs.com/gui/babylon.gui.js"></script>
+
+    <!--Javascript-->
+    <script src="./js/ntEngine.js"></script>
+    <script src="./js/ntRender.js"></script>
+    <script src="./js/ntInput.js"></script>
+    <script src="./js/multiPlayerForum.js"></script>
+    <script src="./js/chat.js"></script>
 </body>
+        
 </html>

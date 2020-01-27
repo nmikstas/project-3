@@ -4,7 +4,7 @@ import "./style.css";
 function ForumDiv(props)
 {
     return (
-        <div className="forum-div my-2">
+        <div className="forum-div my-3">
             <div className="row no-gutters">
                 <div className="col-md-4 forum-item">Forum Name: </div>
                 <div className="col-md-8 forum-value">{props.forumName}</div>
@@ -20,6 +20,11 @@ function ForumDiv(props)
             <div className="row no-gutters">
                 <div className="col-md-4 forum-item">Created: </div>
                 <div className="col-md-8 forum-value">{props.created}</div>
+            </div>
+
+            <div className="row no-gutters">
+                <div className="col-md-4 forum-item">Level: <span className="forum-value">{props.level}</span></div>
+                <div className="col-md-8 forum-item">Interference: <span className="forum-value">{props.interference}</span></div>
             </div>
 
             <div className="row no-gutters">

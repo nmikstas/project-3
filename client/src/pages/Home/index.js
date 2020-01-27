@@ -254,6 +254,8 @@ class Home extends React.Component
                                             alt={"Player 2: "}
                                             altValue={forum.player2}
                                             addIcon={false}
+                                            level={forum.startLevel}
+                                            interference={forum.interference}
                                         />
                                     ))}
                                 </div>
@@ -271,6 +273,8 @@ class Home extends React.Component
                                             alt={"Owner: "}
                                             altValue={forum.owner}
                                             addIcon={false}
+                                            level={forum.startLevel}
+                                            interference={forum.interference}
                                         />
                                     ))}
                                 </div>
@@ -300,6 +304,8 @@ class Home extends React.Component
                                                 addIcon={true}
                                                 iconClass={isModerator ? "addModerator" : "addSpectator"}
                                                 iconText={isModerator ? "M" : "S"}
+                                                level={forum.startLevel}
+                                                interference={forum.interference}
                                             />
                                         )
                                     })}

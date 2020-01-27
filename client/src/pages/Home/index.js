@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 import NavBar from "../../components/NavBar";
+import ForumDiv from "../../components/ForumDiv";
 import API from "../../utils/API";
 import singleImg from './img/single.png';
 
@@ -20,7 +21,49 @@ class Home extends React.Component
 
        ownedForums:  [],
        playerForums: [],
-       otherForums:  []
+       otherForums:  [],
+
+       DataTimer: null
+    }
+
+    enterForum = (forumId) =>
+    {
+        API.setForum({ username: this.state.username, forumId: forumId })
+        .then(res =>
+        {
+            window.location.href = "multiPlayerForum.html";
+        })
+        .catch(err => { console.log(err) });
+    }
+
+    deleteOwned = (forumId) =>
+    {
+        console.log("Owned");
+        console.log(forumId);
+    }
+
+    deletePlayer = (forumId) =>
+    {
+        console.log("Player");
+        console.log(forumId);
+    }
+
+    deleteSpectator = (forumId) =>
+    {
+        console.log("Spectator");
+        console.log(forumId);
+    }
+
+    //Get user's forum data.
+    getForumData = async () =>
+    {
+        const res = await API.getUser(this.state.username);
+        this.setState(
+        {
+            ownedForums:  res.data.ownedForums  ? res.data.ownedForums  : [],
+            playerForums: res.data.playerForums ? res.data.playerForums : [],
+            otherForums:  res.data.otherForums  ? res.data.otherForums  : []
+        });
     }
 
     componentDidMount = () =>
@@ -64,30 +107,24 @@ class Home extends React.Component
                 });
             }
         })
-        //Get user's forum data.
         .then(() =>
         {
-            return API.getUser(this.state.username);
-        })
-        .then((res) =>
-        {
-            this.setState(
-            {
-                ownedForums:  res.data.ownedForums,
-                playerForums: res.data.playerForums,
-                otherForums:  res.data.otherForums
-            });
+            this.getForumData();
         })
         .catch(err =>
         {
             console.log(err);
             window.location.href = "/denied";
         });
+
+        let dataTimer = setInterval(this.getForumData, 3000);
+
+        this.setState({ dataTimer: dataTimer });
     }
 
     componentWillUnmount = () =>
     {
-
+        clearInterval(this.state.dataTimer);
     }
 
     singleForum = () =>
@@ -154,28 +191,67 @@ class Home extends React.Component
                             <div className="row ">
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Owner</div>
-                                    {this.state.ownedForums.map((forum, i) =>
+                                    {this.state.ownedForums.reverse().map((forum, i) =>
                                     (
-                                        <div key={i} className="forum-div my-2">
-                                            <div className="forum-item">
-                                                Forum Name:
-                                            </div>
-                                        </div>
+                                        <ForumDiv
+                                            key={i}
+                                            forumId={forum._id}
+                                            enter={this.enterForum}
+                                            delete={this.deleteOwned}
+                                            forumName={forum.forumName}
+                                            created={forum.date}
+                                            alt={"Player 2: "}
+                                            altValue={forum.player2}
+                                            addIcon={false}
+                                        />
                                     ))}
                                 </div>
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Player 2</div>
-                                    {this.state.playerForums.map((forum, i) =>
+                                    {this.state.playerForums.reverse().map((forum, i) =>
                                     (
-                                        <div key={i} className="forum-div my-2"></div>
+                                        <ForumDiv
+                                            key={i}
+                                            forumId={forum._id}
+                                            enter={this.enterForum}
+                                            delete={this.deletePlayer}
+                                            forumName={forum.forumName}
+                                            created={forum.date}
+                                            alt={"Owner: "}
+                                            altValue={forum.owner}
+                                            addIcon={false}
+                                        />
                                     ))}
                                 </div>
                                 <div className="col-md-4">
                                     <div className="forum-types my-2 border-bottom">Spectator</div>
-                                    {this.state.otherForums.map((forum, i) =>
-                                    (
-                                        <div key={i} className="forum-div my-2"></div>
-                                    ))}
+                                    {this.state.otherForums.reverse().map((forum, i) =>
+                                    {
+                                        let isModerator = false;
+                                        for(let i = 0; i < forum.spectators.length; i++)
+                                        {
+                                            if(forum.spectators[i].username === this.state.username)
+                                            {
+                                                isModerator = forum.spectators[i].isModerator
+                                            }
+                                        }
+                                        return (
+                                            <ForumDiv
+                                                key={i}
+                                                forumId={forum._id}
+                                                enter={this.enterForum}
+                                                delete={this.deleteSpectator}
+                                                forumName={forum.forumName}
+                                                isModerator={isModerator}
+                                                created={forum.date}
+                                                alt={"Roll: "}
+                                                altValue={isModerator ? "Moderator" : "Spectator"}
+                                                addIcon={true}
+                                                iconClass={isModerator ? "addModerator" : "addSpectator"}
+                                                iconText={isModerator ? "M" : "S"}
+                                            />
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>

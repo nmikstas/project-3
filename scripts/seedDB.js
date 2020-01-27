@@ -4,8 +4,8 @@ const bcrypt = require("bcryptjs");
 
 //Configutation variables. Change these to make the database bigger or smaller.
 const numGameRecords   = 300;
-const numForums        = 10;
-const maxForumComments = 10;
+const numForums        = 50;
+const maxForumComments = 50;
 
 mongoose.connect
 (
@@ -31,7 +31,6 @@ let commentIndex     = 0;
 let allComments      = [];
 let allCommentsIndex = 0;
 let allForums        = [];
-let allForumsIndex   = 0;
 let allUsers         = [];
 let allUsersIndex    = 0;
 
@@ -284,8 +283,8 @@ for(let i = 0; i < numForums; i++)
     let spectators = [];
     let spectatorArr = [];
 
-    //Create a forum name of up to 4 random words.
-    let numWords = Math.floor(Math.random() * 4);
+    //Create a forum name of up to 9 random words.
+    let numWords = Math.floor(Math.random() * 9);
     for(let j = 0; j < numWords; j++)
     {
         forumName += words[Math.floor(Math.random() * words.length)] + " ";

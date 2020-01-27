@@ -54,7 +54,9 @@ let userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Forum",
         required: true
-    }]
+    }],
+
+    targetForum: { type: String, default: "" }
 });
 
 const User = mongoose.model("User", userSchema);

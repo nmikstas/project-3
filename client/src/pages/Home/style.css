@@ -71,9 +71,7 @@
 .data-text
 {
     text-align: right;
-    right: 0;
     color: #c0c0c0;
-    right: 0;
 }
 
 .score-row
@@ -87,17 +85,4 @@
     color: #777777;
     font-size: 1.6rem;
     font-weight: bold;
-}
-
-.forum-div
-{
-    text-align: left;
-    border: 3px solid rgb(45, 42, 224);
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.forum-item
-{
-    color: #777777;
 }

@@ -52,6 +52,12 @@ export default
         return axios.get("/api/users/allusers");
     },
 
+    //Set target multiplayer forum.
+    setForum: (forumData) =>
+    {
+        return axios.post("/api/users/setforum", forumData);
+    },
+
     /******************************************* Games *******************************************/
 
     //Create a new game.

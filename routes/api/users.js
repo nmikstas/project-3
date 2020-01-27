@@ -30,4 +30,7 @@ router.route("/input").post(isAuthenticated, usersController.input);
 //Matches with "/api/users/allusers"
 router.route("/allusers").get(isAuthenticated, usersController.allusers);
 
+//Matches with "/api/users/setforum"
+router.route("/setforum").post(isAuthenticated, usersController.setforum);
+
 module.exports = router;

@@ -302,3 +302,14 @@ footer
     text-decoration: none;
     cursor: pointer;
 }
+
+/********************************************* Misc **********************************************/
+
+.this-div
+{
+    background-color: #ffffff;
+    width:  100%;
+    height: calc(100vh - 120px);
+    border: 1px solid #000000;
+    opacity: .3;
+}

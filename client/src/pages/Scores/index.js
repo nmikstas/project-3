@@ -31,6 +31,34 @@ class Scores extends React.Component
             console.log(err);
             window.location.href = "/denied";
         });
+
+        //single score array
+        API.singleUser(this.state.user)
+        .then((res) =>
+        {
+            console.log('singleUser: ');
+            console.log(res.data);
+        })
+        .catch(err =>
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
+
+        //leader scores
+        API.multiUser(this.state.user)
+        .then((res) =>
+        {
+          console.log(res.data);
+        })
+        .catch(err =>
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
+
+
+
     }
 
     render = () =>
@@ -41,6 +69,7 @@ class Scores extends React.Component
                     username={this.state.username}
                 />
                 <h1>Scores</h1>
+                
             </div>
         )
     }

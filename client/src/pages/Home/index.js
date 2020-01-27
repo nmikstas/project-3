@@ -107,7 +107,7 @@ class Home extends React.Component
                     <div className="col-md-3">
                         <div className="single-col mb-3">
                             <div className="single-div" onClick={this.singleForum}>
-                                <img className="img-fluid forum-img" src={singleImg} />
+                                <img className="img-fluid forum-img" src={singleImg} alt="Single Player Forum" />
                             </div>
                             <div className="mt-4 score-div">
                                 <div className="score-header">Your Top Score</div>

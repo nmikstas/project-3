@@ -88,5 +88,14 @@ export default
     multiUser: (user) =>
     {
         return axios.get("/api/games/multiuser/" + user);
+    },
+
+    /****************************************** Forums *******************************************/
+    
+    createForum: (forum) =>
+    {
+        return axios.post("/api/forums/create", forum);
     }
 };
+
+

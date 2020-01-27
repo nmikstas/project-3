@@ -39,6 +39,18 @@ module.exports =
         .catch(() => res.json({ notLoggedIn: true }));
     },
 
+    //Get user data with expanded forum data.
+    getuser: (req, res) =>
+    {
+        //Get most up to date user info.
+        db.User.findOne({ username: req.params.username })
+        .populate("otherForums")
+        .populate("ownedForums")
+        .populate("playerForums")
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
+
     //Logout a user.
     logout: (req, res) =>
     {

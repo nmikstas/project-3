@@ -17,6 +17,10 @@ class Home extends React.Component
        topScore:  0,
        topLevel:  0,
        topLines:  0,
+
+       ownedForums:  [],
+       playerForums: [],
+       otherForums:  []
     }
 
     componentDidMount = () =>
@@ -41,6 +45,7 @@ class Home extends React.Component
 
             if(this.state.debug)console.log(res.data);
         })
+        //Get the top single player scores
         .then(() =>
         {
             return API.single100();
@@ -49,6 +54,7 @@ class Home extends React.Component
         {
             if(res.data.length)
             {
+                //Display the top single player score.
                 this.setState(
                 {
                     topPlayer: res.data[0].player1,
@@ -58,11 +64,30 @@ class Home extends React.Component
                 });
             }
         })
+        //Get user's forum data.
+        .then(() =>
+        {
+            return API.getUser(this.state.username);
+        })
+        .then((res) =>
+        {
+            this.setState(
+            {
+                ownedForums:  res.data.ownedForums,
+                playerForums: res.data.playerForums,
+                otherForums:  res.data.otherForums
+            });
+        })
         .catch(err =>
         {
             console.log(err);
             window.location.href = "/denied";
         });
+    }
+
+    componentWillUnmount = () =>
+    {
+
     }
 
     singleForum = () =>
@@ -124,7 +149,35 @@ class Home extends React.Component
 
                     <div className="col-md-9">
                         <div className="mult-col">
-                            <div className="forum-header">Multiplayer Forums</div>
+                            <div className="forum-header border-bottom mx-3">Multiplayer Forums</div>
+
+                            <div className="row ">
+                                <div className="col-md-4">
+                                    <div className="forum-types my-2 border-bottom">Owner</div>
+                                    {this.state.ownedForums.map((forum, i) =>
+                                    (
+                                        <div key={i} className="forum-div my-2">
+                                            <div className="forum-item">
+                                                Forum Name:
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="forum-types my-2 border-bottom">Player 2</div>
+                                    {this.state.playerForums.map((forum, i) =>
+                                    (
+                                        <div key={i} className="forum-div my-2"></div>
+                                    ))}
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="forum-types my-2 border-bottom">Spectator</div>
+                                    {this.state.otherForums.map((forum, i) =>
+                                    (
+                                        <div key={i} className="forum-div my-2"></div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

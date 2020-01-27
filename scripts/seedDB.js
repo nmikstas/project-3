@@ -4,8 +4,8 @@ const bcrypt = require("bcryptjs");
 
 //Configutation variables. Change these to make the database bigger or smaller.
 const numGameRecords   = 300;
-const numForums        = 100;
-const maxForumComments = 100;
+const numForums        = 10;
+const maxForumComments = 10;
 
 mongoose.connect
 (
@@ -203,7 +203,16 @@ let addForumsToUsers = () =>
     }
     else
     {
-        endSeed();
+        db.User.findOne({username: "nick"})
+        .populate("otherForums")
+        .populate("ownedForums")
+        .populate("playerForums")
+        .then((data) =>
+        {
+            console.log(data);
+            endSeed();
+        })
+        
     }
 }
 

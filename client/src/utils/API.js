@@ -22,6 +22,12 @@ export default
         return axios.post("/api/users/verify/", null);
     },
 
+    //Get a user with their expanded forum data.
+    getUser: username =>
+    {
+        return axios.get("/api/users/getuser/" + username);
+    },
+
     //Log the user out.
     logout: () =>
     {

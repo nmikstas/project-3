@@ -19,8 +19,9 @@
 
 .forum-header
 {
-    color: #777777;
+    color: #ffffff;
     font-size: 2rem;
+    font-weight: bold;
 }
 
 .single-div
@@ -79,4 +80,24 @@
 {
     width: 100%;
     font-size: 1rem;
+}
+
+.forum-types
+{
+    color: #777777;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.forum-div
+{
+    text-align: left;
+    border: 3px solid rgb(45, 42, 224);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.forum-item
+{
+    color: #777777;
 }

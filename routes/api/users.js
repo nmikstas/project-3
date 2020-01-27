@@ -4,35 +4,30 @@ const passport = require("../../config/passport");
 const isAuthenticated = require("../../config/middleware/isAuthenticated");
 
 //Matches with "/api/users/signup"
-router.route("/signup")
-    .post(usersController.create);
+router.route("/signup").post(usersController.create);
 
 //Matches with "/api/users/update"
-router.route("/update")
-    .put(isAuthenticated, usersController.update);
+router.route("/update").put(isAuthenticated, usersController.update);
 
 //Matches with "/api/users/login"
-router.route("/login")
-    .post(passport.authenticate("local"), usersController.login);
+router.route("/login").post(passport.authenticate("local"), usersController.login);
 
 //Matches with "/api/users/verify"
-router.route("/verify")
-    .post(isAuthenticated, usersController.verify);
+router.route("/verify").post(isAuthenticated, usersController.verify);
+
+//Matches with "/api/users/getuser"
+router.route("/getuser/:username").get(isAuthenticated, usersController.getuser);
 
 //Matches with "/api/users/logout"
-router.route("/logout")
-    .get(isAuthenticated, usersController.logout);
+router.route("/logout").get(isAuthenticated, usersController.logout);
 
 //Matches with "/api/users/password"
-router.route("/password")
-    .post(isAuthenticated, usersController.password);
+router.route("/password").post(isAuthenticated, usersController.password);
 
 //Matches with "/api/users/input"
-router.route("/input")
-    .post(isAuthenticated, usersController.input);
+router.route("/input").post(isAuthenticated, usersController.input);
 
 //Matches with "/api/users/allusers"
-router.route("/allusers")
-    .get(isAuthenticated, usersController.allusers);
+router.route("/allusers").get(isAuthenticated, usersController.allusers);
 
 module.exports = router;

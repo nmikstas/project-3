@@ -299,12 +299,8 @@ class CreateForum extends React.Component
         //console.log(index);
 
         let tempForumMembersArr = [...this.state.forumMembersArr];
-        //console.log("Before Update: ", tempForumMembersArr[index]);
-
-        let arrayIndex = tempForumMembersArr[index];
         //console.log("Before Update: " + arrayIndex.username);
         //console.log("Before Update: " + arrayIndex.isModerator);
-
 
         if (index >= 0)
         {

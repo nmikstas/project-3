@@ -81,7 +81,7 @@ pre
 footer
 {
     border-top: 1px solid #666666;
-    background-image: linear-gradient(to right, rgba(30, 47, 126, 0.3), rgba(109, 179, 242, .6)), url('../img/noisy_net.png');
+    background-image: linear-gradient(to right, rgba(109, 179, 242, .6), rgba(30, 47, 126, 0.3)), url('../img/noisy_net.png');
     color: #ffffff;
 }
 

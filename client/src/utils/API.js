@@ -119,6 +119,13 @@ export default
     createForum: (forum) =>
     {
         return axios.post("/api/forums/create", forum);
+    },
+
+    /***************************************** Comments ******************************************/
+    
+    getComments: (forumId) =>
+    {
+        return axios.get("/api/comments/getcomments/" + forumId);
     }
 };
 

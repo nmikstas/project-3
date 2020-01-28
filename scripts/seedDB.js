@@ -202,6 +202,7 @@ let addForumsToUsers = () =>
     }
     else
     {
+        /*
         db.User.findOne({username: "nick"})
         .populate("otherForums")
         .populate("ownedForums")
@@ -211,7 +212,8 @@ let addForumsToUsers = () =>
             console.log(data);
             endSeed();
         })
-        
+        */
+       endSeed();
     }
 }
 
@@ -396,10 +398,11 @@ for(let i = 0; i < forumSeed.length; i++)
         
         let commentObj = 
         {
-            username: users[Math.floor(Math.random() * users.length)],
-            comment:  comment,
-            date:     new Date(Date.now()),
-            forumId:  0
+            username:  users[Math.floor(Math.random() * users.length)],
+            comment:   comment,
+            isDeleted: false,
+            date:      new Date(Date.now()),
+            forumId:   0
         }
         comments.push(commentObj);
     }

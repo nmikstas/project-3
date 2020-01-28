@@ -7,8 +7,6 @@ let rngSeed;
 let gameId;
 let startLevel = 0;
 let selectedId = 0;
-let player1;
-let score1;
 
 /**************************************** Resize Listener ****************************************/
 
@@ -72,8 +70,6 @@ $(document).ready(() =>
     {
         window.location.href = "/home";
     });
-
-    ntEngine1.ntRequest(NTEngine.GR_RESET, 0);
 });
 
 /*********************************** Game Engine And Renderer ************************************/
@@ -94,28 +90,7 @@ let runForum = (data) =>
     ntInput1 = new NTInput
     (
         inputHandler1,
-        { 
-            /*
-            leftBtn:    data.player1.leftBtn,
-            leftIndex:  data.player1.leftIndex,
-            leftType:   data.player1.leftType,
-            rightBtn:   data.player1.rightBtn,
-            rightIndex: data.player1.rightIndex,
-            rightType:  data.player1.rightType,
-            downBtn:    data.player1.downBtn,
-            downIndex:  data.player1.downIndex,
-            downType:   data.player1.downType,
-            cwBtn:      data.player1.flipCWBtn,
-            cwIndex:    data.player1.flipCWIndex,
-            cwType:     data.player1.flipCWType,
-            ccwBtn:     data.player1.flipCCWBtn,
-            ccwIndex:   data.player1.flipCCWIndex,
-            ccwType:    data.player1.flipCCWType,
-            pauseBtn:   data.player1.pauseBtn,
-            pauseIndex: data.player1.pauseIndex,
-            pauseType:  data.player1.pauseType
-            */
-        }
+        {}
     );
 
     //Allows inputs to be disabled during animations.
@@ -169,8 +144,6 @@ $.post("/api/users/verify/")
         //window.location.href = "/denied";
     }
 
-    player1 = data.username;
-    highScore1 = data.highScore;
     $(".user-title").text("Hello, " + data.username + "!");
     runForum(data);
 })

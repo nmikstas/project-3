@@ -311,11 +311,6 @@ footer
     height: calc(100vh - 120px);
 }
 
-.renderCanvas
-{
-    border: 1px solid #000000;  
-}
-
 .chat-container
 {
     width: 100%;
@@ -333,4 +328,33 @@ footer
     border-radius: 3px;
     background-color: rgba(2, 0, 7, 0);
     scrollbar-arrow-color: dark !important;
+}
+
+.form-text
+{
+    background-color: transparent;
+}
+
+.form-text:focus
+{
+    background-color: transparent;
+}
+
+.score-div
+{
+    text-align: left;
+    border: 3px solid rgb(45, 42, 224);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.score-text
+{
+    color: #7f7fff;
+}
+
+.data-text
+{
+    text-align: right;
+    color: #c0c0c0;
 }

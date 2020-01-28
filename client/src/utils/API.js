@@ -127,6 +127,12 @@ export default
     {
         return axios.get("/api/comments/getcomments/" + forumId);
     }
+
+    //Create a new comment.
+
+    //Delete a comment.
+
+    //Undelete a comment.
 };
 
 

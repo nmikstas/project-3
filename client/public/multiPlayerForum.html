@@ -48,9 +48,20 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- Player 1 Stats -->
-                                <canvas id="pieceCanvas1" class="renderCanvas" touch-action="none"></canvas>
+                                <h4 class="mt-3">Next Piece</h4>
+                                <canvas id="pieceCanvas1" touch-action="none"></canvas>
+                                <div class="score-div">
+                                    <div class="score-text">Player 1:</div>
+                                    <div id="r-player1" class="data-text">-</div>
+                                    <div class="score-text">Score:</div>
+                                    <div id="r-score1" class="data-text">-</div>
+                                    <div class="score-text">Level:</div>
+                                    <div id="r-level1" class="data-text">-</div>
+                                    <div class="score-text">Lines:</div>
+                                    <div id="r-lines1" class="data-text">-</div>
+                                </div>
 
-
+                                <div id="p1-div" class="pt-3"></div>
 
                             </div>
                         </div>
@@ -63,9 +74,20 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- Player 2 Stats -->
-                                <canvas id="pieceCanvas2" class="renderCanvas" touch-action="none"></canvas>
+                                <h4 class="mt-3">Next Piece</h4>
+                                <canvas id="pieceCanvas2" touch-action="none"></canvas>
+                                <div class="score-div">
+                                    <div class="score-text">Player 2:</div>
+                                    <div id="r-player2" class="data-text">-</div>
+                                    <div class="score-text">Score:</div>
+                                    <div id="r-score2" class="data-text">-</div>
+                                    <div class="score-text">Level:</div>
+                                    <div id="r-level2" class="data-text">-</div>
+                                    <div class="score-text">Lines:</div>
+                                    <div id="r-lines2" class="data-text">-</div>
+                                </div>
 
-
+                                <div id="p2-div" class="pt-3"></div>
 
                             </div>
                         </div>
@@ -73,16 +95,24 @@
                 </div>
             </div>
             
-            <div class="col-md-3">
-                <div class="chat-container p-3">
+            <div class="col-md-3 pl-3">
+                <div class="chat-container p-3 text-right">
                     <!-- Chat -->
                     <h4>Chat History</h4>
                     <div class="chat-div border"></div>
-                </div>
+                    <button class="btn btn-outline-primary scroll-btn mt-2">Disable Auto-Scroll</button>
                 
-
-
-
+                    <form>
+                        <div class="form-group text-left">
+                            <label class="survey-info mb-0 mt-3" for="chat-input"><h4>Chat Message</h4></label>
+                            <div class="text-right">
+                                <input type="text" class="form-control form-text" id="chat-input"
+                                    placeholder="Enter chat message here...">
+                                <button type="submit" class="btn btn-outline-primary mt-2" id="chat-btn">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>                
             </div>
         </div>
     </div>

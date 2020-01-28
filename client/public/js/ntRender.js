@@ -15,7 +15,8 @@ class NTRender
         this.lastLevel     = -1;
         this.enableInputCallback = null;
         this.getField;
-
+        this.ntEngine;
+        
         //Animation variables.
         this.rowsToErase   = [];
         this.animCounter   = 0;
@@ -120,7 +121,7 @@ class NTRender
         //Reset after add rows animation is complete.
         if(this.blocksCounter >= this.blankBlocks.length)
         {
-            ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
+            this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
             clearInterval(this.blocksTimer);
             this.enableInputCallback(true);
             this.blocksCounter = 0;
@@ -137,7 +138,7 @@ class NTRender
         //Finish up the animation.
         if(this.animCounter >= 10)
         {
-            ntEngine.ntRequest(NTEngine.GR_RESUME);
+            this.ntEngine.ntRequest(NTEngine.GR_RESUME);
             clearInterval(this.animTimer);
             this.enableInputCallback(true);
             this.animCounter   = 0;
@@ -159,7 +160,7 @@ class NTRender
 
     glueDelay = () =>
     {
-        ntEngine.ntRequest(NTEngine.GR_RESUME);
+        this.ntEngine.ntRequest(NTEngine.GR_RESUME);
         clearInterval(this.glueTimer);
         this.enableInputCallback(true);
     }
@@ -308,7 +309,7 @@ class NTRender
         //Check if block add wait state,
         if(gameStatus === NTEngine.GS_WAIT_BLK)
         {
-            ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
+            this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
         }
     }
 

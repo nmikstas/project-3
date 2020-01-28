@@ -180,6 +180,9 @@ let runForum = (data) =>
     //Create a new game engine.
     ntEngine = new NTEngine(123456789, renderHandler);
 
+    //Tie the renderer to the game engine.
+    ntRenderer.ntEngine = ntEngine;
+
     //Used to hide play piece during animations.
     ntRenderer.getField = () => { return ntEngine.ntGetGameField(); }
 

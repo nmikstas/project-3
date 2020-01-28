@@ -47,4 +47,12 @@ module.exports =
         })
         .catch(err => res.status(422).json(err));
     },
+
+    //Get forum by id.
+    getForum:  (req, res) =>
+    {
+        db.Forum.findOne({ _id: req.params.id })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    }
 }

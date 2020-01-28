@@ -1,21 +1,22 @@
-let debug = true;
-let init  = false;
+let localLoopback  = true;
+let remoteLoopback = false;
+let debug          = true;
+let init           = false;
+let startLevel     = 0;
 let rngSeed;
 let gameId;
-let startLevel = 0;
 
 //Player 1
+let isPlayer1 = false;
 let ntEngine1;
 let ntRenderer1;
 let ntInput1;
-let isPlayer1 = false;
 
 //Player 2
+let isPlayer2 = false;
 let ntEngine2;
 let ntRenderer2;
 let ntInput2;
-let isPlayer2 = false;
-
 
 /**************************************** Resize Listener ****************************************/
 
@@ -81,7 +82,12 @@ let renderHandler1 = (status) =>
 {
     ntRenderer1.gfRender(status);
 
-    //For testing only. Remove later.
+    if(localLoopback && isPlayer1)
+    {
+        ntRenderer2.gfRender(status);
+    }
+
+    //**********For local and remote loopback testing**********
     if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#p1-btn").removeClass("invisible");
@@ -94,7 +100,12 @@ let renderHandler2 = (status) =>
 {
     ntRenderer2.gfRender(status);
 
-    //For testing only. Remove later.
+    if(localLoopback && isPlayer2)
+    {
+        ntRenderer1.gfRender(status);
+    }
+
+    //**********For local and remote loopback testing**********
     if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#p2-btn").removeClass("invisible");
@@ -103,7 +114,7 @@ let renderHandler2 = (status) =>
     init = false;
 }
 
-//For testing only. Remove later.
+//**********For local and remote loopback testing**********
 startGame1 = () =>
 {
     init = true;
@@ -112,7 +123,7 @@ startGame1 = () =>
     ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
 }
 
-//For testing only. Remove later.
+//**********For local and remote loopback testing**********
 startGame2 = () =>
 {
     init = true;
@@ -126,11 +137,7 @@ startGame2 = () =>
 $(document).ready(() =>
 {
     resizeCanvases();
-
-    $(".leave-forum").on("click", () =>
-    {
-        window.location.href = "/home";
-    });
+    $(".leave-forum").on("click", () => window.location.href = "/home");
 });
 
 /*********************************** Game Engine And Renderer ************************************/
@@ -138,47 +145,55 @@ $(document).ready(() =>
 let runForum = (data) =>
 {
     //------------------ Player 1 -------------------
-    //Create a new NT game renderer.
-    ntRenderer1 = new NTRender(showStats1);
+    //Create a new game engine if player 1 is local.
+    if(isPlayer1)
+    {
+        //Create a new NT game renderer.
+        ntRenderer1 = new NTRender(showStats1, isPlayer1);
 
-    //Create a new game engine.
-    ntEngine1 = new NTEngine(123456789, renderHandler1);
+        ntEngine1 = new NTEngine(123456789, renderHandler1);
 
-    //Tie the renderer to the game engine.
-    ntRenderer1.ntEngine = ntEngine1;
+        //Tie the renderer to the game engine.
+        ntRenderer1.ntEngine = ntEngine1;
 
-    //Used to hide play piece during animations.
-    ntRenderer1.getField = () => { return ntEngine1.ntGetGameField(); }
+        //Used to hide play piece during animations.
+        ntRenderer1.getField = () => { return ntEngine1.ntGetGameField(); }
 
-    //Input control module.
-    ntInput1 = new NTInput
-    (
-        inputHandler1,
-        {
-            leftBtn:    data.leftBtn,
-            leftIndex:  data.leftIndex,
-            leftType:   data.leftType,
-            rightBtn:   data.rightBtn,
-            rightIndex: data.rightIndex,
-            rightType:  data.rightType,
-            downBtn:    data.downBtn,
-            downIndex:  data.downIndex,
-            downType:   data.downType,
-            cwBtn:      data.flipCWBtn,
-            cwIndex:    data.flipCWIndex,
-            cwType:     data.flipCWType,
-            ccwBtn:     data.flipCCWBtn,
-            ccwIndex:   data.flipCCWIndex,
-            ccwType:    data.flipCCWType,
-            pauseBtn:   data.pauseBtn,
-            pauseIndex: data.pauseIndex,
-            pauseType:  data.pauseType
-        }
-    );
+        //Input control module.
+        ntInput1 = new NTInput
+        (
+            inputHandler1,
+            {
+                leftBtn:    data.leftBtn,
+                leftIndex:  data.leftIndex,
+                leftType:   data.leftType,
+                rightBtn:   data.rightBtn,
+                rightIndex: data.rightIndex,
+                rightType:  data.rightType,
+                downBtn:    data.downBtn,
+                downIndex:  data.downIndex,
+                downType:   data.downType,
+                cwBtn:      data.flipCWBtn,
+                cwIndex:    data.flipCWIndex,
+                cwType:     data.flipCWType,
+                ccwBtn:     data.flipCCWBtn,
+                ccwIndex:   data.flipCCWIndex,
+                ccwType:    data.flipCCWType,
+                pauseBtn:   data.pauseBtn,
+                pauseIndex: data.pauseIndex,
+                pauseType:  data.pauseType
+            }
+        );
 
-    //Allows inputs to be disabled during animations.
-    ntRenderer1.enableInputCallback = ntInput1.enableInputs;
-
+        //Allows inputs to be disabled during animations.
+        ntRenderer1.enableInputCallback = ntInput1.enableInputs;
+    }
+    else
+    {
+        //Create a new NT game renderer when player 1 is remote.
+        ntRenderer1 = new NTRender(showStats1, isPlayer1);
+    }
+    
     //----------------- Game Field ------------------
     //Get canvas to render the game field on.
     let canvas1 = document.getElementById("renderCanvas1");
@@ -212,46 +227,55 @@ let runForum = (data) =>
     window.addEventListener("resize", function () { npEngine1.resize(); });
 
     //------------------ Player 2 -------------------
-    //Create a new NT game renderer.
-    ntRenderer2 = new NTRender(showStats2);
+    //Create a new game engine if player 2 is local.
+    if(isPlayer2)
+    {
+        //Create a new NT game renderer.
+        ntRenderer2 = new NTRender(showStats2, isPlayer2);
 
-    //Create a new game engine.
-    ntEngine2 = new NTEngine(123456789, renderHandler2);
+        //Create a new game engine.
+        ntEngine2 = new NTEngine(123456789, renderHandler2);
 
-    //Tie the renderer to the game engine.
-    ntRenderer2.ntEngine = ntEngine2;
+        //Tie the renderer to the game engine.
+        ntRenderer2.ntEngine = ntEngine2;
 
-    //Used to hide play piece during animations.
-    ntRenderer2.getField = () => { return ntEngine2.ntGetGameField(); }
+        //Used to hide play piece during animations.
+        ntRenderer2.getField = () => { return ntEngine2.ntGetGameField(); }
 
-    //Input control module.
-    ntInput2 = new NTInput
-    (
-        inputHandler2,
-        {
-            leftBtn:    data.leftBtn,
-            leftIndex:  data.leftIndex,
-            leftType:   data.leftType,
-            rightBtn:   data.rightBtn,
-            rightIndex: data.rightIndex,
-            rightType:  data.rightType,
-            downBtn:    data.downBtn,
-            downIndex:  data.downIndex,
-            downType:   data.downType,
-            cwBtn:      data.flipCWBtn,
-            cwIndex:    data.flipCWIndex,
-            cwType:     data.flipCWType,
-            ccwBtn:     data.flipCCWBtn,
-            ccwIndex:   data.flipCCWIndex,
-            ccwType:    data.flipCCWType,
-            pauseBtn:   data.pauseBtn,
-            pauseIndex: data.pauseIndex,
-            pauseType:  data.pauseType
-        }
-    );
+        //Input control module.
+        ntInput2 = new NTInput
+        (
+            inputHandler2,
+            {
+                leftBtn:    data.leftBtn,
+                leftIndex:  data.leftIndex,
+                leftType:   data.leftType,
+                rightBtn:   data.rightBtn,
+                rightIndex: data.rightIndex,
+                rightType:  data.rightType,
+                downBtn:    data.downBtn,
+                downIndex:  data.downIndex,
+                downType:   data.downType,
+                cwBtn:      data.flipCWBtn,
+                cwIndex:    data.flipCWIndex,
+                cwType:     data.flipCWType,
+                ccwBtn:     data.flipCCWBtn,
+                ccwIndex:   data.flipCCWIndex,
+                ccwType:    data.flipCCWType,
+                pauseBtn:   data.pauseBtn,
+                pauseIndex: data.pauseIndex,
+                pauseType:  data.pauseType
+            }
+        );
 
-    //Allows inputs to be disabled during animations.
-    ntRenderer2.enableInputCallback = ntInput2.enableInputs;
+        //Allows inputs to be disabled during animations.
+        ntRenderer2.enableInputCallback = ntInput2.enableInputs;
+    }
+    else
+    {
+        //Create a new NT game renderer when player 2 is remote.
+        ntRenderer2 = new NTRender(showStats2, isPlayer2);
+    }
 
     //----------------- Game Field ------------------
     //Get canvas to render the game field on.
@@ -334,8 +358,8 @@ $.post("/api/users/verify/")
             isPlayer2 = true;
         }
 
-        //For testing only. Delete later.
-        if(isPlayer1)
+        //**********For local and remote loopback testing**********
+        if(isPlayer1 && (remoteLoopback || localLoopback))
         {
             $("#p1-div").html("<button class=\"btn btn-outline-success\" id=\"p1-btn\">Start Game</button>");
             $("#p1-btn").on("click", () =>
@@ -344,7 +368,7 @@ $.post("/api/users/verify/")
                 setTimeout(startGame1, 1000);
             });
         }
-        else if(isPlayer2)
+        else if(isPlayer2  && (remoteLoopback || localLoopback))
         {
             $("#p2-div").html("<button class=\"btn btn-outline-success\" id=\"p2-btn\">Start Game</button>");
             $("#p2-btn").on("click", () =>

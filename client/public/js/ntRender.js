@@ -1,6 +1,6 @@
 class NTRender
 {
-    constructor(statsCallback)
+    constructor(statsCallback, useEngine = true)
     {
         this.statsCallback = statsCallback; //Callback used for displaying the game stats.
         this.gm            = 1.5;           //Glow multiplier.
@@ -14,6 +14,7 @@ class NTRender
         this.cameraOffset  = 0;
         this.lastLevel     = -1;
         this.enableInputCallback = null;
+        this.useEngine     = useEngine
         this.getField;
         this.ntEngine;
         
@@ -119,7 +120,7 @@ class NTRender
     addBlocksAnim = () =>
     {
         //Reset after add rows animation is complete.
-        if(this.blocksCounter >= this.blankBlocks.length)
+        if(this.blocksCounter >= this.blankBlocks.length  && this.useEngine)
         {
             this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
             clearInterval(this.blocksTimer);
@@ -136,7 +137,7 @@ class NTRender
     eraseAnim = () =>
     {
         //Finish up the animation.
-        if(this.animCounter >= 10)
+        if(this.animCounter >= 10 && this.useEngine)
         {
             this.ntEngine.ntRequest(NTEngine.GR_RESUME);
             clearInterval(this.animTimer);
@@ -160,9 +161,13 @@ class NTRender
 
     glueDelay = () =>
     {
-        this.ntEngine.ntRequest(NTEngine.GR_RESUME);
-        clearInterval(this.glueTimer);
-        this.enableInputCallback(true);
+        if(this.useEngine)
+        {
+            this.ntEngine.ntRequest(NTEngine.GR_RESUME);
+            clearInterval(this.glueTimer);
+            this.enableInputCallback(true);
+        }
+        
     }
 
     /************************************ Rendering Functions ************************************/
@@ -257,7 +262,21 @@ class NTRender
         this.lastStatus = this.gameStatus;
 
         //During animations, hide the piece at the top of the play field.
-        (this.gameStatus === NTEngine.GS_WAIT_BLK || this.gameStatus === NTEngine.GS_WAIT) ? field = this.getField() : field = status.gameField;
+        if(this.gameStatus === NTEngine.GS_WAIT_BLK || this.gameStatus === NTEngine.GS_WAIT)
+        {
+            if(this.useEngine)
+            {
+                field = this.getField();
+            }
+            else
+            {
+                field = status.gameField;
+            }
+        }
+        else
+        {
+            field = status.gameField;
+        }
 
         //Need to make a deep copy of the array.
         for(let i = 0; i < this.renderFieldArr.length; i++)
@@ -278,7 +297,7 @@ class NTRender
         this.statsCallback(level, score, lines, gameStatus, request);
 
         //Check if animation wait state.
-        if(gameStatus === NTEngine.GS_WAIT)
+        if(gameStatus === NTEngine.GS_WAIT && this.useEngine)
         {
             this.enableInputCallback(false);
 
@@ -296,7 +315,7 @@ class NTRender
         }
 
         //Check if block add wait state,
-        if(gameStatus === NTEngine.GS_WAIT_BLK)
+        if(gameStatus === NTEngine.GS_WAIT_BLK  && this.useEngine)
         {
             this.enableInputCallback(false);
 
@@ -309,7 +328,10 @@ class NTRender
         //Check if block add wait state,
         if(gameStatus === NTEngine.GS_WAIT_BLK)
         {
-            this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
+            if(this.useEngine)
+            {
+                this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
+            }
         }
     }
 

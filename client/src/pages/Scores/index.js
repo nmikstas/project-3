@@ -9,7 +9,6 @@ class Scores extends React.Component
     {
        debug: true,
        username: "",
-
     }
 
     componentDidMount = () =>
@@ -21,34 +20,37 @@ class Scores extends React.Component
             //If not, boot 'em out!
             if(res.data.notLoggedIn)
             {
-                window.location.href = "/denied";
+                // window.location.href = "/denied";
             }
 
             this.setState({ username: res.data.username });
-            
+    
             if(this.state.debug)console.log(res.data);
         })
         .catch(err =>
         {
             console.log(err);
             // window.location.href = "/denied";
-        });
+        })
 
         //single score array
         API.singleUser(this.state.username)
         .then((res) =>
         {
+            console.log(this.state.username);
+            console.log('tylercasperson');
             console.log('singleUser: ');
-            console.log(res);
+            console.log(res.data);
         })
         .catch(err =>
         {
             console.log(err);
+            console.log(this.state.username);
             // window.location.href = "/denied";
         });
 
         //leader scores
-        API.multiUser(this.state.user)
+        API.multiUser(this.username)
         .then((res) =>
         {
           console.log(res.data);
@@ -56,11 +58,8 @@ class Scores extends React.Component
         .catch(err =>
         {
             console.log(err);
-            window.location.href = "/denied";
+            // window.location.href = "/denied";
         });
-
-
-
     }
 
     render = () =>

@@ -66,9 +66,7 @@ class Leaderboard extends React.Component
         {
             console.log(err);
             window.location.href = "/denied";
-        });
-
-        
+        });        
     }
 
     render = () =>
@@ -81,7 +79,7 @@ class Leaderboard extends React.Component
                 <h1>Leaderboard</h1>
                 <div class="container">
                     <div class="single100">
-                        <h3>Single 100</h3>
+                        <h3 class="scoreHeader">Single 100</h3>
                         {this.state.single100data.map((single100) => 
                         {
                             console.log(single100)
@@ -97,7 +95,7 @@ class Leaderboard extends React.Component
                         })}
                     </div> 
                     <div class="multi100">
-                        <h3>Multi 100</h3>
+                        <h3 class="scoreHeader">Multi 100</h3>
                         {this.state.multi100data.map((multi100) => 
                         {
                             console.log(multi100)

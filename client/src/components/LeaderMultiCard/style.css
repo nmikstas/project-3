@@ -23,14 +23,13 @@
     font-size: 2rem;
 }
 
-.single-div
+.score-div
 {
-    width: 100%;
-    box-shadow: 4px 4px 5px #dbd7e0;
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
     border-radius: 10px;
-    border: 3px solid rgb(45, 42, 224);
-    transition: 0.3s;
-    position: relative;
+    margin: 10px;
+    padding: 20px;
 }
 
 .single-div:hover

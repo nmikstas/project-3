@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const LeaderMultiCard = (props) =>
+const MultiCardScore = (props) =>
 {
     return (
         <div className="mt-4 score-div">
@@ -22,4 +22,4 @@ const LeaderMultiCard = (props) =>
     );
 }
 
-export default LeaderMultiCard;
+export default MultiCardScore;

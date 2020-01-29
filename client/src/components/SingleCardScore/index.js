@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const LeaderSingleCard = (props) =>
+const SingleCardScore = (props) =>
 {
     return (
         <div className="mt-4 score-div">
@@ -22,4 +22,4 @@ const LeaderSingleCard = (props) =>
     );
 }
 
-export default LeaderSingleCard;
+export default SingleCardScore;

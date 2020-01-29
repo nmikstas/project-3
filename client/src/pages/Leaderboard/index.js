@@ -1,8 +1,8 @@
 import React from "react";
 import "./style.css";
 import NavBar from "../../components/NavBar";
-import LeaderSingleCard from "../../components/LeaderSingleCard";
-import LeaderMultiCard from "../../components/LeaderMultiCard";
+import SingleCardScore from "../../components/LeaderSingleCard";
+import MultiCardScore from "../../components/LeaderMultiCard";
 import API from "../../utils/API";
 
 class Leaderboard extends React.Component
@@ -84,7 +84,7 @@ class Leaderboard extends React.Component
                         {
                             console.log(single100)
                             return(
-                            <LeaderSingleCard 
+                            <SingleCardScore 
                                 player1={single100.player1}
                                 timestamp1={single100.date1}
                                 score1={single100.score1}
@@ -100,7 +100,7 @@ class Leaderboard extends React.Component
                         {
                             console.log(multi100)
                             return(
-                            <LeaderMultiCard 
+                            <MultiCardScore 
                                 player={multi100.player}
                                 date={multi100.date}
                                 score={multi100.score}

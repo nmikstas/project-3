@@ -1,13 +1,17 @@
 import React from "react";
 import "./style.css";
 import NavBar from "../../components/NavBar";
+import LeaderSingleCard from "../../components/LeaderSingleCard";
+import LeaderMultiCard from "../../components/LeaderMultiCard";
 import API from "../../utils/API";
 
 class Leaderboard extends React.Component
 {
     state =
     {
-       debug: true
+       debug: true,
+       single100data: [],
+       multi100data: [],
     }
 
     componentDidMount = () =>
@@ -38,45 +42,9 @@ class Leaderboard extends React.Component
         {
             console.log('single100: ');
             console.log(res.data);
+
+            this.setState({ single100data: res.data });
             
-            for (var i = 0; i<res.data.length;i++){
-                let score1 = res.data[i].score1;
-                let level1 = res.data[i].level1;
-                let lines1 = res.data[i].lines1;
-                let player1 = res.data[i].player1;
-                let date1 = res.data[i].date1;
-                let year = date1.substring(0,4);
-                let month = date1.substring(5,7);
-                let day = date1.substring(8,10);
-                let hour = date1.substring(11,13);
-                let minute = date1.substring(14,16);
-                let timestamp1 = month + '/' + day + '/' + year;
-                console.log(score1);
-                console.log(level1);
-                console.log(lines1);
-                console.log(player1);
-                console.log(date1);
-                console.log(hour);
-                console.log(minute);
-                console.log(timestamp1);
-
-                //all the data is 0. I did not see a point in displaying it on a card.
-                // let score2 = res.data[i].score2;
-                // let level2 = res.data[i].level2;
-                // let lines2 = res.data[i].lines2;
-                // let player2 = res.data[i].player2;
-                // let date2 = res.data[i].date2;
-                // console.log(i);
-                // console.log(score2);
-                // console.log(level2);
-                // console.log(lines2);
-                // console.log(player2);
-                // console.log(date2);
-
-                document.querySelector("h3").innerText = player1;
-            }
-          
-          console.log(res.data);
         })
         .catch(err =>
         {
@@ -90,20 +58,9 @@ class Leaderboard extends React.Component
         {
             console.log('multi100: ');
             console.log(res.data);
+            
+            this.setState({ multi100data: res.data });
 
-            for(var i=0; i<res.data.length;i++){
-
-                let player = res.data[i].player;
-                let score = res.data[i].score;
-                let level = res.data[i].level;
-                let lines = res.data[i].lines;
-                let dateStamp = res.data[i].date;
-                console.log(player);
-                console.log(score);
-                console.log(level);
-                console.log(lines);
-                console.log(dateStamp);
-            }
         })
         .catch(err =>
         {
@@ -122,7 +79,40 @@ class Leaderboard extends React.Component
                     username={this.state.username}
                 />
                 <h1>Leaderboard</h1>
-                <h3></h3>
+                <div class="container">
+                    <div class="single100">
+                        <h3>Single 100</h3>
+                        {this.state.single100data.map((single100) => 
+                        {
+                            console.log(single100)
+                            return(
+                            <LeaderSingleCard 
+                                player1={single100.player1}
+                                timestamp1={single100.date1}
+                                score1={single100.score1}
+                                level1={single100.level1}
+                                lines1={single100.lines1}
+                            />
+                            )
+                        })}
+                    </div> 
+                    <div class="multi100">
+                        <h3>Multi 100</h3>
+                        {this.state.multi100data.map((multi100) => 
+                        {
+                            console.log(multi100)
+                            return(
+                            <LeaderMultiCard 
+                                player={multi100.player}
+                                date={multi100.date}
+                                score={multi100.score}
+                                level={multi100.level}
+                                lines={multi100.lines}
+                            />
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         )
     }

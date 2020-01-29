@@ -7,7 +7,9 @@ class Scores extends React.Component
 {
     state =
     {
-       debug: true
+       debug: true,
+       username: "",
+
     }
 
     componentDidMount = () =>
@@ -29,20 +31,20 @@ class Scores extends React.Component
         .catch(err =>
         {
             console.log(err);
-            window.location.href = "/denied";
+            // window.location.href = "/denied";
         });
 
         //single score array
-        API.singleUser(this.state.user)
+        API.singleUser(this.state.username)
         .then((res) =>
         {
             console.log('singleUser: ');
-            console.log(res.data);
+            console.log(res);
         })
         .catch(err =>
         {
             console.log(err);
-            window.location.href = "/denied";
+            // window.location.href = "/denied";
         });
 
         //leader scores

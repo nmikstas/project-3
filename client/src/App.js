@@ -8,6 +8,7 @@ import UserSettings from "./pages/UserSettings";
 import Logout from "./pages/Logout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Test from "./pages/Test";
 import Denied from "./pages/Denied";
 import "./style.css";
 
@@ -20,6 +21,7 @@ function App()
                     <div>
                         <Switch> 
                             <Route exact path="/" component={Login} />
+                            {/*
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/home" component={Home} />
@@ -28,6 +30,8 @@ function App()
                             <Route exact path="/leaderboard" component={Leaderboard} />
                             <Route exact path="/UserSettings" component={UserSettings} />
                             <Route exact path="/Logout" component={Logout} />
+                            */}
+                            <Route exact path="/test" component={Test} />
                             <Route component={Denied} />
                         </Switch>
                     </div>

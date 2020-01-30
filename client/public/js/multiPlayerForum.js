@@ -393,6 +393,10 @@ let addListeners = (data) =>
             {
                 ntRenderer2.gfRender(status);
             }
+            else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
+            {
+                ntRenderer1.gfRender(status);
+            }
         }
     });
 
@@ -410,6 +414,10 @@ let addListeners = (data) =>
             if(isPlayer2 && remoteLoopback)
             {
                 ntRenderer1.gfRender(status);
+            }
+            else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
+            {
+                ntRenderer2.gfRender(status);
             }
         }
     });

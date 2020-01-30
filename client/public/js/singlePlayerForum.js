@@ -260,7 +260,7 @@ $.post("/api/users/verify/")
     //If not, boot 'em out!
     if(data.notLoggedIn)
     {
-        window.location.href = "/denied";
+        //window.location.href = "/denied";
     }
 
     player = data.username;
@@ -271,5 +271,5 @@ $.post("/api/users/verify/")
 .fail(function(err)
 {
     console.log(err);
-    window.location.href = "/denied";
+    //window.location.href = "/denied";
 });

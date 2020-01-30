@@ -1,0 +1,20 @@
+.container
+{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.col-div
+{
+    background-color: rgba(0, 0, 0, .6);
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+}
+
+.scoreHeader
+{
+    color: whitesmoke;
+}

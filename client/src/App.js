@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home/index";
-import CreateForum from "./pages/CreateForum/index";
-import Scores from "./pages/Scores/index.js";
-import Leaderboard from "./pages/Leaderboard/index";
-import UserSettings from "./pages/UserSettings/index";
-import Logout from "./pages/Logout/index";
-import Login from "./pages/Login/index";
-import Signup from "./pages/Signup/index";
-import Denied from "./pages/Denied/index";
+import Home from "./pages/Home";
+import CreateForum from "./pages/CreateForum";
+import Scores from "./pages/Scores";
+import Leaderboard from "./pages/Leaderboard";
+import UserSettings from "./pages/UserSettings";
+import Logout from "./pages/Logout";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Denied from "./pages/Denied";
 import "./style.css";
 
 function App()
@@ -38,3 +38,4 @@ function App()
 }
 
 export default App;
+

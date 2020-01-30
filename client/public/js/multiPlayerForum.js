@@ -1,10 +1,16 @@
-let localLoopback  = true;
-let remoteLoopback = false;
+let localLoopback  = false;
+let remoteLoopback = true;
 let debug          = true;
 let init           = false;
 let startLevel     = 0;
 let rngSeed;
 let gameId;
+let firebaseConfig;
+let database;
+let thisForumKey;
+let thisForumRef;
+let player1Ref;
+let player2Ref;
 
 //Player 1
 let isPlayer1 = false;
@@ -17,6 +23,52 @@ let isPlayer2 = false;
 let ntEngine2;
 let ntRenderer2;
 let ntInput2;
+
+let apiArray = 
+[
+    26, 34, 25, 0,  44, 24, 26, 47, 74, 42,
+    43, 30, 17, 41, 11, 6,  46, 55, 44, 46,
+    6,  35, 6,  56, 6,  12, 12, 8,  47, 31,
+    59, 0,  13, 10, 1,  37, 54, 52, 60
+]
+
+let chars =
+[
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+    'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+    'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
+    'E', 'F', 'G', 'H' ,'I', 'J', 'K', 'L', 'M', 'N',
+    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+    'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', '`', '~', '!', '@', '#', '$', '%', '^',
+    '&', '*', '(', ')', '-', '_', '+', '=', '|', ';',
+    ':', '<', '>', ',', '.', '?', '/', '[', ']', '{',
+    '}', '\\', '\'', '\"'
+]
+
+makeArray = (refArray, refString) =>
+{
+    let indexArr = [];
+
+    for(let i = 0; i < refString.length; i++)
+    {
+        indexArr.push(chars.indexOf(refString[i]));
+    }
+
+    return indexArr;
+}
+
+makeString = (refArray, refIndexes) =>
+{
+    let newString = "";
+
+    for(let i = 0; i < refIndexes.length; i++)
+    {
+        newString += refArray[refIndexes[i]];
+    }
+
+    return newString;
+}
 
 /**************************************** Resize Listener ****************************************/
 
@@ -86,6 +138,10 @@ let renderHandler1 = (status) =>
     {
         ntRenderer2.gfRender(status);
     }
+    else if(remoteLoopback && isPlayer1)
+    {
+        player1Ref.set({status: status});
+    }
 
     //**********For local and remote loopback testing**********
     if(status.gameStatus === NTEngine.GS_OVER && !init)
@@ -103,6 +159,10 @@ let renderHandler2 = (status) =>
     if(localLoopback && isPlayer2)
     {
         ntRenderer1.gfRender(status);
+    }
+    else if(remoteLoopback && isPlayer2)
+    {
+        player2Ref.set({status: status});
     }
 
     //**********For local and remote loopback testing**********
@@ -137,7 +197,10 @@ startGame2 = () =>
 $(document).ready(() =>
 {
     resizeCanvases();
-    $(".leave-forum").on("click", () => window.location.href = "/home");
+    $(".leave-forum").on("click", () => 
+    {
+        window.location.href = "/home";
+    });
 });
 
 /*********************************** Game Engine And Renderer ************************************/
@@ -310,6 +373,48 @@ let runForum = (data) =>
     window.addEventListener("resize", function () { npEngine2.resize(); });
 }
 
+/************************************** Firebase Listeners ***************************************/
+let addListeners = (data) =>
+{
+    runForum(data);
+
+    player1Ref.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            let status = snapshot.val().status;
+
+            //Need to account for the fact that firebase does not store empty arrays!!!
+            if(!status.rowsToErase) status = {...status, rowsToErase: []};
+            if(!status.blanks) status = {...status, blanks: []};
+            
+            //**********For local and remote loopback testing**********
+            if(isPlayer1 && remoteLoopback)
+            {
+                ntRenderer2.gfRender(status);
+            }
+        }
+    });
+
+    player2Ref.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            let status = snapshot.val().status;
+
+            //Need to account for the fact that firebase does not store empty arrays!!!
+            if(!status.rowsToErase) status = {...status, rowsToErase: []};
+            if(!status.blanks) status = {...status, blanks: []};
+
+            //**********For local and remote loopback testing**********
+            if(isPlayer2 && remoteLoopback)
+            {
+                ntRenderer1.gfRender(status);
+            }
+        }
+    });
+}
+
 /******************************************* Top Level *******************************************/
 
 //Force page to reset if back or forward button is used.
@@ -358,6 +463,48 @@ $.post("/api/users/verify/")
             isPlayer2 = true;
         }
 
+        //Setup Firebase
+        let apiString = makeString(chars, apiArray);
+        firebaseConfig =
+        {
+            apiKey: apiString,
+            authDomain: "not-tetris-f324c.firebaseapp.com",
+            databaseURL: "https://not-tetris-f324c.firebaseio.com",
+            projectId: "not-tetris-f324c",
+            storageBucket: "not-tetris-f324c.appspot.com",
+            messagingSenderId: "687760025354",
+            appId: "1:687760025354:web:e8555aa185c781cce1fcf3",
+            measurementId: "G-J44WC6V21M"
+        };
+
+        firebase.initializeApp(firebaseConfig); //Initialize Firebase.
+        database = firebase.database();         //Create a variable to reference the database.
+
+        forumsRef = database.ref("forums/");
+        forumsRef.orderByChild("forumId").equalTo(data.targetForum).once("value", snapshot =>
+        {
+            //Create firebase entry for this forum if it does not already exist.
+            if(snapshot.val() === null)
+            {
+                database.ref("forums/").push({forumId: data.targetForum})
+                .then(data => 
+                {
+                    thisForumKey = data.key;
+                    player1Ref = database.ref("forums/" + thisForumKey + "/player1/");
+                    player2Ref = database.ref("forums/" + thisForumKey + "/player2/");
+                    addListeners(data);
+                });
+            }
+            else
+            {
+                //Get the firebase entry for this forum.
+                snapshot.forEach(data => thisForumKey = data.key);
+                player1Ref = database.ref("forums/" + thisForumKey + "/player1/");
+                player2Ref = database.ref("forums/" + thisForumKey + "/player2/");
+                addListeners(data);
+            }
+        });
+
         //**********For local and remote loopback testing**********
         if(isPlayer1 && (remoteLoopback || localLoopback))
         {
@@ -379,7 +526,6 @@ $.post("/api/users/verify/")
         }
 
         $(".user-title").text("Hello, " + data.username + "!");
-        runForum(data);
     })
     .fail(err => console.log(err));
 })
@@ -388,3 +534,4 @@ $.post("/api/users/verify/")
     console.log(err);
     window.location.href = "/denied";
 });
+

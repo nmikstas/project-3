@@ -563,7 +563,7 @@ class NTRender
             {
                 plane.isVisible = false;
             }
-
+            
             //Special animation for 4 rows cleared.
             if(this.rowsToErase.length === 4)
             {

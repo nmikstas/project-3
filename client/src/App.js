@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/index";
 import CreateForum from "./pages/CreateForum/index";
-import Scores from "./pages/Scores/index";
+import Scores from "./pages/Scores/index.js";
 import Leaderboard from "./pages/Leaderboard/index";
 import UserSettings from "./pages/UserSettings/index";
 import Logout from "./pages/Logout/index";

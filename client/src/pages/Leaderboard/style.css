@@ -1,12 +1,6 @@
-.container
+.all-score-div
 {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-
-.col-div
-{
+    box-sizing: border-box;
     background-color: rgba(0, 0, 0, .6);
     border: 3px solid rgb(255, 255, 255);
     border-radius: 10px;
@@ -14,7 +8,12 @@
     padding: 20px;
 }
 
-.scoreHeader
+.all-score-header
 {
-    color: whitesmoke;
+    font-family: sans-serif;
+    color: #777777;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
 }

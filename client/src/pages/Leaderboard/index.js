@@ -1,8 +1,8 @@
 import React from "react";
 import "./style.css";
 import NavBar from "../../components/NavBar";
-import SingleCardScore from "../../components/LeaderSingleCard";
-import MultiCardScore from "../../components/LeaderMultiCard";
+import LeaderSingleCard from "../../components/LeaderSingleCard";
+import LeaderMultiCard from "../../components/LeaderMultiCard";
 import API from "../../utils/API";
 
 class Leaderboard extends React.Component
@@ -12,6 +12,36 @@ class Leaderboard extends React.Component
        debug: true,
        single100data: [],
        multi100data: [],
+       refreshTimer: null
+    }
+
+    updateScores = () =>
+    {
+        //Single score array.
+        API.single100()
+        .then((res) =>
+        {
+            console.log('single100: ');
+            console.log(res.data);
+
+            this.setState({ single100data: res.data });
+        })
+
+        //Leader scores.
+        .then(() => API.multi100())
+        .then((res) =>
+        {
+            console.log('multi100: ');
+            console.log(res.data);
+            
+            this.setState({ multi100data: res.data });
+
+        })
+        .catch(err =>
+        {
+            console.log(err);
+            window.location.href = "/denied";
+        });
     }
 
     componentDidMount = () =>
@@ -30,30 +60,19 @@ class Leaderboard extends React.Component
             
             if(this.state.debug)console.log(res.data);
         })
-        .catch(err =>
-        {
-            console.log(err);
-            window.location.href = "/denied";
-        });
 
-        //single score array
-        API.single100()
+        //Single score array.
+        .then(() => API.single100())
         .then((res) =>
         {
             console.log('single100: ');
             console.log(res.data);
 
             this.setState({ single100data: res.data });
-            
         })
-        .catch(err =>
-        {
-            console.log(err);
-            window.location.href = "/denied";
-        });
 
-        //leader scores
-        API.multi100()
+        //Leader scores.
+        .then(() => API.multi100())
         .then((res) =>
         {
             console.log('multi100: ');
@@ -66,7 +85,16 @@ class Leaderboard extends React.Component
         {
             console.log(err);
             window.location.href = "/denied";
-        });        
+        });
+
+        //Set a timer for periodic updates of the scores.
+        let refreshTimer = setInterval(this.updateScores, 10000);
+        this.setState({ refreshTimer: refreshTimer });
+    }
+
+    componentWillUnmount = () =>
+    {
+        clearInterval(this.state.refreshTimer);
     }
 
     render = () =>
@@ -77,14 +105,16 @@ class Leaderboard extends React.Component
                     username={this.state.username}
                 />
                 <h1>Leaderboard</h1>
-                <div class="container">
-                    <div class="single100">
-                        <h3 class="scoreHeader">Single 100</h3>
-                        {this.state.single100data.map((single100) => 
+                <div className="row">
+                    <div className="col-md-2"></div>
+                    <div className="col-md-4 all-score-div">
+                        <h3 className="all-score-header">Single Player Games</h3>
+                        {this.state.single100data.map((single100, i) => 
                         {
-                            console.log(single100)
                             return(
-                            <SingleCardScore 
+                            <LeaderSingleCard
+                                key={i}
+                                id={i + 1}
                                 player1={single100.player1}
                                 timestamp1={single100.date1}
                                 score1={single100.score1}
@@ -94,13 +124,15 @@ class Leaderboard extends React.Component
                             )
                         })}
                     </div> 
-                    <div class="multi100">
-                        <h3 class="scoreHeader">Multi 100</h3>
-                        {this.state.multi100data.map((multi100) => 
+
+                    <div className="col-md-4 all-score-div">
+                        <h3 className="all-score-header">Multi Player Games</h3>
+                        {this.state.multi100data.map((multi100, i) => 
                         {
-                            console.log(multi100)
                             return(
-                            <MultiCardScore 
+                            <LeaderMultiCard
+                                key={i}
+                                id={i + 1}
                                 player={multi100.player}
                                 date={multi100.date}
                                 score={multi100.score}

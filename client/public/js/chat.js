@@ -1,7 +1,28 @@
+let player;
+let forumId;
 
 $(document).ready(() =>
 {
+    $("#chat-btn").on("click", function (event)
+    {
+        event.preventDefault();
 
+        let userComment = $("#chat-input").val().trim();
+        console.log(userComment);
+
+        let commentObject =
+        {
+            username: player,
+            comment: userComment,
+            forumId: forumId,
+        };
+
+        $.post("/api/comments/newcomment", commentObject)
+        .then((data) =>
+        {
+            console.log(data);
+        });
+    });
 });
 
 //Verify the user is logged in.
@@ -14,8 +35,8 @@ $.post("/api/users/verify/")
         //window.location.href = "/denied";
     }
 
-    let player = data.username;
-    let forumId = data.targetForum
+    player = data.username;
+    forumId = data.targetForum;
 
     $.get("/api/comments/getcomments/" + forumId)
     .then((data) =>

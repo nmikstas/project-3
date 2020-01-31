@@ -6,9 +6,8 @@ $(document).ready(() =>
     $("#chat-btn").on("click", function (event)
     {
         event.preventDefault();
-
         let userComment = $("#chat-input").val().trim();
-        console.log(userComment);
+        $("#chat-input").val("");
 
         let commentObject =
         {
@@ -18,9 +17,10 @@ $(document).ready(() =>
         };
 
         $.post("/api/comments/newcomment", commentObject)
-        .then((data) =>
+        .fail(function(err)
         {
-            console.log(data);
+            console.log(err);
+            window.location.href = "/denied";
         });
     });
 });

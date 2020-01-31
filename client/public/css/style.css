@@ -330,6 +330,11 @@ footer
     scrollbar-arrow-color: dark !important;
 }
 
+#chat-input
+{
+    color: #ffffff;
+}
+
 .form-text
 {
     background-color: transparent;

@@ -12,6 +12,20 @@ module.exports =
     },
 
     //Create a new comment.
+    newComment: (req, res) =>
+    {
+        db.Comment.create(req.body)
+        .then(dbModel => 
+        {
+            console.log(dbModel);
+            db.Forum.findOneAndUpdate({ _id: dbModel.forumId},
+            { $push: { comments: dbModel._id} }, { new: true })
+            .then(dbModel =>
+            { 
+                res.json(dbModel);
+            });
+        });
+    },
 
     //Delete a comment.
 

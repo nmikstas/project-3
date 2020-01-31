@@ -126,9 +126,13 @@ export default
     getComments: (forumId) =>
     {
         return axios.get("/api/comments/getcomments/" + forumId);
-    }
+    },
 
     //Create a new comment.
+    newComment: (commentObject) =>
+    {
+        return axios.post("/api/comments/newcomment", commentObject);
+    }
 
     //Delete a comment.
 

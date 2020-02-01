@@ -640,6 +640,9 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
+            console.log("Player2 rows to add: " + status.rowsToAddNow);
+            console.log("Player2 interference: " + interference);
+            console.log("Player2 total: " + (parseFloat(status.rowsToAddNow) * interference));
             //Add lines to gamefield.
             if(isPlayer2 && !remoteLoopback && !localLoopback)
             {
@@ -686,6 +689,10 @@ let addListeners = (data) =>
             {
                 ntRenderer2.gfRender(status);
             }
+
+            console.log("Player1 rows to add: " + status.rowsToAddNow);
+            console.log("Player1 interference: " + interference);
+            console.log("Player1 total: " + (parseFloat(status.rowsToAddNow) * interference));
 
             //Add lines to gamefield.
             if(isPlayer1 && !remoteLoopback && !localLoopback)

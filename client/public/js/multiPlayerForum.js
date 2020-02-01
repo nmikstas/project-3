@@ -266,7 +266,7 @@ let renderHandler1 = (status) =>
     init = false;
 
     //Real gameplay renderer.
-    if(!isPlayer1 && !remoteLoopback && !localLoopback)
+    if(isPlayer1 && !remoteLoopback && !localLoopback)
     {
         player1Ref.set({status: status});
     }
@@ -307,7 +307,7 @@ let renderHandler2 = (status) =>
     init = false;
 
     //Real gameplay renderer.
-    if(!isPlayer2 && !remoteLoopback && !localLoopback)
+    if(isPlayer2 && !remoteLoopback && !localLoopback)
     {
         player2Ref.set({status: status});
     }

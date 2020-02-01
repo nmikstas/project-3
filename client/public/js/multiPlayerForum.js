@@ -593,6 +593,9 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
+            console.log("Player1: " + isPlayer1);
+            console.log("Player1 Local: " + localLoopback);
+            console.log("Player1 remote: " + remoteLoopback);
 
 
 
@@ -636,8 +639,9 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
 
-
-
+            console.log("Player2: " + isPlayer2);
+            console.log("Player2 Local: " + localLoopback);
+            console.log("Player2 remote: " + remoteLoopback);
 
 
 
@@ -730,17 +734,13 @@ let addListeners = (data) =>
     startRef.on("value", function(snapshot)
     {
         isMultiPlayer = isSeated;
-        
+
         if(snapshot.val() !== null)
         {
             status = snapshot.val().start;
             
             if(status === "true")
             {
-                console.log("Is player 1: " + isPlayer1);
-                console.log("Is player 2: " + isPlayer2);
-                console.log("Is multiplayer: " + isMultiPlayer);
-
                 if(isPlayer1)
                 {
                     if(debug)console.log("Player 1 Game Started.");

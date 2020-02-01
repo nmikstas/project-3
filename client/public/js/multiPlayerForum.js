@@ -173,7 +173,6 @@ let showStats1 = (level, score, lines) =>
     $("#r-score1").text(score);
     $("#r-level1").text(level);
     $("#r-lines1").text(lines);
-    console.log("ShowStats1: " + startLevel);
 }
 
 let showStats2 = (level, score, lines) =>
@@ -182,7 +181,6 @@ let showStats2 = (level, score, lines) =>
     $("#r-score2").text(score);
     $("#r-level2").text(level);
     $("#r-lines2").text(lines);
-    console.log("ShowStats2: " + startLevel);
 }
 
 /***************************************** Game Handlers *****************************************/
@@ -676,6 +674,8 @@ $.post("/api/users/verify/")
 
         //Setup the starting level.
         startLevel = forumData.startLevel;
+        player1Level = startLevel;
+        player2Level = startLevel;
 
         //Determine the role of the current user.
         if(data.username === forumData.owner)

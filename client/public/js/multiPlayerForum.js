@@ -640,14 +640,10 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
-            console.log("Player2 rows to add: " + status.rowsToErase.length);
-            console.log(status.rowsToErase);
-            console.log("Player2 interference: " + interference);
-            console.log("Player2 total: " + (parseFloat(status.rowsToErase.length) * interference));
             //Add lines to gamefield.
             if(isPlayer2 && !remoteLoopback && !localLoopback)
             {
-                ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
+                ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference / 2);
             }
 
 
@@ -691,14 +687,10 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
 
-            console.log("Player1 rows to add: " + status.rowsToErase.length);
-            console.log(status.rowsToErase);
-            console.log("Player1 interference: " + interference);
-            console.log("Player1 total: " + (parseFloat(status.rowsToErase.length) * interference));
             //Add lines to gamefield.
             if(isPlayer1 && !remoteLoopback && !localLoopback)
             {
-                ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
+                ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference / 2);
             }
 
 

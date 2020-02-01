@@ -271,11 +271,7 @@ let renderHandler1 = (status) =>
         player1Ref.set({status: status});
     }
     
-    console.log("Player1: " + isPlayer1);
-    console.log("Player1 Local: " + localLoopback);
-    console.log("Player1 remote: " + remoteLoopback);
-
-
+    
 
 
 
@@ -316,9 +312,7 @@ let renderHandler2 = (status) =>
         player2Ref.set({status: status});
     }
 
-    console.log("Player2: " + isPlayer2);
-    console.log("Player2 Local: " + localLoopback);
-    console.log("Player2 remote: " + remoteLoopback);
+    
 
 
 
@@ -636,9 +630,11 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
+            console.log("Player 1 outside here.")
             //Add data if not in loopback and player is remote.
             if(!isPlayer1 && !localLoopback && !remoteLoopback)
             {
+                console.log("Player 1 inside here.")
                 ntRenderer1.gfRender(status);
             }
 
@@ -680,9 +676,11 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
 
+            console.log("Player 2 outside here.")
             //Add data if not in loopback and player is remote.
             if(!isPlayer2 && !localLoopback && !remoteLoopback)
             {
+                console.log("Player 2 inside here.")
                 ntRenderer2.gfRender(status);
             }
 

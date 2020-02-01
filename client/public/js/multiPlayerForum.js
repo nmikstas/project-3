@@ -24,6 +24,7 @@ let startRef;
 //Player 1
 let isPlayer1  = false;
 let p1GameOver = true;
+let p1LinesTrigger = false;
 let ntEngine1;
 let ntRenderer1;
 let ntInput1;
@@ -34,6 +35,7 @@ let player1Level = 0;
 //Player 2
 let isPlayer2  = false;
 let p2GameOver = true;
+let p2LinesTrigger = false;
 let ntEngine2;
 let ntRenderer2;
 let ntInput2;
@@ -641,9 +643,17 @@ let addListeners = (data) =>
             }
 
             //Add lines to gamefield.
-            if(isPlayer2 && !remoteLoopback && !localLoopback)
+            if(isPlayer2 && !remoteLoopback && !localLoopback && !status.NTEngine.GS_OVER)
             {
-                ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference / 2);
+                if(status.rowsToErase.length && !p2LinesTrigger)
+                {
+                    ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
+                    p2LinesTrigger = true;
+                }
+                else if(!status.rowsToErase.length && p2LinesTrigger)
+                {
+                    p2LinesTrigger = false;
+                }
             }
 
 
@@ -688,9 +698,17 @@ let addListeners = (data) =>
             }
 
             //Add lines to gamefield.
-            if(isPlayer1 && !remoteLoopback && !localLoopback)
+            if(isPlayer1 && !remoteLoopback && !localLoopback && !status.NTEngine.GS_OVER)
             {
-                ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference / 2);
+                if(status.rowsToErase.length && !p1LinesTrigger)
+                {
+                    ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
+                    p1LinesTrigger = true;
+                }
+                else if(!status.rowsToErase.length && p1LinesTrigger)
+                {
+                    p1LinesTrigger = false;
+                }
             }
 
 

@@ -189,12 +189,24 @@ let inputHandler1 = (request, param) =>
 {
     if(ntEngine1.gameStatus === NTEngine.GS_OVER) return;
     if(isPlayer1) ntEngine1.ntRequest(request, param);
+
+
+
+
+
+
 }
 
 let inputHandler2 = (request, param) =>
 {
     if(ntEngine2.gameStatus === NTEngine.GS_OVER) return;
     if(isPlayer2) ntEngine2.ntRequest(request, param);
+
+
+
+
+
+
 }
 
 let renderHandler1 = (status) =>
@@ -296,8 +308,7 @@ let runForum = (data) =>
         //Create a new NT game renderer.
         ntRenderer1 = new NTRender(showStats1, isPlayer1);
 
-        ntEngine1 = new NTEngine(123456789, renderHandler1);
-        ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
+        ntEngine1 = new NTEngine(123456789, renderHandler1, player1Level);
 
         //Tie the renderer to the game engine.
         ntRenderer1.ntEngine = ntEngine1;
@@ -380,8 +391,7 @@ let runForum = (data) =>
         ntRenderer2 = new NTRender(showStats2, isPlayer2);
 
         //Create a new game engine.
-        ntEngine2 = new NTEngine(123456789, renderHandler2);
-        ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
+        ntEngine2 = new NTEngine(123456789, renderHandler2, player2Level);
 
         //Tie the renderer to the game engine.
         ntRenderer2.ntEngine = ntEngine2;

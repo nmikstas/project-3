@@ -630,11 +630,9 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
-            console.log("Player 1 outside here.")
             //Add data if not in loopback and player is remote.
             if(!isPlayer1 && !localLoopback && !remoteLoopback)
             {
-                console.log("Player 1 inside here.")
                 ntRenderer1.gfRender(status);
             }
 
@@ -676,11 +674,9 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
 
-            console.log("Player 2 outside here.")
             //Add data if not in loopback and player is remote.
             if(!isPlayer2 && !localLoopback && !remoteLoopback)
             {
-                console.log("Player 2 inside here.")
                 ntRenderer2.gfRender(status);
             }
 

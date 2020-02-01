@@ -737,16 +737,16 @@ let addListeners = (data) =>
             
             if(status === "true")
             {
-                if(debug)console.log("Game Started.");
-
                 if(isPlayer1)
                 {
+                    if(debug)console.log("Player 1 Game Started.");
                     ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);
                     ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
                 }
                 
                 if(isMultiPlayer && isPlayer2)
                 {
+                    if(debug)console.log("Player 2 Game Started.");
                     ntEngine2.ntRequest(NTEngine.GR_RESEED, rngSeed);
                     ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
                 }

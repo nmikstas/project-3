@@ -213,6 +213,7 @@ let renderHandler1 = (status) =>
 {
     ntRenderer1.gfRender(status);
 
+    //**********For local and remote loopback testing**********
     if(localLoopback && isPlayer1)
     {
         ntRenderer2.gfRender(status);
@@ -222,7 +223,6 @@ let renderHandler1 = (status) =>
         player1Ref.set({status: status});
     }
 
-    //**********For local and remote loopback testing**********
     if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#p1-btn").removeClass("invisible");
@@ -235,6 +235,7 @@ let renderHandler2 = (status) =>
 {
     ntRenderer2.gfRender(status);
 
+    //**********For local and remote loopback testing**********
     if(localLoopback && isPlayer2)
     {
         ntRenderer1.gfRender(status);
@@ -244,7 +245,6 @@ let renderHandler2 = (status) =>
         player2Ref.set({status: status});
     }
 
-    //**********For local and remote loopback testing**********
     if(status.gameStatus === NTEngine.GS_OVER && !init)
     {
         $("#p2-btn").removeClass("invisible");
@@ -756,7 +756,6 @@ $.post("/api/users/verify/")
 
                 p1GameOverRef.set({isGameOver: true});
                 p2GameOverRef.set({isGameOver: true});
-                seatedRef.set({isSeated: false});
                 addListeners(data);
             }
         });

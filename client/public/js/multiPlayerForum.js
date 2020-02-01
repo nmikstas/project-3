@@ -737,6 +737,10 @@ let addListeners = (data) =>
             
             if(status === "true")
             {
+                console.log("Is player 1: " + isPlayer1);
+                console.log("Is player 2: " + isPlayer2);
+                console.log("Is multiplayer: " + isMultiPlayer);
+
                 if(isPlayer1)
                 {
                     if(debug)console.log("Player 1 Game Started.");

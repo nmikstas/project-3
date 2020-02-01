@@ -297,6 +297,7 @@ let runForum = (data) =>
         ntRenderer1 = new NTRender(showStats1, isPlayer1);
 
         ntEngine1 = new NTEngine(123456789, renderHandler1);
+        ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
 
         //Tie the renderer to the game engine.
         ntRenderer1.ntEngine = ntEngine1;
@@ -380,6 +381,7 @@ let runForum = (data) =>
 
         //Create a new game engine.
         ntEngine2 = new NTEngine(123456789, renderHandler2);
+        ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
 
         //Tie the renderer to the game engine.
         ntRenderer2.ntEngine = ntEngine2;

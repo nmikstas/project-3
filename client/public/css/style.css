@@ -335,6 +335,36 @@ footer
     color: #ffffff;
 }
 
+.chat-username
+{
+    color: #ffffff;
+}
+
+.chat-usertext
+{
+    color: #c0c0c0;
+}
+
+.deleteCommentBtn
+{
+    width: 25px;
+    height: 25px;
+    background-color: rgb(119, 1, 1);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .8rem;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.deleteCommentBtn:hover
+{
+    background-color: rgb(252, 4, 4);
+}
+
 .form-text
 {
     background-color: transparent;

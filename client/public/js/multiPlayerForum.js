@@ -272,11 +272,7 @@ let renderHandler1 = (status) =>
         player1Ref.set({status: status});
     }
 
-    //Add lines to gamefield.
-    if(isPlayer2 && !remoteLoopback && !localLoopback)
-    {
-        ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToAddNow) * interference);
-    }
+    
     
     
 
@@ -319,11 +315,8 @@ let renderHandler2 = (status) =>
         player2Ref.set({status: status});
     }
 
-    //Add lines to gamefield.
-    if(isPlayer1 && !remoteLoopback && !localLoopback)
-    {
-        ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToAddNow) * interference);
-    }
+
+    
 
 
 
@@ -647,8 +640,11 @@ let addListeners = (data) =>
                 ntRenderer1.gfRender(status);
             }
 
-            
-
+            //Add lines to gamefield.
+            if(isPlayer2 && !remoteLoopback && !localLoopback)
+            {
+                ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToAddNow) * interference);
+            }
 
 
 
@@ -691,7 +687,11 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
 
-            
+            //Add lines to gamefield.
+            if(isPlayer1 && !remoteLoopback && !localLoopback)
+            {
+                ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToAddNow) * interference);
+            }
 
 
 

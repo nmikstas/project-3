@@ -207,6 +207,7 @@ let inputHandler1 = (request, param) =>
 {
     if(ntEngine1.gameStatus === NTEngine.GS_OVER) return;
     if(isPlayer1) ntEngine1.ntRequest(request, param);
+    player1Ref.set({status: status});
 
 
 
@@ -227,7 +228,7 @@ let inputHandler2 = (request, param) =>
 {
     if(ntEngine2.gameStatus === NTEngine.GS_OVER || !isSeated) return;
     if(isPlayer2) ntEngine2.ntRequest(request, param);
-
+    player2Ref.set({status: status});
 
 
 

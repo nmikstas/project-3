@@ -2,9 +2,9 @@ let localLoopback  = false;
 let remoteLoopback = false;
 let debug          = true;
 let init           = false;
-let startLevel     = 0;
 let isMultiPlayer  = false;
 let isSeated       = false;
+let startLevel;
 let rngSeed;
 
 //Firebase variables.
@@ -173,6 +173,7 @@ let showStats1 = (level, score, lines) =>
     $("#r-score1").text(score);
     $("#r-level1").text(level);
     $("#r-lines1").text(lines);
+    console.log("ShowStats1: " + startLevel);
 }
 
 let showStats2 = (level, score, lines) =>
@@ -181,6 +182,7 @@ let showStats2 = (level, score, lines) =>
     $("#r-score2").text(score);
     $("#r-level2").text(level);
     $("#r-lines2").text(lines);
+    console.log("ShowStats2: " + startLevel);
 }
 
 /***************************************** Game Handlers *****************************************/

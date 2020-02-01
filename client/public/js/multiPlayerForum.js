@@ -183,6 +183,23 @@ let showStats2 = (level, score, lines) =>
     $("#r-lines2").text(lines);
 }
 
+/**************************************** Watchdog Timers ****************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /***************************************** Game Handlers *****************************************/
 
 let inputHandler1 = (request, param) =>
@@ -195,16 +212,32 @@ let inputHandler1 = (request, param) =>
 
 
 
+
+
+
+
+
+
+
+
 }
 
 let inputHandler2 = (request, param) =>
 {
-    if(ntEngine2.gameStatus === NTEngine.GS_OVER) return;
+    if(ntEngine2.gameStatus === NTEngine.GS_OVER || !isSeated) return;
     if(isPlayer2) ntEngine2.ntRequest(request, param);
 
 
 
 
+
+
+
+
+
+
+
+    
 
 
 }
@@ -273,7 +306,27 @@ startGame2 = () =>
 
 startRealGame = () =>
 {
-    console.log("Here");
+    ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);
+
+    if(isMultiPlayer)
+    {
+        ntEngine2.ntRequest(NTEngine.GR_RESEED, rngSeed);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 /*************************************** Button Listeners ****************************************/
@@ -478,8 +531,30 @@ let addListeners = (data) =>
         $("#p1-div").html("<button class=\"btn btn-outline-success invisible\" id=\"start-game\">Start Game</button>");
         $("#start-game").on("click", () =>
         {
+            //Hide the start button.
             $("#start-game").addClass("invisible");
-            setTimeout(startRealGame, 1000);
+
+            //Seed the game RNG.
+            rngRef.set({rngSeed: Math.floor(Math.random() * 100000000)});
+
+            //Determine if this a multiplayer game or not.
+            isMultiPlayer = isSeated;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Start the game after a 2 second delay.
+            setTimeout(startRealGame, 2000);
         });
     }
     else if(isPlayer2 && !remoteLoopback && !localLoopback)
@@ -538,6 +613,21 @@ let addListeners = (data) =>
             {
                 ntRenderer1.gfRender(status);
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
     });
 
@@ -566,6 +656,21 @@ let addListeners = (data) =>
             {
                 ntRenderer2.gfRender(status);
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
     });
 
@@ -616,7 +721,6 @@ let addListeners = (data) =>
             if(!isPlayer2)
             {
                 status = snapshot.val().isSeated;
-                console.log(status);
                 $("#seated-div").removeClass("not-seated");
                 $("#seated-div").removeClass("seated");
 
@@ -634,17 +738,12 @@ let addListeners = (data) =>
         }
     });
 
-    //Set the RNG seed for Player 2.
+    //Set the RNG seed.
     rngRef.on("value", function(snapshot)
     {
         if(snapshot.val() !== null)
         {
-            let status = snapshot.val().rngSeed;
-
-            if(isPlayer2)
-            {
-                ntEngine2.ntRequest(NTEngine.GR_RESEED, status);
-            }
+            rngSeed = snapshot.val().rngSeed;
         }
     });
 }

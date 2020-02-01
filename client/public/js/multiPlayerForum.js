@@ -18,6 +18,7 @@ let p1GameOverRef;
 let p2GameOverRef;
 let seatedRef;
 let rngRef;
+let startRef;
 
 //Player 1
 let isPlayer1  = false;
@@ -306,27 +307,7 @@ startGame2 = () =>
 
 startRealGame = () =>
 {
-    ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);
-
-    if(isMultiPlayer)
-    {
-        ntEngine2.ntRequest(NTEngine.GR_RESEED, rngSeed);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    startRef.set({start: true});
 }
 
 /*************************************** Button Listeners ****************************************/
@@ -746,6 +727,30 @@ let addListeners = (data) =>
             rngSeed = snapshot.val().rngSeed;
         }
     });
+
+    //Check to see if game needs to be started.
+    startRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            status = snapshot.val().start;
+            
+            if(status === "true")
+            {
+                if(isPlayer1)
+                {
+                    ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);
+                    ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
+                }
+                
+                if(isMultiPlayer && isPlayer2)
+                {
+                    ntEngine2.ntRequest(NTEngine.GR_RESEED, rngSeed);
+                    ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
+                }
+            }
+        }
+    });
 }
 
 /******************************************* Top Level *******************************************/
@@ -831,6 +836,7 @@ $.post("/api/users/verify/")
                     p2GameOverRef = database.ref("forums/" + thisForumKey + "/p2GameOver/");
                     seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
                     rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
+                    startRef      = database.ref("forums/" + thisForumKey + "/start/");
                     
                     //Add initial data to firebase.
                     player1Ref.set({status: {...initStatus, currentLevel: startLevel, currentScore: 0, linesCleared: 0}});
@@ -839,6 +845,7 @@ $.post("/api/users/verify/")
                     p2GameOverRef.set({isGameOver: true});
                     seatedRef.set({isSeated: false});
                     rngRef.set({rngSeed: 0});
+                    startRef.set({start: false});
                     addListeners(data);
                 });
             }
@@ -852,6 +859,7 @@ $.post("/api/users/verify/")
                 p2GameOverRef = database.ref("forums/" + thisForumKey + "/p2GameOver/");
                 seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
                 rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
+                startRef      = database.ref("forums/" + thisForumKey + "/start/");
 
                 p1GameOverRef.set({isGameOver: true});
                 p2GameOverRef.set({isGameOver: true});

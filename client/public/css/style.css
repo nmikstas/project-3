@@ -363,3 +363,14 @@ footer
     text-align: right;
     color: #c0c0c0;
 }
+
+.not-seated
+{
+    color: #ff0000;
+}
+
+.seated
+{
+    color: #00ff00;
+}
+

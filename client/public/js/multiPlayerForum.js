@@ -1,28 +1,95 @@
 let localLoopback  = false;
-let remoteLoopback = true;
+let remoteLoopback = false;
 let debug          = true;
 let init           = false;
 let startLevel     = 0;
+let isMultiPlayer  = false;
+let isSeated       = false;
 let rngSeed;
-let gameId;
+
+//Firebase variables.
 let firebaseConfig;
 let database;
 let thisForumKey;
 let thisForumRef;
 let player1Ref;
 let player2Ref;
+let p1GameOverRef;
+let p2GameOverRef;
+let seatedRef;
+let rngRef;
 
 //Player 1
-let isPlayer1 = false;
+let isPlayer1  = false;
+let p1GameOver = true;
 let ntEngine1;
 let ntRenderer1;
 let ntInput1;
+let player1Score = 0;
+let player1Lines = 0;
+let player1Level = 0;
 
 //Player 2
-let isPlayer2 = false;
+let isPlayer2  = false;
+let p2GameOver = true;
 let ntEngine2;
 let ntRenderer2;
 let ntInput2;
+let player2Score = 0;
+let player2Lines = 0;
+let player2Level = 0;
+
+//Initial gameplay status. Not a complete object. Must add:
+//currentLevel, currentScore and linesCleared.
+let initStatus =
+{
+    "gameStatus": 0,
+    "lastRequest": 0,
+    "lastRequestStatus": 0,
+    "pieceCurrent": 0,
+    "pieceNext": 0,
+    "pieceRotation": 0,
+    "pieceThird": 0,
+    "pieceX": 5,
+    "pieceY": 21,
+    "rowsToAddNow": 0,
+    "rowsToAddTotal": 0,
+
+    "gameField":
+    [
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 2, 2, 2, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 3, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 3, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 2, 2, 2, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 3, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 3, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 3, 0, 0, 3, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+    ],
+
+    "recommendedColors":
+    [
+        "rgb(0, 0, 0)",
+        "rgb(0, 0, 0)",
+        "rgb(0, 0, 0)",
+        "rgb(0, 0, 0)",
+        "rgb(0, 0, 0)",
+    ]
+}
 
 let apiArray = 
 [
@@ -192,6 +259,11 @@ startGame2 = () =>
     ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
 }
 
+startRealGame = () =>
+{
+    console.log("Here");
+}
+
 /*************************************** Button Listeners ****************************************/
 
 $(document).ready(() =>
@@ -199,6 +271,16 @@ $(document).ready(() =>
     resizeCanvases();
     $(".leave-forum").on("click", () => 
     {
+        if(isPlayer2)
+        {
+            seatedRef.set({isSeated: false});
+            player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+        }
+        else if(isPlayer1)
+        {
+            player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
+        }
+
         window.location.href = "/home";
     });
 });
@@ -378,6 +460,47 @@ let addListeners = (data) =>
 {
     runForum(data);
 
+    //Normal play.
+    if(isPlayer1 && !remoteLoopback && !localLoopback)
+    {
+        $("#p1-div").html("<button class=\"btn btn-outline-success invisible\" id=\"start-game\">Start Game</button>");
+        $("#start-game").on("click", () =>
+        {
+            $("#start-game").addClass("invisible");
+            setTimeout(startRealGame, 1000);
+        });
+    }
+    else if(isPlayer2 && !remoteLoopback && !localLoopback)
+    {
+        //Player 2 is always unseated when entering the forum.
+        seatedRef.set({isSeated: false});
+
+        $("#p2-div").html("<button class=\"btn btn-outline-success\" id=\"sit-btn\">Sit</button>");
+        $("#sit-btn").on("click", () =>
+        {
+            if(isSeated)
+            {
+                isSeated = false;
+                seatedRef.set({isSeated: false});
+                $("#sit-btn").text("Sit");
+            }
+            else
+            {
+                isSeated = true;
+                seatedRef.set({isSeated: true});
+                $("#sit-btn").text("Stand");
+            }
+        });
+    }
+
+    //Add player 2 steated status.
+    if(!isPlayer2  && !remoteLoopback && !localLoopback)
+    {
+        $("#p2-div").html("<div class=\"score-div\"><div class=\"score-text\">Player 2 Status:</div>" +
+            "<div id=\"seated-div\" class=\"not-seated\">Not Seated</div></div>");
+    }
+
+    //---------- Firebase Listeners ----------
     player1Ref.on("value", function(snapshot)
     {
         if(snapshot.val() !== null)
@@ -394,6 +517,12 @@ let addListeners = (data) =>
                 ntRenderer2.gfRender(status);
             }
             else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
+            {
+                ntRenderer1.gfRender(status);
+            }
+
+            //Add data if not in loopback and player is remote.
+            if(!isPlayer1 && !localLoopback && !remoteLoopback)
             {
                 ntRenderer1.gfRender(status);
             }
@@ -418,6 +547,91 @@ let addListeners = (data) =>
             else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
             {
                 ntRenderer2.gfRender(status);
+            }
+
+            //Add data if not in loopback and player is remote.
+            if(!isPlayer2 && !localLoopback && !remoteLoopback)
+            {
+                ntRenderer2.gfRender(status);
+            }
+        }
+    });
+
+    p1GameOverRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            if(snapshot.val().isGameOver === "true")
+            {
+                p1GameOver = true;
+            }
+            else
+            {
+                p1GameOver = false;
+            }
+            
+            if(!p1GameOver && !p2GameOver)
+            {
+                $("#start-game").removeClass("invisible");
+            } 
+        }
+    });
+
+    p2GameOverRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            if(snapshot.val().isGameOver === "true")
+            {
+                p2GameOver = true;
+            }
+            else
+            {
+                p2GameOver = false;
+            }
+
+            if(!p1GameOver && !p2GameOver)
+            {
+                $("#start-game").removeClass("invisible");
+            } 
+        }
+    });
+                    
+    seatedRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            if(!isPlayer2)
+            {
+                status = snapshot.val().isSeated;
+                console.log(status);
+                $("#seated-div").removeClass("not-seated");
+                $("#seated-div").removeClass("seated");
+
+                if(status === "true")
+                {
+                    $("#seated-div").addClass("seated");
+                    $("#seated-div").text("Seated");
+                }
+                else
+                {
+                    $("#seated-div").addClass("not-seated");
+                    $("#seated-div").text("Not Seated");
+                }
+            }
+        }
+    });
+
+    //Set the RNG seed for Player 2.
+    rngRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            let status = snapshot.val().rngSeed;
+
+            if(isPlayer2)
+            {
+                ntEngine2.ntRequest(NTEngine.GR_RESEED, status);
             }
         }
     });
@@ -497,9 +711,21 @@ $.post("/api/users/verify/")
                 database.ref("forums/").push({forumId: data.targetForum})
                 .then(data => 
                 {
-                    thisForumKey = data.key;
-                    player1Ref = database.ref("forums/" + thisForumKey + "/player1/");
-                    player2Ref = database.ref("forums/" + thisForumKey + "/player2/");
+                    thisForumKey  = data.key;
+                    player1Ref    = database.ref("forums/" + thisForumKey + "/player1/");
+                    player2Ref    = database.ref("forums/" + thisForumKey + "/player2/");
+                    p1GameOverRef = database.ref("forums/" + thisForumKey + "/p1GameOver/");
+                    p2GameOverRef = database.ref("forums/" + thisForumKey + "/p2GameOver/");
+                    seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
+                    rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
+                    
+                    //Add initial data to firebase.
+                    player1Ref.set({status: {...initStatus, currentLevel: startLevel, currentScore: 0, linesCleared: 0}});
+                    player2Ref.set({status: {...initStatus, currentLevel: startLevel, currentScore: 0, linesCleared: 0}});
+                    p1GameOverRef.set({isGameOver: true});
+                    p2GameOverRef.set({isGameOver: true});
+                    seatedRef.set({isSeated: false});
+                    rngRef.set({rngSeed: 0});
                     addListeners(data);
                 });
             }
@@ -507,8 +733,16 @@ $.post("/api/users/verify/")
             {
                 //Get the firebase entry for this forum.
                 snapshot.forEach(data => thisForumKey = data.key);
-                player1Ref = database.ref("forums/" + thisForumKey + "/player1/");
-                player2Ref = database.ref("forums/" + thisForumKey + "/player2/");
+                player1Ref    = database.ref("forums/" + thisForumKey + "/player1/");
+                player2Ref    = database.ref("forums/" + thisForumKey + "/player2/");
+                p1GameOverRef = database.ref("forums/" + thisForumKey + "/p1GameOver/");
+                p2GameOverRef = database.ref("forums/" + thisForumKey + "/p2GameOver/");
+                seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
+                rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
+
+                p1GameOverRef.set({isGameOver: true});
+                p2GameOverRef.set({isGameOver: true});
+                seatedRef.set({isSeated: false});
                 addListeners(data);
             }
         });

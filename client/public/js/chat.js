@@ -59,13 +59,14 @@ let appendComments = () =>
                 {
                     let moderateCommentIcon = "X";
                     let moderateCommentBtn = $("<button>");
-                    let moderateCommentDiv = $("<div>");
+                    let moderateCommentDiv = $("<span>");
+                    moderateCommentDiv.addClass("mr-2");
                     moderateCommentBtn.addClass("deleteCommentBtn");
                     moderateCommentBtn.attr("type", "button");
 
                     moderateCommentBtn.append(moderateCommentIcon);
                     moderateCommentDiv.append(moderateCommentBtn);
-                    commentDiv.append(moderateCommentDiv);
+                    commentDiv.prepend(moderateCommentDiv);
                 }
 
                 $(".chat-div").append(commentDiv);

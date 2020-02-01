@@ -737,6 +737,8 @@ let addListeners = (data) =>
             
             if(status === "true")
             {
+                if(debug)console.log("Game Started.");
+
                 if(isPlayer1)
                 {
                     ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);

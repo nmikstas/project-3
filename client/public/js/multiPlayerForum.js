@@ -643,18 +643,18 @@ let addListeners = (data) =>
             }
 
             //Add lines to gamefield.
-            if(isPlayer2 && !remoteLoopback && !localLoopback && !status.NTEngine.GS_OVER)
+            if(isPlayer2 && !remoteLoopback && !localLoopback && !(parseInt(status.gameStatus) === NTEngine.GS_OVER))
             {
-                console.log("Player 2 check lines");
+                //console.log("Player 2 check lines");
                 if(status.rowsToErase.length && !p2LinesTrigger)
                 {
-                    Console.log("Player 2 add lines: " + parseFloat(status.rowsToErase.length) * interference);
+                    //console.log("Player 2 add lines: " + parseFloat(status.rowsToErase.length) * interference);
                     ntEngine2.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
                     p2LinesTrigger = true;
                 }
                 else if(!status.rowsToErase.length && p2LinesTrigger)
                 {
-                    console.log("Player 2 Wait");
+                    //console.log("Player 2 Wait");
                     p2LinesTrigger = false;
                 }
             }
@@ -701,18 +701,18 @@ let addListeners = (data) =>
             }
 
             //Add lines to gamefield.
-            if(isPlayer1 && !remoteLoopback && !localLoopback && !status.NTEngine.GS_OVER)
+            if(isPlayer1 && !remoteLoopback && !localLoopback && !(parseInt(status.gameStatus) === NTEngine.GS_OVER))
             {
-                console.log("Player 1 check lines");
+                //console.log("Player 1 check lines");
                 if(status.rowsToErase.length && !p1LinesTrigger)
                 {
-                    Console.log("Player 1 add lines: " + parseFloat(status.rowsToErase.length) * interference);
+                    //console.log("Player 1 add lines: " + parseFloat(status.rowsToErase.length) * interference);
                     ntEngine1.ntRequest(NTEngine.GR_ADD_LINES, parseFloat(status.rowsToErase.length) * interference);
                     p1LinesTrigger = true;
                 }
                 else if(!status.rowsToErase.length && p1LinesTrigger)
                 {
-                    console.log("Player 1 Wait");
+                    //console.log("Player 1 Wait");
                     p1LinesTrigger = false;
                 }
             }

@@ -518,8 +518,6 @@ let addListeners = (data) =>
             //Seed the game RNG.
             rngRef.set({rngSeed: Math.floor(Math.random() * 100000000)});
 
-            //Determine if this a multiplayer game or not.
-            isMultiPlayer = isSeated;
 
 
 
@@ -731,6 +729,8 @@ let addListeners = (data) =>
     //Check to see if game needs to be started.
     startRef.on("value", function(snapshot)
     {
+        isMultiPlayer = isSeated;
+        
         if(snapshot.val() !== null)
         {
             status = snapshot.val().start;

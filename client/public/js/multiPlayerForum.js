@@ -777,20 +777,20 @@ let addListeners = (data) =>
                 p1GameOver = false;
             }
             
-            console.log("********** Player 1 Source **********");
-            console.log("Player 1 Game Over: " + p1GameOver);
-            console.log("Player 2 Game Over: " + p2GameOver);
+            //console.log("********** Player 1 Source **********");
+            //console.log("Player 1 Game Over: " + p1GameOver);
+            //console.log("Player 2 Game Over: " + p2GameOver);
 
-            if(!p1GameOver && !p2GameOver)
+            if(!p1GameOver || !p2GameOver)
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
+            }
+            else
             {
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
-            }
-            else
-            {
-                $("#start-game").addClass("invisible");
-                $("#sit-btn").addClass("invisible");
             }
         }
     });
@@ -808,20 +808,20 @@ let addListeners = (data) =>
                 p2GameOver = false;
             }
 
-            console.log("********** Player 2 Source **********");
-            console.log("Player 1 Game Over: " + p1GameOver);
-            console.log("Player 2 Game Over: " + p2GameOver);
+            //console.log("********** Player 2 Source **********");
+            //console.log("Player 1 Game Over: " + p1GameOver);
+            //console.log("Player 2 Game Over: " + p2GameOver);
 
-            if(!p1GameOver && !p2GameOver)
+            if(!p1GameOver || !p2GameOver)
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
+            }
+            else
             {
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
-            }
-            else
-            {
-                $("#start-game").addClass("invisible");
-                $("#sit-btn").addClass("invisible");
             }
         }
     });

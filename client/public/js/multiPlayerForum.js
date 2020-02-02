@@ -274,6 +274,15 @@ let renderHandler1 = (status) =>
         player1Ref.set({status: status});
     }
 
+    //Set Player 1 game over status.
+    if(status.gameStatus === NTEngine.GS_OVER)
+    {
+        p1GameOverRef.set({isGameOver: true});
+    }
+    else
+    {
+        p1GameOverRef.set({isGameOver: false});
+    }
     
     
     
@@ -317,7 +326,15 @@ let renderHandler2 = (status) =>
         player2Ref.set({status: status});
     }
 
-
+    //Set Player 2 game over status.
+    if(status.gameStatus === NTEngine.GS_OVER)
+    {
+        p2GameOverRef.set({isGameOver: true});
+    }
+    else
+    {
+        p2GameOverRef.set({isGameOver: false});
+    }
     
 
 
@@ -368,11 +385,19 @@ $(document).ready(() =>
     {
         if(isPlayer2)
         {
+            if(p1GameOver)
+            {
+                startRef.set({start: false});
+            }
             seatedRef.set({isSeated: false});
             player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
         }
         else if(isPlayer1)
         {
+            if(p2GameOver)
+            {
+                startRef.set({start: false});
+            }
             player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
         }
 
@@ -590,7 +615,7 @@ let addListeners = (data) =>
         //Player 2 is always unseated when entering the forum.
         seatedRef.set({isSeated: false});
 
-        $("#p2-div").html("<button class=\"btn btn-outline-success\" id=\"sit-btn\">Sit</button>");
+        $("#p2-btn-div").html("<button class=\"btn btn-outline-success invisible\" id=\"sit-btn\">Sit</button>");
         $("#sit-btn").on("click", () =>
         {
             if(isSeated)
@@ -609,7 +634,7 @@ let addListeners = (data) =>
     }
 
     //Add player 2 steated status.
-    if(!isPlayer2  && !remoteLoopback && !localLoopback)
+    if(!remoteLoopback && !localLoopback)
     {
         $("#p2-div").html("<div class=\"score-div\"><div class=\"score-text\">Player 2 Status:</div>" +
             "<div id=\"seated-div\" class=\"not-seated\">Not Seated</div></div>");
@@ -747,6 +772,8 @@ let addListeners = (data) =>
             if(!p1GameOver && !p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
+                $("#sit-btn").removeClass("invisible");
+                startRef.set({start: false});
             } 
         }
     });
@@ -767,6 +794,8 @@ let addListeners = (data) =>
             if(!p1GameOver && !p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
+                $("#sit-btn").removeClass("invisible");
+                startRef.set({start: false});
             } 
         }
     });
@@ -775,22 +804,19 @@ let addListeners = (data) =>
     {
         if(snapshot.val() !== null)
         {
-            if(!isPlayer2)
-            {
-                status = snapshot.val().isSeated;
-                $("#seated-div").removeClass("not-seated");
-                $("#seated-div").removeClass("seated");
+            status = snapshot.val().isSeated;
+            $("#seated-div").removeClass("not-seated");
+            $("#seated-div").removeClass("seated");
 
-                if(status === "true")
-                {
-                    $("#seated-div").addClass("seated");
-                    $("#seated-div").text("Seated");
-                }
-                else
-                {
-                    $("#seated-div").addClass("not-seated");
-                    $("#seated-div").text("Not Seated");
-                }
+            if(status === "true")
+            {
+                $("#seated-div").addClass("seated");
+                $("#seated-div").text("Seated");
+            }
+            else
+            {
+                $("#seated-div").addClass("not-seated");
+                $("#seated-div").text("Not Seated");
             }
         }
     });

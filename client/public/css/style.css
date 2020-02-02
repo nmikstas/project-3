@@ -338,6 +338,7 @@ footer
 .chat-username
 {
     color: #ffffff;
+    font-weight: bold;
 }
 
 .chat-usertext

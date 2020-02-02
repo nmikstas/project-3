@@ -828,7 +828,7 @@ let addListeners = (data) =>
             $("#seated-div").removeClass("not-seated");
             $("#seated-div").removeClass("seated");
 
-            if(status)
+            if(status === "true")
             {
                 $("#seated-div").addClass("seated");
                 $("#seated-div").text("Seated");

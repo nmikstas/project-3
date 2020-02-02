@@ -778,6 +778,7 @@ let addListeners = (data) =>
             }
             
             console.log("********** Player 1 Source **********");
+            console.log("Player 1 Snapshot: " + snapshot.val().isGameOver);
             console.log("Player 1 Game Over: " + p1GameOver);
             console.log("Player 2 Game Over: " + p2GameOver);
 
@@ -809,6 +810,7 @@ let addListeners = (data) =>
             }
 
             console.log("********** Player 2 Source **********");
+            console.log("Player 2 Snapshot: " + snapshot.val().isGameOver);
             console.log("Player 1 Game Over: " + p1GameOver);
             console.log("Player 2 Game Over: " + p2GameOver);
 

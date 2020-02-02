@@ -696,7 +696,7 @@ let addListeners = (data) =>
 
 
         }
-    });
+    }); 
 
     player2Ref.on("value", function(snapshot)
     {

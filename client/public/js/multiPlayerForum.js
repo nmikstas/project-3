@@ -193,6 +193,7 @@ let showStats2 = (level, score, lines) =>
 
 p1Reset = () =>
 {
+    console.log("Firing P1 Watchdog");
     if(p2GameOver)
     {
         startRef.set({start: false});
@@ -204,6 +205,7 @@ p1Reset = () =>
 
 p2Reset = () =>
 {
+    console.log("Firing P1 Watchdog");
     if(p1GameOver)
     {
         startRef.set({start: false});
@@ -298,6 +300,7 @@ let renderHandler1 = (status) =>
     {
         if(status.gameStatus !== NTEngine.GS_OVER)
         {
+            console.log("Setting P1 Watchdog");
             clearTimeout(p1ResetTimer);
             p1ResetTimer = setTimeout(p1Reset, 5000);
         }
@@ -358,6 +361,7 @@ let renderHandler2 = (status) =>
     {
         if(status.gameStatus !== NTEngine.GS_OVER)
         {
+            console.log("Setting P2 Watchdog");
             clearTimeout(p2ResetTimer);
             p2ResetTimer = setTimeout(p2Reset, 5000);
         }

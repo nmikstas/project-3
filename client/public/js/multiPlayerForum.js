@@ -379,7 +379,7 @@ $(document).ready(() =>
                 window.location.href = "/home";
             })
             .catch((error) =>
-             {
+            {
                 alert("Firebase Error: " + error);
                 window.location.href = "/home";
             });
@@ -398,11 +398,13 @@ $(document).ready(() =>
                 window.location.href = "/home";
             })
             .catch((error) =>
-             {
+            {
                 alert("Firebase Error: " + error);
                 window.location.href = "/home";
             });
         }
+
+        window.location.href = "/home";
     });
 });
 

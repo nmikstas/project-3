@@ -15,17 +15,29 @@ let appendComments = () =>
     .then((data) =>
     {
         //console.log(data);
-
         databaseCommentsArr = [...data];
-
         //console.log(databaseCommentsArr);
     
-
         if (commentsArr !== databaseCommentsArr)
         {
             for (let i = lastComments; i < databaseCommentsArr.length; i++)
             {
                 commentsArr.push(databaseCommentsArr[i]);
+            }
+        }
+
+        for (let i = 0; i < commentsArr.length; i++)
+        {
+            console.log(commentsArr[i].isDeleted);
+
+            let userCommentId = commentsArr[i]._id;
+
+            if (commentsArr[i].isDeleted !== databaseCommentsArr[i].isDeleted)
+            {
+                commentsArr[i].isDeleted = databaseCommentsArr[i].isDeleted;
+
+                lastComments = 0;
+                $(".chat-div").empty();
             }
         }
 
@@ -43,11 +55,23 @@ let appendComments = () =>
                 let userCommentId = commentsArr[i]._id;
                 //console.log(userCommentId);
 
-                let userComment = commentsArr[i].comment;
+                let userComment;
                 let userCommentSpan = $("<span>");
-                userCommentSpan.addClass("chat-usertext");
-                userCommentSpan.attr("id", userCommentId)
-                userCommentSpan.text(userComment);
+
+                if (commentsArr[i].isDeleted)
+                {
+                    userComment = "This message has been moderated.";
+                    userCommentSpan.addClass("chat-usertext-moderated");
+                    userCommentSpan.attr("id", userCommentId)
+                    userCommentSpan.text(userComment);
+                }
+                else
+                {
+                    userComment = commentsArr[i].comment;
+                    userCommentSpan.addClass("chat-usertext");
+                    userCommentSpan.attr("id", userCommentId)
+                    userCommentSpan.text(userComment);
+                }
 
                 let commentDiv = $("<div>");
                 commentDiv.addClass("mx-2 text-left");
@@ -57,16 +81,72 @@ let appendComments = () =>
 
                 if (isModerator)
                 {
-                    let moderateCommentIcon = "X";
-                    let moderateCommentBtn = $("<button>");
-                    let moderateCommentDiv = $("<span>");
-                    moderateCommentDiv.addClass("mr-2");
-                    moderateCommentBtn.addClass("deleteCommentBtn");
-                    moderateCommentBtn.attr("type", "button");
+                    if (commentsArr[i].isDeleted)
+                    {
+                        let moderateCommentIcon = "&plus;";
+                        let moderateCommentBtn = $("<button>");
+                        let moderateCommentDiv = $("<span>");
+                        moderateCommentDiv.addClass("mr-2");
+                        moderateCommentBtn.addClass("restoreCommentBtn");
+                        moderateCommentBtn.attr("type", "button");
+                        
+                        moderateCommentBtn.on("click", function (event)
+                        {
+                            console.log("undelete");
 
-                    moderateCommentBtn.append(moderateCommentIcon);
-                    moderateCommentDiv.append(moderateCommentBtn);
-                    commentDiv.prepend(moderateCommentDiv);
+                            $.ajax("/api/comments/undeletecomment",
+                            {
+                                type: "PUT",
+                                data:
+                                {
+                                    id: userCommentId,
+                                }
+                            })
+                            .fail(function(err)
+                            {
+                                console.log(err);
+                                window.location.href = "/denied";
+                            });
+                        });
+
+                        moderateCommentBtn.append(moderateCommentIcon);
+                        moderateCommentDiv.append(moderateCommentBtn);
+
+                        commentDiv.prepend(moderateCommentDiv);
+                    }
+                    else
+                    {
+                        let moderateCommentIcon = "X";
+                        let moderateCommentBtn = $("<button>");
+                        let moderateCommentDiv = $("<span>");
+                        moderateCommentDiv.addClass("mr-2");
+                        moderateCommentBtn.addClass("deleteCommentBtn");
+                        moderateCommentBtn.attr("type", "button");
+
+                        moderateCommentBtn.on("click", function (event)
+                        {
+                            console.log("delete");
+
+                            $.ajax("/api/comments/deletecomment",
+                            {
+                                type: "PUT",
+                                data:
+                                {
+                                    id: userCommentId,
+                                }
+                            })
+                            .fail(function(err)
+                            {
+                                console.log(err);
+                                window.location.href = "/denied";
+                            });
+                        });
+
+                        moderateCommentBtn.append(moderateCommentIcon);
+                        moderateCommentDiv.append(moderateCommentBtn);
+
+                        commentDiv.prepend(moderateCommentDiv);
+                    }
                 }
 
                 $(".chat-div").append(commentDiv);
@@ -78,26 +158,31 @@ let appendComments = () =>
 
 $(document).ready(() =>
 {
-    $("#chat-btn").on("click", function (event)
+    let chatBtn = () =>
     {
-        event.preventDefault();
-        let userComment = $("#chat-input").val().trim();
-        $("#chat-input").val("");
-
-        let commentObject =
+        $("#chat-btn").on("click", function (event)
         {
-            username: player,
-            comment: userComment,
-            forumId: forumId,
-        };
-
-        $.post("/api/comments/newcomment", commentObject)
-        .fail(function(err)
-        {
-            console.log(err);
-            window.location.href = "/denied";
+            event.preventDefault();
+            let userComment = $("#chat-input").val().trim();
+            $("#chat-input").val("");
+    
+            let commentObject =
+            {
+                username: player,
+                comment: userComment,
+                forumId: forumId,
+            };
+    
+            $.post("/api/comments/newcomment", commentObject)
+            .fail(function(err)
+            {
+                console.log(err);
+                window.location.href = "/denied";
+            });
         });
-    });
+    }
+
+    chatBtn();
 });
 
 //Verify the user is logged in.
@@ -131,13 +216,11 @@ $.post("/api/users/verify/")
                 isModerator = forumData.spectators[i].isModerator;
             }
         }
-
         //console.log("player: " + player + ", is moderator: " + isModerator);
 
         appendComments();
         setInterval(appendComments, 1000);
     });
-
 })
 .fail(function(err)
 {

@@ -824,11 +824,10 @@ let addListeners = (data) =>
     {
         if(snapshot.val() !== null)
         {
-            status = snapshot.val().isSeated;
             $("#seated-div").removeClass("not-seated");
             $("#seated-div").removeClass("seated");
 
-            if(status === "true")
+            if(snapshot.val().isSeated)
             {
                 $("#seated-div").addClass("seated");
                 $("#seated-div").text("Seated");
@@ -856,10 +855,8 @@ let addListeners = (data) =>
         isMultiPlayer = isSeated;
 
         if(snapshot.val() !== null)
-        {
-            status = snapshot.val().start;
-            
-            if(status === "true")
+        {            
+            if(snapshot.val().start)
             {
                 if(isPlayer1)
                 {

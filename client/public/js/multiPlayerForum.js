@@ -28,6 +28,7 @@ let p1LinesTrigger = false;
 let ntEngine1;
 let ntRenderer1;
 let ntInput1;
+let p1ResetTimer;
 let player1Score = 0;
 let player1Lines = 0;
 let player1Level = 0;
@@ -39,6 +40,7 @@ let p2LinesTrigger = false;
 let ntEngine2;
 let ntRenderer2;
 let ntInput2;
+let p2ResetTimer;
 let player2Score = 0;
 let player2Lines = 0;
 let player2Level = 0;
@@ -189,20 +191,27 @@ let showStats2 = (level, score, lines) =>
 
 /**************************************** Watchdog Timers ****************************************/
 
+p1Reset = () =>
+{
+    if(p2GameOver)
+    {
+        startRef.set({start: false});
+    }
 
+    p1GameOverRef.set({isGameOver: true});
+    player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
+}
 
+p2Reset = () =>
+{
+    if(p1GameOver)
+    {
+        startRef.set({start: false});
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    p2GameOverRef.set({isGameOver: true});
+    p2ayer1Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+}
 
 /***************************************** Game Handlers *****************************************/
 
@@ -284,7 +293,15 @@ let renderHandler1 = (status) =>
         p1GameOverRef.set({isGameOver: false});
     }
     
-    
+    //Watchdog timer.
+    if(isPlayer2 && !remoteLoopback && !localLoopback)
+    {
+        if(status.gameStatus !== NTEngine.GS_OVER)
+        {
+            clearTimeout(p1ResetTimer);
+            p1ResetTimer = setTimeout(p1Reset, 5000);
+        }
+    }
     
 
 
@@ -334,6 +351,16 @@ let renderHandler2 = (status) =>
     else
     {
         p2GameOverRef.set({isGameOver: false});
+    }
+
+    //Watchdog timer.
+    if(isPlayer1 && !remoteLoopback && !localLoopback)
+    {
+        if(status.gameStatus !== NTEngine.GS_OVER)
+        {
+            clearTimeout(p2ResetTimer);
+            p2ResetTimer = setTimeout(p2Reset, 5000);
+        }
     }
     
 

@@ -205,14 +205,14 @@ p1Reset = () =>
 
 p2Reset = () =>
 {
-    console.log("Firing P1 Watchdog");
+    console.log("Firing P2 Watchdog");
     if(p1GameOver)
     {
         startRef.set({start: false});
     }
 
     p2GameOverRef.set({isGameOver: true});
-    p2ayer1Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+    player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
 }
 
 /***************************************** Game Handlers *****************************************/
@@ -300,7 +300,7 @@ let renderHandler1 = (status) =>
     {
         if(!p2GameOver)
         {
-            //console.log("Setting P1 Watchdog");
+            console.log("Setting P2 Watchdog");
             clearTimeout(p2ResetTimer);
             p2ResetTimer = setTimeout(p2Reset, 5000);
         }
@@ -361,7 +361,7 @@ let renderHandler2 = (status) =>
     {
         if(!p1GameOver)
         {
-            //console.log("Setting P1 Watchdog");
+            console.log("Setting P1 Watchdog");
             clearTimeout(p1ResetTimer);
             p1ResetTimer = setTimeout(p1Reset, 5000);
         }

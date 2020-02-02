@@ -378,6 +378,11 @@ $(document).ready(() =>
                 seatedRef.set({isSeated: false});
                 window.location.href = "/home";
             })
+            .catch((error) =>
+             {
+                alert("Firebase Error: " + error);
+                window.location.href = "/home";
+            });
         }
         else if(isPlayer1)
         {
@@ -392,6 +397,11 @@ $(document).ready(() =>
             {
                 window.location.href = "/home";
             })
+            .catch((error) =>
+             {
+                alert("Firebase Error: " + error);
+                window.location.href = "/home";
+            });
         }
     });
 });

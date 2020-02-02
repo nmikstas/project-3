@@ -38,7 +38,7 @@ let appendComments = () =>
                 let userName = commentsArr[i].username;
                 let userNameSpan = $("<span>");
                 userNameSpan.addClass("chat-username");
-                userNameSpan.append("<b>" + userName + "<b>" + ": ");
+                userNameSpan.text(userName + ": ");
 
                 let userCommentId = commentsArr[i]._id;
                 //console.log(userCommentId);
@@ -47,7 +47,7 @@ let appendComments = () =>
                 let userCommentSpan = $("<span>");
                 userCommentSpan.addClass("chat-usertext");
                 userCommentSpan.attr("id", userCommentId)
-                userCommentSpan.append(userComment);
+                userCommentSpan.text(userComment);
 
                 let commentDiv = $("<div>");
                 commentDiv.addClass("mx-2 text-left");

@@ -781,16 +781,16 @@ let addListeners = (data) =>
             console.log("Player 1 Game Over: " + p1GameOver);
             console.log("Player 2 Game Over: " + p2GameOver);
 
-            if(!p1GameOver || !p2GameOver)
-            {
-                $("#start-game").addClass("invisible");
-                $("#sit-btn").addClass("invisible");
-            }
-            else
+            if(p1GameOver && p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
+            }
+            else
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
             }
         }
     });
@@ -812,16 +812,16 @@ let addListeners = (data) =>
             console.log("Player 1 Game Over: " + p1GameOver);
             console.log("Player 2 Game Over: " + p2GameOver);
 
-            if(!p1GameOver || !p2GameOver)
-            {
-                $("#start-game").addClass("invisible");
-                $("#sit-btn").addClass("invisible");
-            }
-            else
+            if(p1GameOver && p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
+            }
+            else
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
             }
         }
     });

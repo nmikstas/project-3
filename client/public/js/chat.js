@@ -6,6 +6,15 @@ let isModerator = false;
 let databaseCommentsArr = [];
 let commentsArr = [];
 let lastComments = 0;
+let isAutoScrolling = true;
+
+let chatAutoScroll = () =>
+{
+    $(".chat-div").stop().animate(
+    {
+        scrollTop: $(".chat-div")[0].scrollHeight
+    }, 800);
+}
 
 let appendComments = () =>
 {
@@ -28,7 +37,7 @@ let appendComments = () =>
 
         for (let i = 0; i < commentsArr.length; i++)
         {
-            console.log(commentsArr[i].isDeleted);
+            //console.log(commentsArr[i].isDeleted);
 
             let userCommentId = commentsArr[i]._id;
 
@@ -92,7 +101,7 @@ let appendComments = () =>
                         
                         moderateCommentBtn.on("click", function (event)
                         {
-                            console.log("undelete");
+                            //console.log("undelete");
 
                             $.ajax("/api/comments/undeletecomment",
                             {
@@ -125,7 +134,7 @@ let appendComments = () =>
 
                         moderateCommentBtn.on("click", function (event)
                         {
-                            console.log("delete");
+                            //console.log("delete");
 
                             $.ajax("/api/comments/deletecomment",
                             {
@@ -150,6 +159,11 @@ let appendComments = () =>
                 }
 
                 $(".chat-div").append(commentDiv);
+
+                if(isAutoScrolling)
+                {
+                    chatAutoScroll();
+                }
             }
         }
     });
@@ -182,7 +196,25 @@ $(document).ready(() =>
         });
     }
 
+    let disableAutoScroll = () =>
+    {
+        $(".scroll-btn").on("click", function (event)
+        {
+            if (isAutoScrolling)
+            {
+                isAutoScrolling = false;
+                $(".scroll-btn").text("Enable Auto-Scroll");
+            }
+            else
+            {
+                isAutoScrolling = true;
+                $(".scroll-btn").text("Disable Auto-Scroll");
+            }
+        });
+    }
+
     chatBtn();
+    disableAutoScroll();
 });
 
 //Verify the user is logged in.

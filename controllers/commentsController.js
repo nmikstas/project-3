@@ -27,6 +27,18 @@ module.exports =
     },
 
     //Delete a comment.
+    deleteComment: (req, res) =>
+    {
+        db.Comment.findOneAndUpdate({ _id: req.body.id }, { isDeleted: true }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
 
     //Undelete a comment.
+    undeleteComment: (req, res) =>
+    {
+        db.Comment.findOneAndUpdate({ _id: req.body.id }, { isDeleted: false }, { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    }
 }

@@ -9,9 +9,9 @@ router.route("/getcomments/:forumId").get(isAuthenticated, commentsController.ge
 router.route("/newcomment").post(isAuthenticated, commentsController.newComment);
 
 //Matches with "/api/comments/deletecomment"
-//router.route("/api/comments/deletecomment").put(isAuthenticated, commentsController.deleteComment);
+router.route("/deletecomment").put(isAuthenticated, commentsController.deleteComment);
 
 //Matches with "/api/comments/undeletecomment"
-//router.route("/api/comments/undeletecomment").put(isAuthenticated, commentsController.undeleteComment);
+router.route("/undeletecomment").put(isAuthenticated, commentsController.undeleteComment);
 
 module.exports = router;

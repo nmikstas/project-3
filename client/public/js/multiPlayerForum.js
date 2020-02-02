@@ -768,7 +768,7 @@ let addListeners = (data) =>
     {
         if(snapshot.val() !== null)
         {
-            if(snapshot.val().isGameOver === "true")
+            if(snapshot.val().isGameOver)
             {
                 p1GameOver = true;
             }
@@ -800,7 +800,7 @@ let addListeners = (data) =>
     {
         if(snapshot.val() !== null)
         {
-            if(snapshot.val().isGameOver === "true")
+            if(snapshot.val().isGameOver)
             {
                 p2GameOver = true;
             }

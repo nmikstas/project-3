@@ -385,26 +385,31 @@ $(document).ready(() =>
     {
         if(isPlayer2)
         {
-            player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
-
             if(p1GameOver)
             {
                 startRef.set({start: false});
             }
-            seatedRef.set({isSeated: false});
-            
+
+            player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}})
+            .then(() =>
+            {
+                seatedRef.set({isSeated: false});
+                window.location.href = "/home";
+            })
         }
         else if(isPlayer1)
         {
-            player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
-            
             if(p2GameOver)
             {
                 startRef.set({start: false});
             }
-        }
 
-        window.location.href = "/home";
+            player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}})
+            .then(() =>
+            {
+                window.location.href = "/home";
+            })
+        }
     });
 });
 

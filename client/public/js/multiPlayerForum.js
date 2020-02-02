@@ -298,6 +298,7 @@ let renderHandler1 = (status) =>
     //Watchdog timer.
     if(isPlayer2 && !remoteLoopback && !localLoopback)
     {
+        console.log("Here");
         if(status.gameStatus !== NTEngine.GS_OVER)
         {
             console.log("Setting P1 Watchdog");
@@ -359,6 +360,7 @@ let renderHandler2 = (status) =>
     //Watchdog timer.
     if(isPlayer1 && !remoteLoopback && !localLoopback)
     {
+        console.log("Here");
         if(status.gameStatus !== NTEngine.GS_OVER)
         {
             console.log("Setting P2 Watchdog");

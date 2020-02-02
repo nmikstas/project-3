@@ -193,7 +193,6 @@ let showStats2 = (level, score, lines) =>
 
 p1Reset = () =>
 {
-    console.log("Firing P1 Watchdog");
     if(p2GameOver)
     {
         startRef.set({start: false});
@@ -205,7 +204,6 @@ p1Reset = () =>
 
 p2Reset = () =>
 {
-    console.log("Firing P2 Watchdog");
     if(p1GameOver)
     {
         startRef.set({start: false});
@@ -221,41 +219,12 @@ let inputHandler1 = (request, param) =>
 {
     if(ntEngine1.gameStatus === NTEngine.GS_OVER) return;
     if(isPlayer1) ntEngine1.ntRequest(request, param);
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 let inputHandler2 = (request, param) =>
 {
     if(ntEngine2.gameStatus === NTEngine.GS_OVER || !isSeated) return;
     if(isPlayer2) ntEngine2.ntRequest(request, param);
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
 }
 
 let renderHandler1 = (status) =>
@@ -711,7 +680,6 @@ let addListeners = (data) =>
             {
                 if(!p1GameOver)
                 {
-                    console.log("Setting P1 Watchdog");
                     clearTimeout(p1ResetTimer);
                     p1ResetTimer = setTimeout(p1Reset, 5000);
                 }
@@ -778,7 +746,6 @@ let addListeners = (data) =>
             {
                 if(!p2GameOver)
                 {
-                    console.log("Setting P2 Watchdog");
                     clearTimeout(p2ResetTimer);
                     p2ResetTimer = setTimeout(p2Reset, 5000);
                 }

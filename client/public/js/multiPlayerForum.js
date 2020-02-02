@@ -390,6 +390,7 @@ $(document).ready(() =>
                 startRef.set({start: false});
             }
 
+            p2GameOverRef.set({isGameOver: true});
             player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}})
             .then(() =>
             {
@@ -404,6 +405,7 @@ $(document).ready(() =>
                 startRef.set({start: false});
             }
 
+            p1GameOverRef.set({isGameOver: true});
             player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}})
             .then(() =>
             {
@@ -777,11 +779,6 @@ let addListeners = (data) =>
                 p1GameOver = false;
             }
             
-            console.log("********** Player 1 Source **********");
-            console.log("Player 1 Snapshot: " + snapshot.val().isGameOver);
-            console.log("Player 1 Game Over: " + p1GameOver);
-            console.log("Player 2 Game Over: " + p2GameOver);
-
             if(p1GameOver && p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
@@ -809,11 +806,6 @@ let addListeners = (data) =>
                 p2GameOver = false;
             }
 
-            console.log("********** Player 2 Source **********");
-            console.log("Player 2 Snapshot: " + snapshot.val().isGameOver);
-            console.log("Player 1 Game Over: " + p1GameOver);
-            console.log("Player 2 Game Over: " + p2GameOver);
-
             if(p1GameOver && p2GameOver)
             {
                 $("#start-game").removeClass("invisible");
@@ -836,7 +828,7 @@ let addListeners = (data) =>
             $("#seated-div").removeClass("not-seated");
             $("#seated-div").removeClass("seated");
 
-            if(status === "true")
+            if(status)
             {
                 $("#seated-div").addClass("seated");
                 $("#seated-div").text("Seated");

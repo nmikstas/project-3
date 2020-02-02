@@ -385,20 +385,23 @@ $(document).ready(() =>
     {
         if(isPlayer2)
         {
+            player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+
             if(p1GameOver)
             {
                 startRef.set({start: false});
             }
             seatedRef.set({isSeated: false});
-            player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+            
         }
         else if(isPlayer1)
         {
+            player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
+            
             if(p2GameOver)
             {
                 startRef.set({start: false});
             }
-            player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
         }
 
         window.location.href = "/home";
@@ -774,7 +777,12 @@ let addListeners = (data) =>
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
-            } 
+            }
+            else
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
+            }
         }
     });
 
@@ -796,7 +804,12 @@ let addListeners = (data) =>
                 $("#start-game").removeClass("invisible");
                 $("#sit-btn").removeClass("invisible");
                 startRef.set({start: false});
-            } 
+            }
+            else
+            {
+                $("#start-game").addClass("invisible");
+                $("#sit-btn").addClass("invisible");
+            }
         }
     });
                     

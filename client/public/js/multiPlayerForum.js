@@ -4,6 +4,8 @@ let debug          = true;
 let init           = false;
 let isMultiPlayer  = false;
 let isSeated       = false;
+let player1        = "";
+let player2        = "";
 let interference;
 let startLevel;
 let rngSeed;
@@ -593,7 +595,36 @@ let addListeners = (data) =>
             $("#start-game").addClass("invisible");
 
             //Seed the game RNG.
-            rngRef.set({rngSeed: Math.floor(Math.random() * 100000000)});
+            let rngSeed = Math.floor(Math.random() * 100000000);
+            rngRef.set({rngSeed: rngSeed})
+            .then(() =>
+            {
+                //create a database object for the current game.
+                let game = 
+                {
+                    player1:      player1,
+                    level1:       startLevel,
+                    player2:      player2,
+                    level2:       startLevel,
+                    singlePlayer: !isMultiPlayer,
+                    rngSeed:      rngSeed
+                };
+
+                $.post("/api/users/verify/", game)
+                .then(data => 
+                {
+                    console.log(data);
+
+                    //Start the game after a 2 second delay.
+                    setTimeout(startRealGame, 2000);
+                })
+                .fail(err =>
+                {
+                    console.log(err);       
+                });
+            });
+
+            
 
 
 
@@ -606,11 +637,7 @@ let addListeners = (data) =>
 
 
 
-
-
-
-            //Start the game after a 2 second delay.
-            setTimeout(startRealGame, 2000);
+            
         });
     }
     else if(isPlayer2 && !remoteLoopback && !localLoopback)
@@ -911,6 +938,7 @@ $.post("/api/users/verify/")
         $("#r-score1").text("0");
         $("#r-lines1").text("0");
         $("#r-level1").text(forumData.startLevel);
+        player1 = forumData.owner;
 
         if(forumData.player2 && forumData.player2 !== "")
         {
@@ -918,6 +946,7 @@ $.post("/api/users/verify/")
             $("#r-score2").text("0");
             $("#r-lines2").text("0");
             $("#r-level2").text(forumData.startLevel);
+            player2 = forumData.player2;
         }
 
         //Setup the starting level.
@@ -999,26 +1028,6 @@ $.post("/api/users/verify/")
                 addListeners(data);
             }
         });
-
-        //**********For local and remote loopback testing**********
-        if(isPlayer1 && (remoteLoopback || localLoopback))
-        {
-            $("#p1-div").html("<button class=\"btn btn-outline-success\" id=\"p1-btn\">Start Game</button>");
-            $("#p1-btn").on("click", () =>
-            {
-                $("#p1-btn").addClass("invisible");
-                setTimeout(startGame1, 1000);
-            });
-        }
-        else if(isPlayer2  && (remoteLoopback || localLoopback))
-        {
-            $("#p2-div").html("<button class=\"btn btn-outline-success\" id=\"p2-btn\">Start Game</button>");
-            $("#p2-btn").on("click", () =>
-            {
-                $("#p2-btn").addClass("invisible");
-                setTimeout(startGame2, 1000);
-            });
-        }
 
         $(".user-title").text("Hello, " + data.username + "!");
     })

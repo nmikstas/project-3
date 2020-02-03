@@ -617,30 +617,18 @@ let addListeners = (data) =>
                     rngSeed:      rngSeed
                 };
 
-                $.post("/api/games/create/", game)
-                .then(data => gameIdRef.set({id: data._id}))
-                .then(() =>
-                {
-                    //Start the game after a 2 second delay.
-                    setTimeout(startRealGame, 2000);
-                    if(debug)console.log("Game ID: " + gameId);
-                })
-                .fail(err =>
-                {
-                    console.log(err);       
-                });
+                return $.post("/api/games/create/", game);
+            })    
+            .then(data => gameIdRef.set({id: data._id}))
+            .then(() =>
+            {
+                //Start the game after a 2 second delay.
+                setTimeout(startRealGame, 2000);
+            })
+            .fail(err =>
+            {
+                console.log(err);       
             });
-
-        
-
-
-
-
-
-
-
-
-
         });
     }
     else if(isPlayer2 && !remoteLoopback && !localLoopback)
@@ -924,6 +912,7 @@ let addListeners = (data) =>
         if(snapshot.val() !== null)
         {
             gameId = snapshot.val().id;
+            if(debug)console.log("Game ID: " + gameId);
         }
     });
 }

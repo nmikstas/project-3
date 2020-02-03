@@ -588,6 +588,9 @@ let addListeners = (data) =>
     //Normal play.
     if(isPlayer1 && !remoteLoopback && !localLoopback)
     {
+        //Player 2 is always unseated when entering the forum.
+        seatedRef.set({isSeated: false});
+        
         $("#p1-div").html("<button class=\"btn btn-outline-success invisible\" id=\"start-game\">Start Game</button>");
         $("#start-game").on("click", () =>
         {
@@ -606,7 +609,7 @@ let addListeners = (data) =>
                     level1:       startLevel,
                     player2:      player2,
                     level2:       startLevel,
-                    singlePlayer: !isMultiPlayer,
+                    singlePlayer: !isSeated,
                     rngSeed:      rngSeed
                 };
 

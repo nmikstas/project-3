@@ -9,6 +9,7 @@ let player2        = "";
 let interference;
 let startLevel;
 let rngSeed;
+let gameId;
 
 //Firebase variables.
 let firebaseConfig;
@@ -590,7 +591,7 @@ let addListeners = (data) =>
     {
         //Player 2 is always unseated when entering the forum.
         seatedRef.set({isSeated: false});
-        
+
         $("#p1-div").html("<button class=\"btn btn-outline-success invisible\" id=\"start-game\">Start Game</button>");
         $("#start-game").on("click", () =>
         {
@@ -616,10 +617,14 @@ let addListeners = (data) =>
                 $.post("/api/games/create/", game)
                 .then(data => 
                 {
-                    console.log(data);
+                    //Get the game ID.
+                    gameId = data._id;
 
                     //Start the game after a 2 second delay.
                     setTimeout(startRealGame, 2000);
+
+                    console.log(data);
+                    console.log(gameId);
                 })
                 .fail(err =>
                 {
@@ -870,11 +875,13 @@ let addListeners = (data) =>
             {
                 $("#seated-div").addClass("seated");
                 $("#seated-div").text("Seated");
+                isSeated = true;
             }
             else
             {
                 $("#seated-div").addClass("not-seated");
                 $("#seated-div").text("Not Seated");
+                isSeated = false;
             }
         }
     });

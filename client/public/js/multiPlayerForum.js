@@ -620,15 +620,8 @@ let addListeners = (data) =>
                 return $.post("/api/games/create/", game);
             })    
             .then(data => gameIdRef.set({id: data._id}))
-            .then(() =>
-            {
-                //Start the game after a 2 second delay.
-                setTimeout(startRealGame, 2000);
-            })
-            .fail(err =>
-            {
-                console.log(err);       
-            });
+            .then(() => setTimeout(startRealGame, 2000))
+            .catch(err => console.log(err));
         });
     }
     else if(isPlayer2 && !remoteLoopback && !localLoopback)

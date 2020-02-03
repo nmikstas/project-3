@@ -610,7 +610,7 @@ let addListeners = (data) =>
                     rngSeed:      rngSeed
                 };
 
-                $.post("/api/users/verify/", game)
+                $.post("/api/games/create/", game)
                 .then(data => 
                 {
                     console.log(data);

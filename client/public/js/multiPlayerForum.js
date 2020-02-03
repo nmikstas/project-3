@@ -269,20 +269,6 @@ let renderHandler1 = (status) =>
     {
         p1GameOverRef.set({isGameOver: false});
     }
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
 }
 
 let renderHandler2 = (status) =>
@@ -321,23 +307,6 @@ let renderHandler2 = (status) =>
     {
         p2GameOverRef.set({isGameOver: false});
     }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 //**********For local and remote loopback testing**********
@@ -475,14 +444,14 @@ let runForum = (data) =>
     //Create a new babylon engine.
     let engine1 = new BABYLON.Engine(canvas1, true);
 
-    //Call the createScene function.
+    //Create the scene for the Player 1 game board.
     let scene1 = ntRenderer1.gfCreateScene(engine1, canvas1);
 
     //Register a Babylon render loop to repeatedly render the scene.
-    engine1.runRenderLoop(function () { scene1.render(); });
+    engine1.runRenderLoop(() => scene1.render());
 
     //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { engine1.resize(); });
+    window.addEventListener("resize", () => engine1.resize());
 
     //----------------- Next Piece ------------------
     //Get canvas to render the next piece on.
@@ -491,14 +460,14 @@ let runForum = (data) =>
     //Create a new babylon engine.
     let npEngine1 = new BABYLON.Engine(npCanvas1, true);
 
-    //Call the createScene function.
+    //Create the scene for the Player 1 next piece.
     let npScene1 = ntRenderer1.npCreateScene(npEngine1);
 
     //Register a Babylon render loop to repeatedly render the scene.
-    npEngine1.runRenderLoop(function () { npScene1.render(); });
+    npEngine1.runRenderLoop(() => npScene1.render());
 
     //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { npEngine1.resize(); });
+    window.addEventListener("resize", () => npEngine1.resize());
 
     //------------------ Player 2 -------------------
     //Create a new game engine if player 2 is local.
@@ -558,14 +527,14 @@ let runForum = (data) =>
     //Create a new babylon engine.
     let engine2 = new BABYLON.Engine(canvas2, true);
 
-    //Call the createScene function.
+    //Create the scene for the Player 2 game field.
     let scene2 = ntRenderer2.gfCreateScene(engine2, canvas2);
 
     //Register a Babylon render loop to repeatedly render the scene.
-    engine2.runRenderLoop(function () { scene2.render(); });
+    engine2.runRenderLoop(() => scene2.render());
 
     //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { engine2.resize(); });
+    window.addEventListener("resize", () => engine2.resize());
 
     //----------------- Next Piece ------------------
     //Get canvas to render the next piece on.
@@ -574,14 +543,14 @@ let runForum = (data) =>
     //Create a new babylon engine.
     let npEngine2 = new BABYLON.Engine(npCanvas2, true);
 
-    //Call the createScene function.
+    //Create the scene for the Player 2 next piece.
     let npScene2 = ntRenderer2.npCreateScene(npEngine2);
 
     //Register a Babylon render loop to repeatedly render the scene.
-    npEngine2.runRenderLoop(function () { npScene2.render(); });
+    npEngine2.runRenderLoop(() => npScene2.render());
 
     //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { npEngine2.resize(); });
+    window.addEventListener("resize", () => npEngine2.resize());
 }
 
 /************************************** Firebase Listeners ***************************************/
@@ -655,7 +624,7 @@ let addListeners = (data) =>
     }
 
     //---------- Firebase Listeners ----------
-    player1Ref.on("value", function(snapshot)
+    player1Ref.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -721,7 +690,7 @@ let addListeners = (data) =>
         }
     }); 
 
-    player2Ref.on("value", function(snapshot)
+    player2Ref.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -786,7 +755,7 @@ let addListeners = (data) =>
         }
     });
 
-    p1GameOverRef.on("value", function(snapshot)
+    p1GameOverRef.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -813,7 +782,7 @@ let addListeners = (data) =>
         }
     });
 
-    p2GameOverRef.on("value", function(snapshot)
+    p2GameOverRef.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -840,7 +809,7 @@ let addListeners = (data) =>
         }
     });
                     
-    seatedRef.on("value", function(snapshot)
+    seatedRef.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -865,7 +834,7 @@ let addListeners = (data) =>
     });
 
     //Set the RNG seed.
-    rngRef.on("value", function(snapshot)
+    rngRef.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -874,7 +843,7 @@ let addListeners = (data) =>
     });
 
     //Check to see if game needs to be started.
-    startRef.on("value", function(snapshot)
+    startRef.on("value", snapshot =>
     {
         isMultiPlayer = isSeated;
 
@@ -900,7 +869,7 @@ let addListeners = (data) =>
     });
 
     //Set the Game Id for both players.
-    gameIdRef.on("value", function(snapshot)
+    gameIdRef.on("value", snapshot =>
     {
         if(snapshot.val() !== null)
         {
@@ -1038,4 +1007,3 @@ $.post("/api/users/verify/")
     console.log(err);
     window.location.href = "/denied";
 });
-

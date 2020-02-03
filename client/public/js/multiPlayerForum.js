@@ -23,6 +23,7 @@ let p2GameOverRef;
 let seatedRef;
 let rngRef;
 let startRef;
+let gameIdRef;
 
 //Player 1
 let isPlayer1  = false;
@@ -617,16 +618,12 @@ let addListeners = (data) =>
                 };
 
                 $.post("/api/games/create/", game)
-                .then(data => 
+                .then(data => gameIdRef.set({id: data._id}))
+                .then(() =>
                 {
-                    //Get the game ID.
-                    gameId = data._id;
-
                     //Start the game after a 2 second delay.
                     setTimeout(startRealGame, 2000);
-
-                    console.log(data);
-                    console.log(gameId);
+                    if(debug)console.log("Game ID: " + gameId);
                 })
                 .fail(err =>
                 {
@@ -634,7 +631,7 @@ let addListeners = (data) =>
                 });
             });
 
-            
+        
 
 
 
@@ -644,10 +641,6 @@ let addListeners = (data) =>
 
 
 
-
-
-
-            
         });
     }
     else if(isPlayer2 && !remoteLoopback && !localLoopback)
@@ -924,6 +917,15 @@ let addListeners = (data) =>
             }
         }
     });
+
+    //Set the Game Id for both players.
+    gameIdRef.on("value", function(snapshot)
+    {
+        if(snapshot.val() !== null)
+        {
+            gameId = snapshot.val().id;
+        }
+    });
 }
 
 /******************************************* Top Level *******************************************/
@@ -1013,6 +1015,7 @@ $.post("/api/users/verify/")
                     seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
                     rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
                     startRef      = database.ref("forums/" + thisForumKey + "/start/");
+                    gameIdRef     = database.ref("forums/" + thisForumKey + "/gameId/");
                     
                     //Add initial data to firebase.
                     player1Ref.set({status: {...initStatus, currentLevel: startLevel, currentScore: 0, linesCleared: 0}});
@@ -1036,6 +1039,7 @@ $.post("/api/users/verify/")
                 seatedRef     = database.ref("forums/" + thisForumKey + "/isSeated/");
                 rngRef        = database.ref("forums/" + thisForumKey + "/rngSeed/");
                 startRef      = database.ref("forums/" + thisForumKey + "/start/");
+                gameIdRef     = database.ref("forums/" + thisForumKey + "/gameId/");
 
                 p1GameOverRef.set({isGameOver: true});
                 p2GameOverRef.set({isGameOver: true});

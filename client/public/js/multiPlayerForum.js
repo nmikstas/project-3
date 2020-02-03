@@ -875,12 +875,14 @@ let addListeners = (data) =>
             {
                 $("#seated-div").addClass("seated");
                 $("#seated-div").text("Seated");
+                $("#sit-btn").text("Stand");
                 isSeated = true;
             }
             else
             {
                 $("#seated-div").addClass("not-seated");
                 $("#seated-div").text("Not Seated");
+                $("#sit-btn").text("Sit");
                 isSeated = false;
             }
         }

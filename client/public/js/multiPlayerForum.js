@@ -647,7 +647,7 @@ let addListeners = (data) =>
                 if(!p1GameOver)
                 {
                     clearTimeout(p1ResetTimer);
-                    p1ResetTimer = setTimeout(p1Reset, 5000);
+                    p1ResetTimer = setTimeout(p1Reset, 10000);
                 }
             }
 
@@ -719,7 +719,7 @@ let addListeners = (data) =>
                 if(!p2GameOver)
                 {
                     clearTimeout(p2ResetTimer);
-                    p2ResetTimer = setTimeout(p2Reset, 5000);
+                    p2ResetTimer = setTimeout(p2Reset, 10000);
                 }
             }
 

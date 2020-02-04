@@ -431,7 +431,7 @@ class NTRender
         };
 
         let bkBox = BABYLON.MeshBuilder.CreateTiledPlane("background", backOptions, scene);
-        bkBox.position = new BABYLON.Vector3(4.5, 9.5, 0);
+        bkBox.position = new BABYLON.Vector3(4.5, 9.5, -0.5);
         bkBox.material = backMat;
         bkBox.rotation.y = Math.PI;
 

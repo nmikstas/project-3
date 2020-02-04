@@ -204,6 +204,7 @@ p1Reset = () =>
 
     p1GameOverRef.set({isGameOver: true});
     player1Ref.set({status: {...initStatus, currentLevel: player1Level, currentScore: player1Score, linesCleared: player1Lines}});
+    player1Score = 0;
 }
 
 p2Reset = () =>
@@ -215,6 +216,7 @@ p2Reset = () =>
 
     p2GameOverRef.set({isGameOver: true});
     player2Ref.set({status: {...initStatus, currentLevel: player2Level, currentScore: player2Score, linesCleared: player2Lines}});
+    player2Score = 0;
 }
 
 /***************************************** Game Handlers *****************************************/
@@ -307,24 +309,6 @@ let renderHandler2 = (status) =>
     {
         p2GameOverRef.set({isGameOver: false});
     }
-}
-
-//**********For local and remote loopback testing**********
-startGame1 = () =>
-{
-    init = true;
-    rngSeed = Math.floor(Math.random() * 100000000);
-    ntEngine1.ntRequest(NTEngine.GR_RESEED, rngSeed);
-    ntEngine1.ntRequest(NTEngine.GR_RESET, startLevel);
-}
-
-//**********For local and remote loopback testing**********
-startGame2 = () =>
-{
-    init = true;
-    rngSeed = Math.floor(Math.random() * 100000000);
-    ntEngine2.ntRequest(NTEngine.GR_RESEED, rngSeed);
-    ntEngine2.ntRequest(NTEngine.GR_RESET, startLevel);
 }
 
 startRealGame = () =>
@@ -633,16 +617,6 @@ let addListeners = (data) =>
             //Need to account for the fact that firebase does not store empty arrays!!!
             if(!status.rowsToErase) status = {...status, rowsToErase: []};
             if(!status.blanks) status = {...status, blanks: []};
-            
-            //**********For local and remote loopback testing**********
-            if(isPlayer1 && remoteLoopback)
-            {
-                ntRenderer2.gfRender(status);
-            }
-            else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
-            {
-                ntRenderer1.gfRender(status);
-            }
 
             //Add data if not in loopback and player is remote.
             if(!isPlayer1 && !localLoopback && !remoteLoopback)
@@ -677,16 +651,32 @@ let addListeners = (data) =>
                 }
             }
 
+            if(isPlayer1 && (status.currentScore > player1Score))
+            {
+                //Modify the game data.
+                $.ajax("/api/games/update",
+                {
+                    type: "PUT",
+                    data:
+                    { 
+                        id: gameId,
+                        whichPlayer: 1,
+                        level1: status.currentLevel,
+                        score1: status.currentScore,
+                        lines1: status.linesCleared
+                    }
+                })
+                .then((data) =>
+                {
+                    if(debug)console.log(data);
+                })
+                .fail(function(err)
+                {
+                    console.log(err);
+                });
+            }
 
-
-
-
-
-
-
-
-
-
+            player1Score = status.currentScore;
         }
     }); 
 
@@ -699,16 +689,6 @@ let addListeners = (data) =>
             //Need to account for the fact that firebase does not store empty arrays!!!
             if(!status.rowsToErase) status = {...status, rowsToErase: []};
             if(!status.blanks) status = {...status, blanks: []};
-
-            //**********For local and remote loopback testing**********
-            if(isPlayer2 && remoteLoopback)
-            {
-                ntRenderer1.gfRender(status);
-            }
-            else if(!isPlayer1 && !isPlayer2 && remoteLoopback)
-            {
-                ntRenderer2.gfRender(status);
-            }
 
             //Add data if not in loopback and player is remote.
             if(!isPlayer2 && !localLoopback && !remoteLoopback)
@@ -743,15 +723,32 @@ let addListeners = (data) =>
                 }
             }
 
+            if(isPlayer2 && (status.currentScore > player2Score))
+            {
+                //Modify the game data.
+                $.ajax("/api/games/update",
+                {
+                    type: "PUT",
+                    data:
+                    { 
+                        id: gameId,
+                        whichPlayer: 2,
+                        level1: status.currentLevel,
+                        score1: status.currentScore,
+                        lines1: status.linesCleared
+                    }
+                })
+                .then((data) =>
+                {
+                    if(debug)console.log(data);
+                })
+                .fail(function(err)
+                {
+                    console.log(err);
+                });
+            }
 
-
-
-
-
-
-
-
-
+            player2Score = status.currentScore;
         }
     });
 

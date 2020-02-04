@@ -733,9 +733,9 @@ let addListeners = (data) =>
                     { 
                         id: gameId,
                         whichPlayer: 2,
-                        level1: status.currentLevel,
-                        score1: status.currentScore,
-                        lines1: status.linesCleared
+                        level2: status.currentLevel,
+                        score2: status.currentScore,
+                        lines2: status.linesCleared
                     }
                 })
                 .then((data) =>

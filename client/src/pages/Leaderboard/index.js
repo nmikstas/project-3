@@ -40,7 +40,7 @@ class Leaderboard extends React.Component
         .catch(err =>
         {
             console.log(err);
-            window.location.href = "/denied";
+            // window.location.href = "/denied";
         });
     }
 
@@ -53,7 +53,7 @@ class Leaderboard extends React.Component
             //If not, boot 'em out!
             if(res.data.notLoggedIn)
             {
-                window.location.href = "/denied";
+                // window.location.href = "/denied";
             }
 
             this.setState({ username: res.data.username });
@@ -84,7 +84,7 @@ class Leaderboard extends React.Component
         .catch(err =>
         {
             console.log(err);
-            window.location.href = "/denied";
+            // window.location.href = "/denied";
         });
 
         //Set a timer for periodic updates of the scores.
@@ -99,6 +99,9 @@ class Leaderboard extends React.Component
 
     render = () =>
     {
+        function comma(x) {
+            return x.toLocaleString(navigator.language, { minimumFractionDigits: 0 })
+        }
         return (
             <div className="container-fluid">
                 <NavBar
@@ -111,6 +114,7 @@ class Leaderboard extends React.Component
                         <h3 className="all-score-header">Single Player Games</h3>
                         {this.state.single100data.map((single100, i) => 
                         {
+
                             return(
                             <LeaderSingleCard
                                 key={i}

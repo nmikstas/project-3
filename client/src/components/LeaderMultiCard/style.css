@@ -19,7 +19,30 @@
 
 .leader-rank-text
 {
+    display: inline-flex;
+    justify-content: center;
+    padding-left: 30%;
     color: #ffffff;
     font-size: 2rem;
+    font-weight: bold;
+}
+
+.linesImg{
+    filter: invert(1);
+    width: 10%;
+}
+
+.levelImg{
+    filter: brightness(.9) invert(1);
+    width: 10%;
+}
+
+.score
+{
+    display: inline-flex;
+    justify-content: center;
+    padding-left: 30%;
+    color: #ffffff;
+    font-size: 1.5rem;
     font-weight: bold;
 }

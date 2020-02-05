@@ -168,8 +168,8 @@ window.addEventListener("resize", () => resizeCanvases());
 
 window.addEventListener("keydown", (e) =>
 {
-    // space and arrow keys
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1)
+    // Disable the up and down keys to keep the page from scrolling while playing.
+    if([38, 40].indexOf(e.keyCode) > -1)
     {
         e.preventDefault();
     }

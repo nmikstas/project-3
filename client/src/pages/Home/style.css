@@ -86,3 +86,9 @@
     font-size: 1.6rem;
     font-weight: bold;
 }
+
+.score
+{
+    font-size: 120%;
+    font-weight: bold;
+}

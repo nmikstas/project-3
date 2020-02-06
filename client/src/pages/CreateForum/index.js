@@ -498,6 +498,7 @@ class CreateForum extends React.Component
                                                     null
                                                 ) : (
                                                     <ImportUsers
+                                                        versus={this.state.isVersusPlayerSelected}
                                                         username={this.state.userListArr[i].username}
                                                         id={this.state.userListArr[i].username}
                                                         key={this.state.userListArr[i].username}

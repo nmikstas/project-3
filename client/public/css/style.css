@@ -337,19 +337,28 @@ footer
 
 .chat-username
 {
+    font-size: .8em;
     color: #ffffff;
     font-weight: bold;
 }
 
 .chat-usertext
 {
+    font-size: .8em;
     color: #c0c0c0;
 }
 
 .chat-usertext-moderated
 {
+    font-size: .9em;
     color: #c0c0c0;
     font-style: italic;
+}
+
+.comment-div
+{
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 }
 
 .deleteCommentBtn

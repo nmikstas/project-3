@@ -83,7 +83,7 @@ let appendComments = () =>
                 }
 
                 let commentDiv = $("<div>");
-                commentDiv.addClass("mx-2 text-left");
+                commentDiv.addClass("comment-div mx-2 text-left");
 
                 commentDiv.append(userNameSpan);
                 commentDiv.append(userCommentSpan);

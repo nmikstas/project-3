@@ -27,12 +27,14 @@
     font-weight: bold;
 }
 
-.linesImg{
+.linesImg
+{
     filter: invert(1);
     width: 10%;
 }
 
-.levelImg{
+.levelImg
+{
     filter: brightness(.9) invert(1);
     width: 10%;
 }

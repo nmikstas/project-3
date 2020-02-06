@@ -185,6 +185,10 @@ class Home extends React.Component
 
     render = () =>
     {
+        function comma(x) {
+            return x.toLocaleString(navigator.language, { minimumFractionDigits: 0 })
+        }
+
         return (
             <div className="container-fluid">
                 <NavBar 
@@ -200,36 +204,44 @@ class Home extends React.Component
                             <div className="mt-4 score-div">
                                 <div className="score-header">Your Top Score</div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Score: </div>
-                                    <div className="col-md-6 data-text">{this.state.myScore}</div>
+                                    {/* <div className="col-md-6 score-text">Score: </div> */}
+                                    <div className="col-md-12 data-text score">{comma(this.state.myScore)}</div>
                                 </div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Level: </div>
-                                    <div className="col-md-6 data-text">{this.state.myLevel}</div>
+                                    <div className="col-md-3"></div>
+                                    <img src={require("./img/level.png")} class="levelImg" alt="level"/>
+                                    <div className="col-md-3 score-text">Level: </div>
+                                    <div className="col-md-1 data-text">{this.state.myLevel}</div>
                                 </div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Lines: </div>
-                                    <div className="col-md-6 data-text">{this.state.myLines}</div>
+                                    <div className="col-md-3"></div>
+                                    <img src={require("./img/lines.png")} class="linesImg" alt="lines"/>
+                                    <div className="col-md-3 score-text">Lines: </div>
+                                    <div className="col-md-1 data-text">{this.state.myLines}</div>
                                 </div>    
                             </div>
 
                             <div className="mt-4 score-div">
                                 <div className="score-header">High Score</div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Player: </div>
-                                    <div className="col-md-6 data-text">{this.state.topPlayer}</div>
+                                    <div className="col-md-12 data-text score">{comma(this.state.topScore)}</div>
                                 </div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Score: </div>
-                                    <div className="col-md-6 data-text">{this.state.topScore}</div>
+                                    <div className="col-md-12 data-text score">{this.state.topPlayer}</div>
+                                </div>
+
+
+                                <div className="row no-gutters">
+                                    <div className="col-md-3"></div>
+                                    <img src={require("./img/level.png")} class="levelImg" alt="level"/>
+                                    <div className="col-md-3 score-text">Level: </div>
+                                    <div className="col-md-1 data-text">{this.state.topLevel}</div>
                                 </div>
                                 <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Level: </div>
-                                    <div className="col-md-6 data-text">{this.state.topLevel}</div>
-                                </div>
-                                <div className="row no-gutters">
-                                    <div className="col-md-6 score-text">Lines: </div>
-                                    <div className="col-md-6 data-text">{this.state.topLines}</div>
+                                    <div className="col-md-3"></div>
+                                    <img src={require("./img/lines.png")} class="linesImg" alt="lines"/>
+                                    <div className="col-md-3 score-text">Lines: </div>
+                                    <div className="col-md-1 data-text">{this.state.topLines}</div>
                                 </div> 
                             </div>
                         </div>

@@ -25,7 +25,7 @@ const MultiCardScore = (props) =>
             </div>
             
             <div className="row no-gutters"> 
-                <div className="col-md-8 data-text">{props.date}</div>
+                <div className="col-md-7 data-text">{props.date}</div>
             </div>
         </div>
     );

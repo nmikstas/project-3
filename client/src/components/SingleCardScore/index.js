@@ -25,7 +25,7 @@ const SingleCardScore = (props) =>
             </div>
             
             <div className="row no-gutters"> 
-                <div className="col-md-8 data-text">{props.timestamp1}</div>
+                <div className="col-md-7 data-text">{props.timestamp1}</div>
             </div>
         </div>
     );

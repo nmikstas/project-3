@@ -31,7 +31,11 @@ class CreateForum extends React.Component
 
         flipClassName: "notSelected-img-container",
 
+        isVersusPlayerSelected: false,
+
         userListArr: [],
+        versusArr: [],
+        spectatorArr: [],
 
         //Information that will be passed into database.
         username: "",
@@ -156,6 +160,15 @@ class CreateForum extends React.Component
         event.preventDefault();
         let username = event.target.dataset.user;
         let tempForumMembersArr = [...this.state.forumMembersArr];
+       
+        let index = event.target.dataset.index;
+        //console.log(index);
+
+        let tempUserListArr = [...this.state.userListArr];
+
+        let tempUserIndex = tempUserListArr[index];
+
+        let tempSpectatorArr = [...this.state.spectatorArr];
 
         if (username !== this.state.versusPlayer)
         {
@@ -166,6 +179,8 @@ class CreateForum extends React.Component
             }
     
             //console.log(userInfo);
+            tempSpectatorArr.push(tempUserIndex);
+            tempUserListArr.splice(index, 1);
     
             let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
             {
@@ -181,6 +196,10 @@ class CreateForum extends React.Component
     
             this.setState({ forumMembersArr: tempForumMembersArr });
             //console.log(this.state.forumMembersArr);
+
+            this.setState({ userListArr: tempUserListArr });
+            this.setState({ spectatorArr: tempSpectatorArr });
+            //console.log(this.state.spectatorArr);
         }
     }
 
@@ -191,6 +210,14 @@ class CreateForum extends React.Component
 
         let tempForumMembersArr = [...this.state.forumMembersArr];
 
+        let index = event.target.dataset.index;
+        //console.log(index);
+
+        let tempUserListArr = [...this.state.userListArr];
+
+        let tempUserIndex = tempUserListArr[index];
+        let tempSpectatorArr = [...this.state.spectatorArr];
+
         if (username !== this.state.versusPlayer)
         {
             let userInfo =
@@ -198,6 +225,9 @@ class CreateForum extends React.Component
                 username: username,
                 isModerator: true,
             }
+
+            tempSpectatorArr.push(tempUserIndex);
+            tempUserListArr.splice(index, 1);
     
             let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
             {
@@ -213,21 +243,49 @@ class CreateForum extends React.Component
     
             this.setState({ forumMembersArr: tempForumMembersArr });
             //console.log(this.state.forumMembersArr);
+
+            this.setState({ userListArr: tempUserListArr });
+            this.setState({ spectatorArr: tempSpectatorArr });
+            //console.log(this.state.spectatorArr);
         }
     }
 
     deleteVersus = (event) =>
     {
         event.preventDefault();
-        this.setState({ versusPlayer: "" })
+
+        let username = event.target.dataset.user;
+        let tempUserListArr = [...this.state.userListArr];
+        let tempVersusArr = [...this.state.versusArr];
+
+        if (this.state.isVersusPlayerSelected)
+        {
+            for (let i = 0; i < tempVersusArr.length; i++)
+            {
+                if (tempVersusArr[i].username === username)
+                {
+                    tempUserListArr.push(tempVersusArr[i]);
+                    tempVersusArr.splice(i, 1);
+                }
+            }
+    
+            this.setState({ isVersusPlayerSelected: false });
+            this.setState({ versusPlayer: "" });
+            this.setState({ userListArr: tempUserListArr });
+            this.setState({ versusArr: tempVersusArr });
+        }
     }
 
     addVersus = (event) =>
     {
         event.preventDefault();
-        let username = event.target.dataset.user;
 
+        let username = event.target.dataset.user;
         let tempForumMembersArr = [...this.state.forumMembersArr];
+        let tempVersusArr = [...this.state.versusArr];
+        let index = event.target.dataset.index;
+        let tempUserListArr = [...this.state.userListArr];
+        let tempUserIndex = tempUserListArr[index];
         
         let checkUserInfoArr = tempForumMembersArr.filter((checkUserInfo) =>
         {
@@ -239,8 +297,16 @@ class CreateForum extends React.Component
             return;
         }
 
-        this.setState({ versusPlayer: event.target.dataset.user });
-        //console.log(this.state.versusPlayer);
+        if (!this.state.isVersusPlayerSelected)
+        {
+            tempVersusArr.push(tempUserIndex);
+            tempUserListArr.splice(index, 1);
+    
+            this.setState({ isVersusPlayerSelected: true });
+            this.setState({ versusPlayer: tempUserIndex.username });
+            this.setState({ userListArr: tempUserListArr });
+            this.setState({ versusArr: tempVersusArr });
+        }
     }
 
     deleteSpectator = (event) =>
@@ -249,6 +315,8 @@ class CreateForum extends React.Component
         let username = event.target.dataset.user;
         //console.log(username);
 
+        let tempUserListArr = [...this.state.userListArr];
+        let tempSpectatorArr = [...this.state.spectatorArr];
         let tempForumMembersArr = [...this.state.forumMembersArr];
         //console.log(tempForumMembersArr);
 
@@ -263,8 +331,19 @@ class CreateForum extends React.Component
             }
         }
 
+        for (let i = 0; i < tempSpectatorArr.length; i++)
+        {
+            if (tempSpectatorArr[i].username === username)
+            {
+                tempUserListArr.push(tempSpectatorArr[i]);
+                tempSpectatorArr.splice(i, 1);
+            }
+        }
+
         this.setState({ forumMembersArr: tempForumMembersArr });
         //console.log(this.state.forumMembersArr);
+        this.setState({ userListArr: tempUserListArr });
+        this.setState({ spectatorArr: tempSpectatorArr });
     }
 
     changeToSpectator = (event) =>
@@ -275,17 +354,12 @@ class CreateForum extends React.Component
         //console.log(index);
 
         let tempForumMembersArr = [...this.state.forumMembersArr];
-        console.log("Before Update: ", tempForumMembersArr[index]);
-
-        let arrayIndex = tempForumMembersArr[index];
-        console.log("Before Update: " + arrayIndex.username);
-        console.log("Before Update: " + arrayIndex.isModerator);
-
+        //console.log("Before Update: ", tempForumMembersArr[index]);
 
         if (index >= 0)
         {
             tempForumMembersArr[index].isModerator = false;
-            console.log("After Update: ", tempForumMembersArr[index]);
+            //console.log("After Update: ", tempForumMembersArr[index]);
 
             this.setState({ forumMembersArr: tempForumMembersArr });
         }
@@ -314,6 +388,13 @@ class CreateForum extends React.Component
     refreshUsers = (event) =>
     {
         event.preventDefault();
+
+        this.setState({ isVersusPlayerSelected: false });
+        this.setState({ versusPlayer: "" });
+        this.setState({ forumMembersArr: [] });
+        this.setState({ versusArr: [] });
+        this.setState({ spectatorArr: [] });
+
         API.allusers()
         .then((res) =>
         {
@@ -417,9 +498,11 @@ class CreateForum extends React.Component
                                                     null
                                                 ) : (
                                                     <ImportUsers
+                                                        versus={this.state.isVersusPlayerSelected}
                                                         username={this.state.userListArr[i].username}
                                                         id={this.state.userListArr[i].username}
                                                         key={this.state.userListArr[i].username}
+                                                        index={i}
                                                         addSpectator={this.addSpectator}
                                                         addModerator={this.addModerator}
                                                         addVersus={this.addVersus}
@@ -463,7 +546,7 @@ class CreateForum extends React.Component
                                             versusPlayer={this.state.versusPlayer}
                                             versusPlayerUpdate={this.versusPlayerUpdate}
                                         /><br />
-                                        <button type="submit" className="btn btn-outline-info" onClick={this.deleteVersus}>Remove User</button>
+                                        <button type="submit" className="btn btn-outline-info" data-user={this.state.versusPlayer} onClick={this.deleteVersus}>Remove User</button>
                                     </form>
                                 </div>
                             </div>

@@ -167,7 +167,6 @@ class NTRender
             clearInterval(this.glueTimer);
             this.enableInputCallback(true);
         }
-        
     }
 
     /************************************ Rendering Functions ************************************/
@@ -422,16 +421,19 @@ class NTRender
             this.matArr.push(matRow);
         }
 
-        //Add background blocks to the scene.
-        for(let i = 0; i < 10; i++)
+        var backOptions =
         {
-            for(let j = 0; j < 20; j++)
-            {
-                let bkBox = BABYLON.MeshBuilder.CreateBox("box" + i + j, {height: 1, width: 1, depth: 1}, scene);
-                bkBox.position = new BABYLON.Vector3(i, j, -1);
-                bkBox.material = backMat;
-            }
-        }
+            width:     10,
+            height:    20,
+            depth:     1,
+		    tileSize:  1,
+		    tileWidth: 1
+        };
+
+        let bkBox = BABYLON.MeshBuilder.CreateTiledPlane("background", backOptions, scene);
+        bkBox.position = new BABYLON.Vector3(4.5, 9.5, -0.5);
+        bkBox.material = backMat;
+        bkBox.rotation.y = Math.PI;
 
         //Add foreground blocks to the scene.
         for(let i = 0; i < 20; i++)

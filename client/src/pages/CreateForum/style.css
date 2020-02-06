@@ -79,6 +79,7 @@
     color: white;
 }
 
-.submitButton  {
+.submitButton
+{
     float: right;
-  }
+}

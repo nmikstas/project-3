@@ -19,9 +19,13 @@
 
 .leader-rank-text
 {
+<<<<<<< HEAD
     display: inline-flex;
     justify-content: center;
     padding-left: 0%;
+=======
+    display: inline-block;
+>>>>>>> 24acfdc8c74861f177d3bec6d2df65b92c659822
     color: #ffffff;
     font-size: 2rem;
     font-weight: bold;
@@ -49,7 +53,17 @@
     font-weight: bold;
 }
 
+<<<<<<< HEAD
 .player
 {
     padding-left: 60%;
+=======
+.player-text
+{
+    display: inline-block;
+    color: #a7a7a7;
+    font-size: 2rem;
+    font-weight: bold;
+
+>>>>>>> 24acfdc8c74861f177d3bec6d2df65b92c659822
 }

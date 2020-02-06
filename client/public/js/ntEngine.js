@@ -142,7 +142,7 @@ class NTEngine
     static get PIECE_L()   { return 5 };
     static get PIECE_I()   { return 6 };
 
-    constructor(rndSeed, statusCallback)
+    constructor(rndSeed, statusCallback, currentLevel = 0)
     {
         this.statusCallback = statusCallback;
 
@@ -157,7 +157,7 @@ class NTEngine
         this.gameStatus        = NTEngine.GS_OVER;
         this.lastRequest       = NTEngine.GR_NONE;
         this.lastRequestStatus = NTEngine.LRS_NONE;
-        this.currentLevel      = 0;
+        this.currentLevel      = currentLevel;
         this.currentScore      = 0;
         this.linesCleared      = 0;
 

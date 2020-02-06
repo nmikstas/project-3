@@ -126,13 +126,25 @@ export default
     getComments: (forumId) =>
     {
         return axios.get("/api/comments/getcomments/" + forumId);
-    }
+    },
 
     //Create a new comment.
+    newComment: (commentObject) =>
+    {
+        return axios.post("/api/comments/newcomment", commentObject);
+    },
 
     //Delete a comment.
+    deletecomment: () =>
+    {
+        return axios.put("/api/comments/deletecomment", true);
+    },
 
     //Undelete a comment.
+    undeletecomment: () =>
+    {
+        return axios.put("/api/comments/undeletecomment", false);
+    }
 };
 
 

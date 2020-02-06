@@ -5,9 +5,11 @@ const MultiCardScore = (props) =>
 {   
     return (       
         <div className="mt-4 score-div" style={props.color} >
-            <div className="col-md-6 leader-rank-text">{props.id}
-                <div className="col-md-8 data-text player">{props.player}</div>
+            <div className="row no-gutters">
+                <div className="col-md-2 leader-rank-text">{props.id}</div>
+                <div className="col-md-10 player-text">{props.player}</div>
             </div>
+            
             <div className="row no-gutters">
                 <div className="col-md-11 score">{props.score}</div>
             </div>

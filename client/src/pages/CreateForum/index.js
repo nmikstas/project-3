@@ -270,6 +270,7 @@ class CreateForum extends React.Component
             }
     
             this.setState({ isVersusPlayerSelected: false });
+            console.log(this.state.isVersusPlayerSelected);
             this.setState({ versusPlayer: "" });
             this.setState({ userListArr: tempUserListArr });
             this.setState({ versusArr: tempVersusArr });
@@ -303,6 +304,7 @@ class CreateForum extends React.Component
             tempUserListArr.splice(index, 1);
     
             this.setState({ isVersusPlayerSelected: true });
+            console.log(this.state.isVersusPlayerSelected);
             this.setState({ versusPlayer: tempUserIndex.username });
             this.setState({ userListArr: tempUserListArr });
             this.setState({ versusArr: tempVersusArr });
@@ -498,6 +500,7 @@ class CreateForum extends React.Component
                                                     null
                                                 ) : (
                                                     <ImportUsers
+                                                        versus={this.state.isVersusPlayerSelected}
                                                         username={this.state.userListArr[i].username}
                                                         id={this.state.userListArr[i].username}
                                                         key={this.state.userListArr[i].username}

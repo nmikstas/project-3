@@ -19,9 +19,7 @@
 
 .leader-rank-text
 {
-    display: inline-flex;
-    justify-content: center;
-    padding-left: 30%;
+    display: inline-block;
     color: #ffffff;
     font-size: 2rem;
     font-weight: bold;
@@ -47,4 +45,13 @@
     color: #ffffff;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.player-text
+{
+    display: inline-block;
+    color: #a7a7a7;
+    font-size: 2rem;
+    font-weight: bold;
+
 }

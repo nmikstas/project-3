@@ -41,7 +41,7 @@ class Leaderboard extends React.Component
         .catch(err =>
         {
             console.log(err);
-            // window.location.href = "/denied";
+            window.location.href = "/denied";
         });
     }
 
@@ -54,7 +54,7 @@ class Leaderboard extends React.Component
             //If not, boot 'em out!
             if(res.data.notLoggedIn)
             {
-                // window.location.href = "/denied";
+                window.location.href = "/denied";
             }
 
             this.setState({ username: res.data.username });
@@ -85,7 +85,7 @@ class Leaderboard extends React.Component
         .catch(err =>
         {
             console.log(err);
-            // window.location.href = "/denied";
+            window.location.href = "/denied";
         });
 
         //Set a timer for periodic updates of the scores.

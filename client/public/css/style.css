@@ -441,3 +441,11 @@ footer
     color: #00ff00;
 }
 
+.player-text
+{
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 2rem;
+}
+

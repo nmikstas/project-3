@@ -4,6 +4,7 @@ import NavBar from "../../components/NavBar";
 import ForumDiv from "../../components/ForumDiv";
 import API from "../../utils/API";
 import singleImg from './img/single.png';
+import {format} from 'date-fns';
 
 class Home extends React.Component
 {
@@ -262,7 +263,7 @@ class Home extends React.Component
                                             enter={this.enterForum}
                                             delete={this.deleteOwned}
                                             forumName={forum.forumName}
-                                            created={forum.date}
+                                            created={format(new Date(forum.date),'MM/d/yyyy - kk:mm')}
                                             alt={"Player 2: "}
                                             altValue={forum.player2}
                                             addIcon={false}
@@ -281,7 +282,7 @@ class Home extends React.Component
                                             enter={this.enterForum}
                                             delete={this.deletePlayer}
                                             forumName={forum.forumName}
-                                            created={forum.date}
+                                            created={format(new Date(forum.date),'MM/d/yyyy - kk:mm')}
                                             alt={"Owner: "}
                                             altValue={forum.owner}
                                             addIcon={false}
@@ -310,7 +311,7 @@ class Home extends React.Component
                                                 delete={this.deleteSpectator}
                                                 forumName={forum.forumName}
                                                 isModerator={isModerator}
-                                                created={forum.date}
+                                                created={format(new Date(forum.date),'MM/d/yyyy - kk:mm')}
                                                 alt={"Roll: "}
                                                 altValue={isModerator ? "Moderator" : "Spectator"}
                                                 addIcon={true}

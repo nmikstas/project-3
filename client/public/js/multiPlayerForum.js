@@ -953,9 +953,9 @@ $.post("/api/users/verify/")
             if(snapshot.val() === null)
             {
                 database.ref("forums/").push({forumId: data.targetForum})
-                .then(data => 
+                .then(fData => 
                 {
-                    thisForumKey  = data.key;
+                    thisForumKey  = fData.key;
                     player1Ref    = database.ref("forums/" + thisForumKey + "/player1/");
                     player2Ref    = database.ref("forums/" + thisForumKey + "/player2/");
                     p1GameOverRef = database.ref("forums/" + thisForumKey + "/p1GameOver/");

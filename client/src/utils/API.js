@@ -46,6 +46,11 @@ export default
         return axios.post("/api/users/input", input);
     },
 
+    render: render =>
+    {
+        return axios.post("/api/users/render", render);
+    },
+
     //Get all users.
     allusers: () =>
     {

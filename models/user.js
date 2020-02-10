@@ -7,6 +7,8 @@ let userSchema = new Schema(
     password: { type: String, required: true },
     date:     { type: Date, default: Date.now },
 
+    render: { type: String, default: "3D" },
+
     downBtn:   { type: Number, default: 40 },
     downIndex: { type: Number, default: 0 },
     downType:  { type: Number, default: 0 },

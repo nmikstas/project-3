@@ -14,7 +14,7 @@ class NTRender
         this.cameraOffset  = 0;
         this.lastLevel     = -1;
         this.enableInputCallback = null;
-        this.useEngine     = useEngine
+        this.useEngine     = useEngine;
         this.getField;
         this.ntEngine;
         

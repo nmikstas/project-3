@@ -15,12 +15,12 @@ const MultiCardScore = (props) =>
             </div>
         
             <div className="row no-gutters">
-                <img src={require("./level.png")} class="levelImg" alt="level"/>
+                <img src={require("./level.png")} className="levelImg" alt="level"/>
                 <div className="col-md-2 score-text">Level: 
                     <div className="col-md-1 data-text">{props.level}</div>        
                 </div>
                 <div className="col-md-3"></div>
-                <img src={require("./lines.png")} class="linesImg" alt="lines" />
+                <img src={require("./lines.png")} className="linesImg" alt="lines" />
                 <div className="col-md-4 score-text">Lines cleared:
                     <div className="col-md-1 data-text">{props.lines}</div>
                 </div>

@@ -27,6 +27,9 @@ router.route("/password").post(isAuthenticated, usersController.password);
 //Matches with "/api/users/input"
 router.route("/input").post(isAuthenticated, usersController.input);
 
+//Matches with "/api/users/render"
+router.route("/render").post(isAuthenticated, usersController.render);
+
 //Matches with "/api/users/allusers"
 router.route("/allusers").get(isAuthenticated, usersController.allusers);
 

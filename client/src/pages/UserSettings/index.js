@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../../components/NavBar";
 import API from "../../utils/API";
 import ErrorBox from "../../components/ErrorBox";
+import LevelCard from "../../components/LevelCard";
 import "./style.css";
 
 class UserSettings extends React.Component
@@ -26,6 +27,10 @@ class UserSettings extends React.Component
         username: "",
         password: "",
         confirm:  "",
+
+        selected2d: "notSelected-img-container",
+        selected3d: "selected-img-container",
+        render:     "3D",
 
         downBtn:       0,
         downIndex:     0,
@@ -120,10 +125,25 @@ class UserSettings extends React.Component
 
             if(this.state.debug)console.log(res.data);
 
+            let selected2d = "notSelected-img-container";
+            let selected3d = "selected-img-container";
+            let render     = "3D";
+
+            if(res.data.render && res.data.render === "2D")
+            {
+                selected2d = "selected-img-container";
+                selected3d = "notSelected-img-container";
+                render     = "2D";
+            }
+
             //Set the state with the user data.
             this.setState(
             {
                 username: res.data.username,
+
+                selected2d: selected2d,
+                selected3d: selected3d,
+                render:     render,
 
                 downBtn:   res.data.downBtn,
                 downIndex: res.data.downIndex,
@@ -1067,6 +1087,41 @@ class UserSettings extends React.Component
         .catch(err => console.log(err)); 
     }
 
+    chooseRender = (id) =>
+    {
+        let renderType = "3D";
+
+        if(id === "2D")
+        {
+            this.setState(
+            {
+                selected2d: "selected-img-container",
+                selected3d: "notSelected-img-container"
+            });
+
+            renderType = "2D";
+        }
+        else
+        {
+            this.setState(
+            {
+                selected2d: "notSelected-img-container",
+                selected3d: "selected-img-container"
+            });
+        }
+
+        API.render(
+        {
+            username: this.state.username,
+            render:   renderType    
+        })
+        .then((res) =>
+        { 
+           console.log(res);
+        })
+        .catch(err => console.log(err)); 
+    }
+
     render = () =>
     {
         return (
@@ -1100,6 +1155,22 @@ class UserSettings extends React.Component
                                 value={this.state.confirm} onChange={this.confirmChange} className="form-control text-input" /><br />
                             <button type="submit" className="btn btn-outline-secondary" onClick={this.changePassword}>Change Password</button>
                         </form>
+
+                        <h4 className="user-headers text-center mt-5">Rendering Type</h4>
+                        <div className="text-center">
+                        <LevelCard
+                            LevelValue={"2D"}
+                            id={"2D"}
+                            selected={this.state.selected2d}
+                            selectLevels={this.chooseRender}
+                        />
+                        <LevelCard
+                            LevelValue={"3D"}
+                            id={"3D"}
+                            selected={this.state.selected3d}
+                            selectLevels={this.chooseRender}
+                        />
+                        </div>
                     </div>
 
                     <div className="col-md-4 col-div">

@@ -42,13 +42,17 @@
     <div id="page-body" class="container pt-1 pl-1">
         <div class="row">
             <div class="col-md-6">
-                <canvas id="renderCanvas" touch-action="none"></canvas>
+                <div id="gf-div">
+                    <canvas id="renderCanvas" touch-action="none"></canvas>
+                </div>
             </div>
             <div class="col-md-6 pt-4">
                 <div class="row no-gutters">
                     <div class="col-md-6">
                         <h4>Next Piece:</h4>
-                        <canvas id="pieceCanvas" touch-action="none"></canvas>
+                        <div id="piece-div">
+                            <canvas id="pieceCanvas" touch-action="none"></canvas>
+                        </div>
                     </div>
                     <div class="col-md-6 score-div">
                         <div class="row ml-2 mb-3 mt-3">
@@ -115,7 +119,6 @@
                 </div>
 
                 <button type="button" id="start-btn" class="btn btn-outline-success mb-2 mt-3">Start Game</button>
-
             </div>
         </div>
     </div>
@@ -139,9 +142,13 @@
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <script src="https://preview.babylonjs.com/gui/babylon.gui.js"></script>
 
+    <!--Howler-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.3/howler.core.min.js"></script>
+
     <!--Javascript-->
     <script src="./js/ntEngine.js"></script>
     <script src="./js/ntRender.js"></script>
+    <script src="./js/ntRender2d.js"></script>
     <script src="./js/ntInput.js"></script>
     <script src="./js/singlePlayerForum.js"></script>
 </body>

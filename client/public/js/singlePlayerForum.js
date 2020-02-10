@@ -1,5 +1,6 @@
 let debug = true;
-let init = false;
+let init  = false;
+let is2d  = false;
 let ntEngine;
 let ntRenderer;
 let ntInput;
@@ -16,6 +17,7 @@ let highScore;
 window.addEventListener("resize", () => 
 {
     $('#pieceCanvas').width($('#pieceCanvas').parent().width());
+    if(is2d)ntRenderer.resize();
 });
 
 /************************************** Disable Key Scrolling **************************************/
@@ -175,8 +177,15 @@ $(document).ready(() =>
 let runForum = (data) =>
 {
     //Create a new NT game renderer.
-    ntRenderer = new NTRender(showStats);
-
+    if(is2d)
+    {
+        ntRenderer = new NTRender2d(showStats, $("#gf-div"), $("#piece-div"));
+    }
+    else
+    {
+        ntRenderer = new NTRender(showStats);
+    }
+    
     //Create a new game engine.
     ntEngine = new NTEngine(123456789, renderHandler);
 
@@ -215,37 +224,40 @@ let runForum = (data) =>
     //Allows inputs to be disabled during animations.
     ntRenderer.enableInputCallback = ntInput.enableInputs;
 
-    //----------------- Game Field ------------------
-    //Get canvas to render the game field on.
-    let canvas = document.getElementById("renderCanvas");
+    if(!is2d)
+    {
+        //----------------- Game Field ------------------
+        //Get canvas to render the game field on.
+        let canvas = document.getElementById("renderCanvas");
 
-    //Create a new babylon engine.
-    let engine = new BABYLON.Engine(canvas, true);
+        //Create a new babylon engine.
+        let engine = new BABYLON.Engine(canvas, true);
 
-    //Call the createScene function.
-    let scene = ntRenderer.gfCreateScene(engine, canvas);
+        //Call the createScene function.
+        let scene = ntRenderer.gfCreateScene(engine, canvas);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    engine.runRenderLoop(function () { scene.render(); });
+        //Register a Babylon render loop to repeatedly render the scene.
+        engine.runRenderLoop(function () { scene.render(); });
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { engine.resize(); });
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", function () { engine.resize(); });
 
-    //----------------- Next Piece ------------------
-    //Get canvas to render the next piece on.
-    let npCanvas = document.getElementById("pieceCanvas");
+        //----------------- Next Piece ------------------
+        //Get canvas to render the next piece on.
+        let npCanvas = document.getElementById("pieceCanvas");
 
-    //Create a new babylon engine.
-    let npEngine = new BABYLON.Engine(npCanvas, true);
+        //Create a new babylon engine.
+        let npEngine = new BABYLON.Engine(npCanvas, true);
 
-    //Call the createScene function.
-    let npScene = ntRenderer.npCreateScene(npEngine);
+        //Call the createScene function.
+        let npScene = ntRenderer.npCreateScene(npEngine);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    npEngine.runRenderLoop(function () { npScene.render(); });
+        //Register a Babylon render loop to repeatedly render the scene.
+        npEngine.runRenderLoop(function () { npScene.render(); });
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", function () { npEngine.resize(); });
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", function () { npEngine.resize(); });
+    }
 }
 
 /******************************************* Top Level *******************************************/
@@ -266,6 +278,16 @@ $.post("/api/users/verify/")
     player = data.username;
     highScore = data.highScore;
     $(".user-title").text("Hello, " + data.username + "!");
+
+    if(data.render && data.render == "2D")
+    {
+        is2d = true;
+    }
+    else
+    {
+        is2d = false;
+    }
+
     runForum(data);
 })
 .fail(function(err)

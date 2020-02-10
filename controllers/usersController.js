@@ -100,6 +100,18 @@ module.exports =
         .catch(err => res.status(422).json(err));
     },
 
+    //Change user's render type.
+    render: (req, res) =>
+    {
+        db.User.findOneAndUpdate({ username: req.body.username },
+        {
+            render: req.body.render
+        },
+        { new: true })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
+
     allusers: (req, res) =>
     {
         db.User.find({})

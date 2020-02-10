@@ -210,13 +210,13 @@ class Home extends React.Component
                                 </div>
                                 <div className="row no-gutters">
                                     <div className="col-md-3"></div>
-                                    <img src={require("./img/level.png")} class="levelImg" alt="level"/>
+                                    <img src={require("./img/level.png")} className="levelImg" alt="level"/>
                                     <div className="col-md-3 score-text">Level: </div>
                                     <div className="col-md-1 data-text">{this.state.myLevel}</div>
                                 </div>
                                 <div className="row no-gutters">
                                     <div className="col-md-3"></div>
-                                    <img src={require("./img/lines.png")} class="linesImg" alt="lines"/>
+                                    <img src={require("./img/lines.png")} className="linesImg" alt="lines"/>
                                     <div className="col-md-3 score-text">Lines: </div>
                                     <div className="col-md-1 data-text">{this.state.myLines}</div>
                                 </div>    
@@ -234,13 +234,13 @@ class Home extends React.Component
 
                                 <div className="row no-gutters">
                                     <div className="col-md-3"></div>
-                                    <img src={require("./img/level.png")} class="levelImg" alt="level"/>
+                                    <img src={require("./img/level.png")} className="levelImg" alt="level"/>
                                     <div className="col-md-3 score-text">Level: </div>
                                     <div className="col-md-1 data-text">{this.state.topLevel}</div>
                                 </div>
                                 <div className="row no-gutters">
                                     <div className="col-md-3"></div>
-                                    <img src={require("./img/lines.png")} class="linesImg" alt="lines"/>
+                                    <img src={require("./img/lines.png")} className="linesImg" alt="lines"/>
                                     <div className="col-md-3 score-text">Lines: </div>
                                     <div className="col-md-1 data-text">{this.state.topLines}</div>
                                 </div> 

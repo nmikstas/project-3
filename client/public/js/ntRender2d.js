@@ -44,6 +44,20 @@ class NTRender2d
         this.tStart;  //Start SFX.
         this.tOver;   //Game over SFX.
 
+        this.colors =
+        [
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(  0,  87, 246)", "rgb( 62, 190, 255)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(  0, 168,   0)", "rgb(128, 208,  16)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(219,   0, 205)", "rgb(248, 120, 248)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(  0,  88, 248)", "rgb( 91, 219,  87)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(231,   0,  91)", "rgb( 88, 248, 152)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb( 88, 248, 152)", "rgb(107, 136, 255)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(248,  56,   0)", "rgb(127, 127, 127)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(107,  71, 255)", "rgb(171,   0,  35)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(  0,  88, 248)", "rgb(248,  56,   0)", "rgb(116, 116, 116)"],
+            ["rgb(0, 0, 0)", "rgb(252, 252, 252)", "rgb(248,  56,   0)", "rgb(255, 163,  71)", "rgb(116, 116, 116)"]
+        ];
+
         this.gfInit();
         this.npInit();
     }
@@ -343,7 +357,7 @@ class NTRender2d
             {
                 //Render the play field only if the game is not paused.
                 this.playField[i][j].css("background-color", this.gameStatus !== NTEngine.GS_PAUSE ?
-                    colors[field[i][j]] : "rgb(0, 0, 0)");
+                    this.colors[this.currentLevel % 10][field[i][j]] : "rgb(0, 0, 0)");
             }
         }
 

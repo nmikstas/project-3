@@ -361,7 +361,13 @@ class NTRender2d
         }
 
         //Clear the old colors.
-        $(".next-span").css("background-color", colors[0]);
+        for(let  i = 0; i < this.nextPiece.length; i++)
+        {
+            for(let j = 0; j < this.nextPiece[i].length; j++)
+            {
+                this.nextPiece[i][j].css("background-color", colors[0]);
+            }
+        }
 
         //Exit if the game is over.
         if(this.gameStatus === NTEngine.GS_OVER) return;

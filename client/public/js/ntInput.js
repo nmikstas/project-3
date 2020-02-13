@@ -110,14 +110,14 @@ class NTInput
         en ? this.enableOutput = true : this.enableOutput = false;
     }
 
-    connect(evt)
+    connect = (evt) =>
     {
         this.controller = evt.gamepad;
         this.turbo = true;
         if(this.debug)console.log('Gamepad connected.');
     }
 
-    disconnect(evt)
+    disconnect = (evt) =>
     {
         this.turbo = false;
         delete this.controller;

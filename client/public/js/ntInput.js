@@ -369,10 +369,10 @@ class NTInput
 
     init()
     {
-        window.addEventListener("gamepadconnected", () => this.connect(event));
-        window.addEventListener("gamepaddisconnected", () => this.disconnect(event));
-        document.addEventListener('keyup', () => this.doKeyUp(event));
-        document.addEventListener('keydown', () => this.doKeyDown(event));
+        window.addEventListener("gamepadconnected", (event) => this.connect(event));
+        window.addEventListener("gamepaddisconnected", (event) => this.disconnect(event));
+        document.addEventListener('keyup', (event) => this.doKeyUp(event));
+        document.addEventListener('keydown', (event) => this.doKeyDown(event));
         window.addEventListener('focus', () => this.changeFocus());
         setInterval(() => { this.update() }, 17);
     }

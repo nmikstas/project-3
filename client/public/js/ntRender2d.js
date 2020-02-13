@@ -64,7 +64,7 @@ class NTRender2d
 
     /************************************** Sizing Function **************************************/
 
-    resize = () =>
+    resize()
     {
         //Resize gamefield.
         let gfDivWidth = this.gfDiv.width();
@@ -96,7 +96,7 @@ class NTRender2d
 
     /************************************ Animation Functions ************************************/
 
-    addBlocksAnim = () =>
+    addBlocksAnim()
     {
         //Reset after add rows animation is complete.
         if(this.blocksCounter >= this.blankBlocks.length  && this.useEngine)
@@ -133,7 +133,7 @@ class NTRender2d
         this.blocksCounter++;
     }
 
-    eraseAnim = () =>
+    eraseAnim()
     {
         //Finish up the animation.
         if(this.animCounter >= 10)
@@ -190,7 +190,7 @@ class NTRender2d
         this.animCounter++;
     }
 
-    glueDelay = () =>
+    glueDelay()
     {
         if(this.useEngine)
         {
@@ -202,7 +202,7 @@ class NTRender2d
 
     /*************************************** SFX Functions ***************************************/
 
-    initAudio = () =>
+    initAudio()
     {
         this.tPause = new Howl({ src: ["https://nmikstas.github.io/resources/audio/tPause.ogg"] });
         this.tRotate = new Howl({ src: ["https://nmikstas.github.io/resources/audio/tRotate.ogg"] });
@@ -218,7 +218,7 @@ class NTRender2d
     /************************************ Rendering Function *************************************/
 
     //Render the play field.
-    gfRender = (status) =>
+    gfRender(status)
     {
         //Copy variables needed to run the game.
         this.gameStatus        = status.gameStatus;
@@ -446,7 +446,7 @@ class NTRender2d
     /*********************************** Initialize Functions ************************************/
 
     //This function renders the game field.
-    gfInit = () =>
+    gfInit()
     {
         //Empty out any canvases that might exist.
         this.gfDiv.empty();
@@ -480,7 +480,7 @@ class NTRender2d
     }
 
     //This function renders the next piece.
-    npInit = () =>
+    npInit()
     {
         //Create 4 divs. with 6 spans each.
         for(let i = 0; i < 4; i++)

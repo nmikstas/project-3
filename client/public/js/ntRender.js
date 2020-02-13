@@ -117,7 +117,7 @@ class NTRender
 
     /************************************ Animation Functions ************************************/
 
-    addBlocksAnim = () =>
+    addBlocksAnim()
     {
         //Reset after add rows animation is complete.
         if(this.blocksCounter >= this.blankBlocks.length  && this.useEngine)
@@ -134,7 +134,7 @@ class NTRender
         this.blocksCounter++;
     }
 
-    eraseAnim = () =>
+    eraseAnim()
     {
         //Finish up the animation.
         if(this.animCounter >= 10 && this.useEngine)
@@ -159,7 +159,7 @@ class NTRender
         this.animCounter++;
     }
 
-    glueDelay = () =>
+    glueDelay()
     {
         if(this.useEngine)
         {
@@ -172,7 +172,7 @@ class NTRender
     /************************************ Rendering Functions ************************************/
 
     //Render the play field.
-    gfRender = (status) =>
+    gfRender(status)
     {
         //Copy variables needed to run the game.
         this.gameStatus        = status.gameStatus;
@@ -337,7 +337,7 @@ class NTRender
     /********************************** Main Babylon Functions ***********************************/
 
     //This function renders the game field.
-    gfCreateScene = (engine, canvas) =>
+    gfCreateScene(engine, canvas)
     {
         //Create the scene space
         let scene = new BABYLON.Scene(engine);
@@ -637,7 +637,7 @@ class NTRender
     };
 
     //This function renders the next piece.
-    npCreateScene = (npEngine) =>
+    npCreateScene(npEngine)
     {
         //Create the scene space
         let scene = new BABYLON.Scene(npEngine);

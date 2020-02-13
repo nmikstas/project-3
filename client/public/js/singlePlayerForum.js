@@ -222,7 +222,7 @@ let runForum = (data) =>
     );
 
     //Allows inputs to be disabled during animations.
-    ntRenderer.enableInputCallback = function(en){ntInput.enableInputs(en)};
+    ntRenderer.enableInputCallback = (en) => {ntInput.enableInputs(en)};
 
     if(!is2d)
     {

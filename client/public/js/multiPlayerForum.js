@@ -432,7 +432,7 @@ let runForum = (data) =>
         );
 
         //Allows inputs to be disabled during animations.
-        ntRenderer1.enableInputCallback = ntInput1.enableInputs;
+        ntRenderer1.enableInputCallback = (en) => {ntInput1.enableInputs(en)};
     }
     else
     {
@@ -532,7 +532,7 @@ let runForum = (data) =>
         );
 
         //Allows inputs to be disabled during animations.
-        ntRenderer2.enableInputCallback = ntInput2.enableInputs;
+        ntRenderer2.enableInputCallback = (en) => {ntInput2.enableInputs(en)};
     }
     else
     {

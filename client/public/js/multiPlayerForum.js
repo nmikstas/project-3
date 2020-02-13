@@ -4,6 +4,7 @@ let debug          = true;
 let init           = false;
 let isMultiPlayer  = false;
 let isSeated       = false;
+let is2d           = false;
 let player1        = "";
 let player2        = "";
 let interference;
@@ -162,7 +163,18 @@ resizeCanvases = () =>
     $("#pieceCanvas2").height($("#pieceCanvas2").width() / 2);
 }
 
-window.addEventListener("resize", () => resizeCanvases());
+window.addEventListener("resize", () => 
+{
+    if(is2d)
+    {
+        ntRenderer1.resize();
+        ntRenderer2.resize();
+    }
+    else
+    {
+        resizeCanvases();
+    }
+});
 
 /************************************** Disable Key Scrolling **************************************/
 
@@ -376,7 +388,14 @@ let runForum = (data) =>
     if(isPlayer1)
     {
         //Create a new NT game renderer.
-        ntRenderer1 = new NTRender(showStats1, isPlayer1);
+        if(is2d)
+        {
+            ntRenderer1 = new NTRender2d(showStats1, $("#gf1-div"), $("#piece1-div"), isPlayer1);
+        }
+        else
+        {
+            ntRenderer1 = new NTRender(showStats1, isPlayer1);
+        }
 
         ntEngine1 = new NTEngine(123456789, renderHandler1, player1Level);
 
@@ -417,48 +436,65 @@ let runForum = (data) =>
     }
     else
     {
-        //Create a new NT game renderer when player 1 is remote.
-        ntRenderer1 = new NTRender(showStats1, isPlayer1);
+        if(!is2d)
+        {
+            //Create a new NT game renderer when player 1 is remote.
+            ntRenderer1 = new NTRender(showStats1, isPlayer1);
+        }
+        else
+        {
+            ntRenderer1 = new NTRender2d(showStats1, $("#gf1-div"), $("#piece1-div"), isPlayer1);
+        }
     }
     
-    //----------------- Game Field ------------------
-    //Get canvas to render the game field on.
-    let canvas1 = document.getElementById("renderCanvas1");
+    if(!is2d)
+    {
+        //----------------- Game Field ------------------
+        //Get canvas to render the game field on.
+        let canvas1 = document.getElementById("renderCanvas1");
 
-    //Create a new babylon engine.
-    let engine1 = new BABYLON.Engine(canvas1, true);
+        //Create a new babylon engine.
+        let engine1 = new BABYLON.Engine(canvas1, true);
 
-    //Create the scene for the Player 1 game board.
-    let scene1 = ntRenderer1.gfCreateScene(engine1, canvas1);
+        //Create the scene for the Player 1 game board.
+        let scene1 = ntRenderer1.gfCreateScene(engine1, canvas1);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    engine1.runRenderLoop(() => scene1.render());
+        //Register a Babylon render loop to repeatedly render the scene.
+        engine1.runRenderLoop(() => scene1.render());
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", () => engine1.resize());
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", () => engine1.resize());
 
-    //----------------- Next Piece ------------------
-    //Get canvas to render the next piece on.
-    let npCanvas1 = document.getElementById("pieceCanvas1");
+        //----------------- Next Piece ------------------
+        //Get canvas to render the next piece on.
+        let npCanvas1 = document.getElementById("pieceCanvas1");
 
-    //Create a new babylon engine.
-    let npEngine1 = new BABYLON.Engine(npCanvas1, true);
+        //Create a new babylon engine.
+        let npEngine1 = new BABYLON.Engine(npCanvas1, true);
 
-    //Create the scene for the Player 1 next piece.
-    let npScene1 = ntRenderer1.npCreateScene(npEngine1);
+        //Create the scene for the Player 1 next piece.
+        let npScene1 = ntRenderer1.npCreateScene(npEngine1);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    npEngine1.runRenderLoop(() => npScene1.render());
+        //Register a Babylon render loop to repeatedly render the scene.
+        npEngine1.runRenderLoop(() => npScene1.render());
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", () => npEngine1.resize());
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", () => npEngine1.resize());
+    }
 
     //------------------ Player 2 -------------------
     //Create a new game engine if player 2 is local.
     if(isPlayer2)
     {
         //Create a new NT game renderer.
-        ntRenderer2 = new NTRender(showStats2, isPlayer2);
+        if(is2d)
+        {
+            ntRenderer2 = new NTRender2d(showStats2, $("#gf2-div"), $("#piece2-div"), isPlayer2);
+        }
+        else
+        {
+            ntRenderer2 = new NTRender(showStats2, isPlayer2);
+        }
 
         //Create a new game engine.
         ntEngine2 = new NTEngine(123456789, renderHandler2, player2Level);
@@ -500,41 +536,51 @@ let runForum = (data) =>
     }
     else
     {
-        //Create a new NT game renderer when player 2 is remote.
-        ntRenderer2 = new NTRender(showStats2, isPlayer2);
+        if(!is2d)
+        {
+            //Create a new NT game renderer when player 2 is remote.
+            ntRenderer2 = new NTRender(showStats2, isPlayer2);
+        }
+        else
+        {
+            ntRenderer2 = new NTRender2d(showStats2, $("#gf2-div"), $("#piece2-div"), isPlayer2);
+        }
     }
 
-    //----------------- Game Field ------------------
-    //Get canvas to render the game field on.
-    let canvas2 = document.getElementById("renderCanvas2");
+    if(!is2d)
+    {
+        //----------------- Game Field ------------------
+        //Get canvas to render the game field on.
+        let canvas2 = document.getElementById("renderCanvas2");
 
-    //Create a new babylon engine.
-    let engine2 = new BABYLON.Engine(canvas2, true);
+        //Create a new babylon engine.
+        let engine2 = new BABYLON.Engine(canvas2, true);
 
-    //Create the scene for the Player 2 game field.
-    let scene2 = ntRenderer2.gfCreateScene(engine2, canvas2);
+        //Create the scene for the Player 2 game field.
+        let scene2 = ntRenderer2.gfCreateScene(engine2, canvas2);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    engine2.runRenderLoop(() => scene2.render());
+        //Register a Babylon render loop to repeatedly render the scene.
+        engine2.runRenderLoop(() => scene2.render());
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", () => engine2.resize());
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", () => engine2.resize());
 
-    //----------------- Next Piece ------------------
-    //Get canvas to render the next piece on.
-    let npCanvas2 = document.getElementById("pieceCanvas2");
+        //----------------- Next Piece ------------------
+        //Get canvas to render the next piece on.
+        let npCanvas2 = document.getElementById("pieceCanvas2");
 
-    //Create a new babylon engine.
-    let npEngine2 = new BABYLON.Engine(npCanvas2, true);
+        //Create a new babylon engine.
+        let npEngine2 = new BABYLON.Engine(npCanvas2, true);
 
-    //Create the scene for the Player 2 next piece.
-    let npScene2 = ntRenderer2.npCreateScene(npEngine2);
+        //Create the scene for the Player 2 next piece.
+        let npScene2 = ntRenderer2.npCreateScene(npEngine2);
 
-    //Register a Babylon render loop to repeatedly render the scene.
-    npEngine2.runRenderLoop(() => npScene2.render());
+        //Register a Babylon render loop to repeatedly render the scene.
+        npEngine2.runRenderLoop(() => npScene2.render());
 
-    //Watch for browser/canvas resize events.
-    window.addEventListener("resize", () => npEngine2.resize());
+        //Watch for browser/canvas resize events.
+        window.addEventListener("resize", () => npEngine2.resize());
+    }
 }
 
 /************************************** Firebase Listeners ***************************************/
@@ -896,6 +942,15 @@ $.post("/api/users/verify/")
     .then(forumData =>
     {
         if(debug)console.log(forumData);
+
+        if(data.render && data.render == "2D")
+        {
+            is2d = true;
+        }
+        else
+        {
+            is2d = false;
+        }
 
         //Fill out the initial stats.
         $("#r-player1").text(forumData.owner);

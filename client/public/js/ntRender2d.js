@@ -1,7 +1,5 @@
 class NTRender2d
 {
-    static get AUDIO_DEPTH() { return 5 };
-
     constructor(statsCallback, gfDiv, pieceDiv, useEngine = true)
     {
         this.statsCallback = statsCallback;
@@ -18,9 +16,9 @@ class NTRender2d
         this.currentLevel = 0;
         this.lastLevel    = -1;
 
-        this.pieceCurrent  = 0;
-        this.pieceNext     = 0;
-        this.pieceThird    = 0;
+        this.pieceCurrent = 0;
+        this.pieceNext    = 0;
+        this.pieceThird   = 0;
 
         this.glueTimer;
         this.animTimer;
@@ -71,8 +69,8 @@ class NTRender2d
             gfHeight = gfDivHeight;
         }
 
-        let thisDivHeight = gfHeight / 22;
-        let thisDivWidth  = gfWidth  / 11;
+        let thisDivHeight = gfHeight / 23;
+        let thisDivWidth  = gfWidth  / 11.5;
 
         $(".this-span").height(thisDivHeight);
         $(".this-span").width(thisDivWidth);

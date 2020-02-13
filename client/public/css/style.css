@@ -300,16 +300,15 @@ footer
     text-align: center;
 }
 
-#gf-div
+#gf-div, #gf1-div, #gf2-div
 {
     width:  100%;
     height: calc(100vh - 120px);
 }
 
-#piece-div
+#piece-div, #piece1-div, #piece2-div
 {
     width:  100%;
-    height: 100%;
 }
 
 /********************************************* Misc **********************************************/

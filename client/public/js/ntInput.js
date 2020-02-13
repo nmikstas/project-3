@@ -110,14 +110,14 @@ class NTInput
         en ? this.enableOutput = true : this.enableOutput = false;
     }
 
-    connect = (evt) =>
+    connect(evt)
     {
         this.controller = evt.gamepad;
         this.turbo = true;
         if(this.debug)console.log('Gamepad connected.');
     }
 
-    disconnect = (evt) =>
+    disconnect(evt)
     {
         this.turbo = false;
         delete this.controller;
@@ -351,29 +351,29 @@ class NTInput
         delete this.keysPressed[event.keyCode];
     }
 
-    doKeyUp = () =>
+    doKeyUp(event)
     {
         this.onKeyup(event);
     }
 
-    doKeyDown = () =>
+    doKeyDown(event)
     {
         this.onKeydown(event);
     }
 
     //Do this to prevent keys from locking up if user changes tabs.
-    changeFocus = () =>
+    changeFocus()
     {
         this.keysPressed = [];
     }
 
-    init = () =>
+    init()
     {
-        window.addEventListener("gamepadconnected", this.connect);
-        window.addEventListener("gamepaddisconnected", this.disconnect);
-        document.addEventListener('keyup', this.doKeyUp);
-        document.addEventListener('keydown', this.doKeyDown);
-        window.addEventListener('focus', this.changeFocus);
+        window.addEventListener("gamepadconnected", () => this.connect(event));
+        window.addEventListener("gamepaddisconnected", () => this.disconnect(event));
+        document.addEventListener('keyup', () => this.doKeyUp(event));
+        document.addEventListener('keydown', () => this.doKeyDown(event));
+        window.addEventListener('focus', () => this.changeFocus());
         setInterval(() => { this.update() }, 17);
     }
 

@@ -103,7 +103,7 @@ class NTRender2d
         {
             this.ntEngine.ntRequest(NTEngine.GR_RESUME_BLK);
             clearInterval(this.blocksTimer);
-            this.enableInputCallback(true);
+            if(this.enableInputCallback)this.enableInputCallback(true);
             this.blocksCounter = 0;
             this.blankBlocks = [];
             return;
@@ -140,7 +140,7 @@ class NTRender2d
         {
             this.ntEngine.ntRequest(NTEngine.GR_RESUME);
             clearInterval(this.animTimer);
-            this.enableInputCallback(true);
+            if(this.enableInputCallback)this.enableInputCallback(true);
             this.animCounter = 0;
             return;
         }
@@ -196,7 +196,7 @@ class NTRender2d
         {
             this.ntEngine.ntRequest(NTEngine.GR_RESUME);
             clearInterval(this.glueTimer);
-            this.enableInputCallback(true);
+            if(this.enableInputCallback)this.enableInputCallback(true);
         }
     }
 
@@ -313,7 +313,7 @@ class NTRender2d
         //Check if block add wait state,
         if(this.gameStatus === NTEngine.GS_WAIT_BLK)
         {
-            this.enableInputCallback(false);
+            if(this.enableInputCallback)this.enableInputCallback(false);
             this.blankBlocks = status.blanks;
             clearInterval(this.blocksTimer);
             this.blocksTimer = setInterval(() => {this.addBlocksAnim()}, 50);
@@ -323,7 +323,7 @@ class NTRender2d
         //Check if animation wait state.
         if(this.gameStatus === NTEngine.GS_WAIT && this.useEngine)
         {
-            this.enableInputCallback(false);
+            if(this.enableInputCallback)this.enableInputCallback(false);
 
             if(status.rowsToErase.length > 0)
             {

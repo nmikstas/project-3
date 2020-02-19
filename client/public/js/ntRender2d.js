@@ -346,7 +346,7 @@ class NTRender2d
         {
             field = status.gameField;
         }
-        else
+        else if(this.useEngine)
         {
             field = ntEngine.ntGetGameField();
         }

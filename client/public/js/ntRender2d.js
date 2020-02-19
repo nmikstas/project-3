@@ -350,6 +350,10 @@ class NTRender2d
         {
             field = ntEngine.ntGetGameField();
         }
+        else
+        {
+            field = status.gameField;
+        }
 
         for(let i = 0; i < 20; i++)
         {

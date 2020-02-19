@@ -316,7 +316,7 @@ class NTRender2d
             this.enableInputCallback(false);
             this.blankBlocks = status.blanks;
             clearInterval(this.blocksTimer);
-            this.blocksTimer = setInterval(this.addBlocksAnim, 50);
+            this.blocksTimer = setInterval(() => {this.addBlocksAnim()}, 50);
             return;
         }
 

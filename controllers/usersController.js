@@ -55,8 +55,16 @@ module.exports =
     logout: (req, res) =>
     {
         console.log("Logging out user: " + req.user.username);
-        req.logout();
-        res.json(req.user);
+        //req.logout();
+        req.logout((err) =>
+        {
+            if (err) 
+            {
+                res.status(422).json(err);
+            }
+            res.redirect('/login');
+        });
+        //res.json(req.user);
     },
 
     //Change user's password.
